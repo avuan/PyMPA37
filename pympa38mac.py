@@ -208,21 +208,9 @@ def mag_detect(magt, amaxt, amaxd):
     Returns the magnitude of the new detection by using the template/detection amplitude trace ratio
     and the magnitude of the template event
     """
-    #    water_level=400
-    #    if amaxd >= water_level:
     amaxr = amaxt / amaxd
     magd = magt - log10(amaxr)
-    #    elif amaxd < water_level:
-    #        magd=99
     return magd
-
-
-# def reject_Moutliers(data, m = 1.):
-#    d = np.abs(data - np.median(data))
-#    mdev = 2*np.median(d)
-#    s = d/mdev if mdev else 0.
-#    inds=np.where(s<=m)
-#    return data[inds]
 
 def reject_Moutliers(data, m=1.):
     ndata = len(data)
