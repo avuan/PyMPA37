@@ -9,7 +9,7 @@ find ./ -maxdepth 1 -name "*.${day}.cat" -print0 | xargs -0 cat > ${day}Acat
 #./filterCATtimestamp.py<<END
 rm dcat
 cp ${day}Acat dcat
-./filterCAT236.py
+./filterCAT237.py
 cp dcatf1f2 ${day}Acatf1f2
 rm dcatf1 dcatf1f2
 #if [ -s ${day}Acatf1f2 ]
