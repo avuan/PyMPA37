@@ -1,0 +1,5 @@
+verify_detection.py plot templates and continuous data to verify
+the detection 
+
+verify_detection stats3 plot templates and continuous data to verify
+the detection using time_shifts calculated
