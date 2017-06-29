@@ -462,7 +462,7 @@ for day in days:
             if tdifmin == min_time_value:
                 tt[itrig] = trg['time'] + tdifmin
             elif tdifmin != min_time_value:
-                diff_time = min_time_value - tdifmin - temp_length / 2.0
+                diff_time = min_time_value - tdifmin 
                 tt[itrig] = trg['time'] + diff_time
             # read from trg some detail    
             cs[itrig] = trg['coincidence_sum']
