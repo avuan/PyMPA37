@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 ###AV2015
-# To run calcTT01.py template.zmat (template catalog) is needed
+# To run calcTT05.py template.zmat (template catalog) is needed
 # Synchronization of CFTs is based on delays in cutting templates
 # Origin time is retrieved from travel time of the epicenter closest station
 # minus the half_length in seconds of template events
@@ -10,28 +10,26 @@
 
 import glob
 import json
-
 from math import log10
+from pprint import pprint
+
+import bottleneck as bn
+import matplotlib.pyplot as plt
+import numpy as np
 import obspy.signal
+from mpl_toolkits.basemap import Basemap
+from obspy import Catalog, UTCDateTime
 from obspy.core import *
+from obspy.core.event import *
+from obspy.core.inventory import read_inventory
+from obspy.geodetics import gps2dist_azimuth
+from obspy.imaging import *
+from obspy.io.zmap import *
 from obspy.signal import *
 from obspy.signal.util import *
-from obspy.io.xseed import Parser
-from obspy.io.xseed import DEFAULT_XSEED_VERSION, utils, blockette
-from obspy.io.xseed.utils import SEEDParserException
-from obspy.imaging import *
-from obspy.geodetics import gps2dist_azimuth
 from obspy.taup import *
 from obspy.taup.taup_create import *
-from obspy import Catalog, UTCDateTime
-from obspy.core.event import *
-from obspy.io.zmap import *
-from mpl_toolkits.basemap import Basemap
-import numpy as np
-import bottleneck as bn
 from scipy.signal import argrelmax
-import matplotlib.pyplot as plt
-from pprint import pprint
 
 
 def kilometer2degrees(kilometer, radius=6371):
@@ -56,42 +54,57 @@ def kilometer2degrees(kilometer, radius=6371):
     return kilometer / (2.0 * radius * pi / 360.0)
 
 
+def read_input_par(filepar):
+    with open(filepar) as tf:
+        data = tf.read().splitlines()
+    stations = data[15].split(" ")
+    channels = data[16].split(" ")
+    networks = data[17].split(" ")
+    lowpassf = float(data[18])
+    highpassf = float(data[19])
+    tlen_bef = float(data[20])
+    tlen_aft = float(data[21])
+    UTC_prec = int(data[22])
+    tempinp_dir = "./" + data[23] + "/"
+    tempout_dir = "./" + data[24] + "/"
+    day_list = str(data[25])
+    ev_catalog = str(data[26])
+    start_itemp = int(data[27])
+    stop_itemp = int(data[28])
+    taup_model = str(data[29])
+    return stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, tempinp_dir, tempout_dir, day_list, ev_catalog, start_itemp, stop_itemp, taup_model
+
+
+def read_sta_inv(invfile, sta):
+    inv = read_inventory(invfile)
+    nt0 = inv[0].select(station=sta)
+    lat = nt0[0].latitude
+    lon = nt0[0].longitude
+    elev = nt0[0].elevation
+    return lat, lon, elev
+
+
+invfile = './inv.ingv.iv'
+filepar = './times.par'
+
+stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, tempinp_dir, tempout_dir, day_list, ev_catalog, start_itemp, stop_itemp, taup_model = read_input_par(
+    filepar)
 st = Stream()
 tr = Trace()
 ##### important hal_time variable #######
 # half time length of templates is used to calculate origin_time
-half_time = 2.5
-
-# defines directories of template events)
-temp_dir = "./template/"
-foutdir = "./ttimes/"
+half_time = tlen_bef
 
 # read event coordinates from catalog
 cat = Catalog()
-cat = read_events("templates.zmap", format="ZMAP")
-# cat.write("my_cat.xml", format="QUAKEML")
-# cat.plot(projection="local", resolution= "l", color="date")
+cat = read_events(ev_catalog, format="ZMAP")
 ncat = len(cat)
-# print(cat[0])
-# print(cat[1])
-# print(cat[511])
 print(cat.__str__(print_all=True))
-
-netwk = ["MN", "IV"]
-# setup station list
-stations = ["AQU", "CAMP", "CERT", "FAGN", "FIAM", "GUAR", "INTR", "MNS", "NRCA", "TERO"]
-
-# setup station dictionary, no need to order it
-d1 = {'AQU': [42.35400, 13.40500, 0.7], 'CAMP': [42.53578, 13.40900, 1.3], \
-      'CERT': [41.94903, 12.98176, 0.773], 'FAGN': [42.26573, 13.58379, 0.8], \
-      'FIAM': [42.26802, 13.11718, 1.070], 'GUAR': [41.79450, 13.31229, 0.7], \
-      'INTR': [42.01154, 13.90460, 0.924], 'MNS': [42.38546, 12.68106, 0.706], \
-      'NRCA': [42.83355, 13.11427, 0.927], 'TERO': [42.62279, 13.60393, 0.673]}
 
 for iev in range(0, ncat + 1):
     # for iev in range(25,26):
 
-    inplist = temp_dir + str(iev) + ".??" + "." + "*" + "..???" + "." + "mseed"
+    inplist = tempinp_dir + str(iev) + ".??" + "." + "*" + "..???" + "." + "mseed"
     print("inplist == ...", inplist)
     st.clear()
     for filename in glob.glob(inplist):
@@ -107,7 +120,7 @@ for iev in range(0, ncat + 1):
     arrP = np.empty(nst)
     arrS = np.empty(nst)
     origin_time_shift = np.empty(1)
-    fout1 = foutdir + str(iev) + ".ttimes"
+    fout1 = tempout_dir + str(iev) + ".ttimes"
     fileout = open(fout1, 'w+')
     for it, tr in enumerate(st):
         Tshift[it] = tr.stats.starttime - refT
@@ -125,16 +138,15 @@ for iev in range(0, ncat + 1):
             print("time, mag, lon, lat, dep", ot, m, lon, lat, dep)
             eve_coord = [lat, lon, dep]
             #
-            sta_lat = d1.get(ref_sta)[0]
-            sta_lon = d1.get(ref_sta)[1]
+            slat, slon, selev = read_sta_inv(invfile, ref_sta)
             eve_lat = eve_coord[0]
             eve_lon = eve_coord[1]
             eve_dep = eve_coord[2]
             # print "sta_lon, sta_lat, eve_lon, eve_lat==", sta_lon, sta_lat, eve_lon, eve_lat
-            epi_dist, az, baz = gps2dist_azimuth(eve_lat, eve_lon, sta_lat, sta_lon)
+            epi_dist, az, baz = gps2dist_azimuth(eve_lat, eve_lon, slat, slon)
             epi_dist = epi_dist / 1000
             deg = kilometer2degrees(epi_dist)
-            model = TauPyModel(model="aquila_kato")
+            model = TauPyModel(model=taup_model)
             arrivals = model.get_travel_times(source_depth_in_km=eve_dep, distance_in_degree=deg, phase_list=["s", "S"])
             print(arrivals)
             # arrP = arrivals[0]
