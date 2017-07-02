@@ -1,0 +1,30 @@
+#Line 1 -- list of stations
+#Line 2 -- list of channels
+#Line 3 -- list of networks
+#Line 4 -- Lowpass frequency
+#Line 5 -- Highpass frequency
+#Line 6 -- Trimmed Time before S-wave
+#Line 7 -- Trimmed Time after S-wave
+#Line 8 -- UTC precision
+#Line 9 -- Continuous data dir
+#Line 10 -- Template data dir
+#Line 11 -- Ttimes data dir  
+#Line 12 -- Zmap catalog
+#Line 13 -- Starting template
+#Line 14 -- Stopping template
+#Line 15 -- Taup Model 
+ORI SALB SCHR SIRI CUC MMN T0701 T0711 T0715 CET2
+BHE BHN BHZ
+IV MN
+2.0
+8.0
+2.5
+2.5
+6
+24h
+template
+ttimes
+templates.zmap
+26
+27
+pollino_guerra
