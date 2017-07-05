@@ -248,11 +248,11 @@ for iu, ti in enumerate(t_timr):
         # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " + str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
         if (t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch):
             if FlagDateTime == 1:
-                lon = cat[int(t_numr[iu])].origins[0].longitude
-                lat = cat[int(t_numr[iu])].origins[0].latitude
-                dep = cat[int(t_numr[iu])].origins[0].depth / 1000
+                lon = cat[int(t_numr[ie])].origins[0].longitude
+                lat = cat[int(t_numr[ie])].origins[0].latitude
+                dep = cat[int(t_numr[ie])].origins[0].depth / 1000
                 sf = stringtime + " " + str(t_magr[ie]) + " " + str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
-                    int(t_numr[iu])) + " " + str(lat) + " " + str(lon) + " " + str(dep) + " " + str(t_nchr[ie])
+                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) + " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
                 sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
@@ -287,11 +287,11 @@ for iu, ti in enumerate(t_timr):
         # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " + str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
         if (t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch):
             if FlagDateTime == 1:
-                lon = cat[int(t_numr[iu])].origins[0].longitude
-                lat = cat[int(t_numr[iu])].origins[0].latitude
-                dep = cat[int(t_numr[iu])].origins[0].depth / 1000
+                lon = cat[int(t_numr[ie])].origins[0].longitude
+                lat = cat[int(t_numr[ie])].origins[0].latitude
+                dep = cat[int(t_numr[ie])].origins[0].depth / 1000
                 sf = stringtime + " " + str(t_magr[ie]) + " " + str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
-                    int(t_numr[iu])) + " " + str(lat) + " " + str(lon) + " " + str(dep) + " " + str(t_nchr[ie])
+                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) + " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
                 sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
