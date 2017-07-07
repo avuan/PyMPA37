@@ -101,8 +101,7 @@ cat = read_events(ev_catalog, format="ZMAP")
 ncat = len(cat)
 print(cat.__str__(print_all=True))
 
-for iev in range(0, ncat + 1):
-    # for iev in range(25,26):
+for iev in range(start_itemp, stop_itemp):
 
     inplist = tempinp_dir + str(iev) + ".??" + "." + "*" + "..???" + "." + "mseed"
     print("inplist == ...", inplist)
