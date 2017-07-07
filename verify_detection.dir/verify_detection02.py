@@ -52,8 +52,8 @@ def calc_timeshift(eve_lat, eve_lon, eve_dep, sta_lat, sta_lon):
     epi_dist, az, baz = gps2dist_azimuth(eve_lat, eve_lon, sta_lat, sta_lon)
     epi_dist = epi_dist / 1000
     deg = kilometer2degrees(epi_dist)
-    # build_taup_model('./pollino_guerra.tvel')
-    model = TauPyModel(model="pollino_guerra")
+    # build_taup_model(taup_model)
+    model = TauPyModel(model=taup_model)
     arrivals = model.get_travel_times(source_depth_in_km=eve_dep, distance_in_degree=deg, phase_list=["s", "S"])
     print(arrivals)
     arrS = arrivals[0]
