@@ -81,22 +81,23 @@ def mag_detect(magt, amaxt, amaxd):
 def read_input_par(vfile):
     with open(vfile) as tf:
         data = tf.read().splitlines()
-    stations = data[15].split(" ")
-    channels = data[16].split(" ")
-    networks = data[17].split(" ")
-    lowpassf = float(data[18])
-    highpassf = float(data[19])
-    tlen_bef = float(data[20])
-    tlen_aft = float(data[21])
-    UTC_prec = int(data[22])
-    cont_dir = "./" + data[23] + "/"
-    temp_dir = "./" + data[24] + "/"
-    ttimes_dir = "./" + data[25] + "/"
-    ev_catalog = str(data[26])
-    start_itemp = int(data[27])
-    stop_itemp = int(data[28])
-    taup_model = str(data[29])
-    return stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_itemp, stop_itemp, taup_model
+    stations = data[16].split(" ")
+    channels = data[17].split(" ")
+    networks = data[18].split(" ")
+    lowpassf = float(data[19])
+    highpassf = float(data[20])
+    tlen_bef = float(data[21])
+    tlen_aft = float(data[22])
+    UTC_prec = int(data[23])
+    cont_dir = "./" + data[24] + "/"
+    temp_dir = "./" + data[25] + "/"
+    ttimes_dir = "./" + data[26] + "/"
+    ev_catalog = str(data[27])
+    start_det = int(data[28])
+    stop_det = int(data[29])
+    det_dur = float(data[30])
+    taup_model = str(data[31])
+    return stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_det, stop_det, det_dur, taup_model
 
 
 def read_sta_inv(invfiles, sta):
@@ -111,7 +112,7 @@ def read_sta_inv(invfiles, sta):
 
 
 vfile = 'verify.par'
-stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_itemp, stop_itemp, taup_model = read_input_par(
+stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_det, stop_det, det_dur, taup_model = read_input_par(
     vfile)
 invfiles = ["inv.ingv.iv", "inv.ingv.mn"]
 Flag_Save_Figure = 1
@@ -156,7 +157,7 @@ ndet = len(dc[:, 0])
 channel = ["???"]
 detection_num = 0
 
-for jf, detection_num in enumerate(range(0, ndet)):
+for jf, detection_num in enumerate(range(start_det, stop_det)):
     # for jf, detection_num in enumerate(range(85,86)):
     st_temp = Stream()
     st_cont = Stream()
@@ -212,7 +213,6 @@ for jf, detection_num in enumerate(range(0, ndet)):
     # filtering range
     bandpass = [lowpassf, highpassf]
     # plotted duration for stream +-det_dur
-    det_dur = 15.0
 
     # carica template
     stemp_num = str(template_num)
