@@ -124,6 +124,9 @@ for day in days:
     dataYY = int("20" + day[0:2])
     dataMM = int(day[2:4])
     dataDD = int(day[4:6])
+    # to avoid errors in the input trim.par at stop_itemp
+    if stop_itemp > ncat:
+        stop_itemp = ncat
     for iev in range(start_itemp, stop_itemp):
         ot = cat[iev].origins[0].time.datetime
         ot1 = UTCDateTime(ot)
