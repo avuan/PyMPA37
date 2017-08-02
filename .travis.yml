@@ -1,1 +1,7 @@
-language python
+language: python
+dist: trusty
+php:
+- 3.5
+- 3.6
+script: ./pympa38.dir/pympa38map.py
+
