@@ -7,12 +7,11 @@ from obspy import read
 import time
 
 client = Client("INGV")
-#networks=["MN", "IV"]
 
-starttime = UTCDateTime("2009-01-01")
-endtime = UTCDateTime("2017-01-02")
+starttime = UTCDateTime("2001-01-01")
+endtime = UTCDateTime("2017-06-30")
 
 inventory = client.get_stations(
     starttime=starttime, endtime=endtime,
-    network="AI", sta="*", channel="*", filename="inv.ingv.ai", format='xml') 
+    network="IV,MN", sta="*", channel="*", filename="inv.ingv", format='xml') 
 print(inventory)
