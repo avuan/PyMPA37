@@ -12,7 +12,8 @@
 #Line 12 -- Zmap catalog
 #Line 13 -- Starting template
 #Line 14 -- Stopping template
-#Line 15 -- Taup Model 
+#Line 15 -- Half of the visualized time window in sec 
+#Line 16 -- Taup Model 
 ORI SALB SCHR SIRI CUC MMN T0701 T0711 T0715 CET2
 BHE BHN BHZ
 IV MN
@@ -25,6 +26,7 @@ IV MN
 template
 ttimes
 templates.zmap
-26
-27
+0
+2
+20.0
 pollino_guerra

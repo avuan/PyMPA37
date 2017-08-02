@@ -171,6 +171,7 @@ for jf, detection_num in enumerate(range(0, ndet)):
     filestats = "%s%s.%s.stats" % (stats_dir, str(int(template_num)), yymmdd)
     stat = open(filestats, 'r')
     times = str(detection_otime)
+    
     linestart = 0
     linestop = 0
     istop = 0
