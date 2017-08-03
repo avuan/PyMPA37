@@ -64,7 +64,7 @@ install:
   - git version
 
 script:
-   - ./pympa38.dir/pympa38.py
+   - ./pympa38.dir/pympa38mac.py
 
 after_success:
   # Check how much code is actually tested and send this report to codecov
