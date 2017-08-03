@@ -62,8 +62,6 @@ install:
   - conda list
   # done installing dependencies
   - git version
-  - python setup.py install
-  - python setup.py build_ext --inplace
 
 script:
    - ./pympa38.dir/pympa38.py
