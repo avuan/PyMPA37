@@ -63,6 +63,9 @@ install:
   # done installing dependencies
   - git version
 
+before_script:
+  - chmod +x ./pympa38.dir/pympa38mac.py
+
 script:
    - ./pympa38.dir/pympa38mac.py
 
