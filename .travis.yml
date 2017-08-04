@@ -62,12 +62,14 @@ install:
   - conda list
   # done installing dependencies
   - git version
+  - git clone https://github.com/avuan/PyMPA37
 
 before_script:
   - chmod +x ./pympa38.dir/pympa38mac.py
 
 script:
-   - ./pympa38.dir/pympa38mac.py
+   - cd ./pympa38.dir
+   - python pympa38mac.py
 
 after_success:
   # Check how much code is actually tested and send this report to codecov
