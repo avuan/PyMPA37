@@ -1,4 +1,4 @@
-language: generic
+language: C
 
 matrix:
   include:
