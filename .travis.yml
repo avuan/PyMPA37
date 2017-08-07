@@ -1,9 +1,5 @@
 language: c
 
-branches:
-  only:
-    - master
-
 sudo: false
 
 matrix:
