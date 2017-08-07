@@ -80,7 +80,7 @@ install:
   - |
       if [[ "$MINIMUM_DEPENDENCIES" == 'True' ]]; then
         NUMPY="numpy=1.6.2"
-        SCIPY="scipy=0.11.0"
+        #SCIPY="scipy=0.11.0"
         MATPLOTLIB="matplotlib=1.1.1"
         # no basemap version works with this old numpy, so leave out
         BASEMAP=""
@@ -93,7 +93,7 @@ install:
       elif [[ "${PYTHON_VERSION}" == '3.3' ]]; then
         # Let conda resolve to the latest versions.
         NUMPY="numpy"
-        SCIPY="scipy"
+        #SCIPY="scipy"
         MATPLOTLIB="matplotlib"
         BASEMAP="basemap"
         # anaconda doesn't provide pyproj for Python 3.3 anymore
@@ -102,7 +102,7 @@ install:
         # 3.4 apparently no longer get's updated packages.
         # Let conda resolve to the latest versions.
         NUMPY="numpy"
-        SCIPY="scipy"
+        #SCIPY="scipy"
         MATPLOTLIB="matplotlib"
         BASEMAP="basemap"
         PYPROJ="pyproj"
@@ -110,14 +110,14 @@ install:
         # Special packages for 32bit. Also let conda resolve to the latest
         # versions.
         NUMPY="numpy"
-        SCIPY="scipy"
+        #SCIPY="scipy"
         MATPLOTLIB="matplotlib"
         BASEMAP="basemap"
         PYPROJ="pyproj"
       # For anything else also let conda resolve, but force matplotlib 2.
       else
         NUMPY="numpy"
-        SCIPY="scipy"
+        #SCIPY="scipy"
         MATPLOTLIB="matplotlib>=2.0.0"
         BASEMAP="basemap"
         PYPROJ="pyproj"
@@ -125,7 +125,6 @@ install:
   - conda create -q -n test-environment
         python=$PYTHON_VERSION
         $NUMPY
-        $SCIPY
         $MATPLOTLIB
         $BASEMAP
         $PYPROJ
