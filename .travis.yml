@@ -69,6 +69,7 @@ script:
    - python pympa38mac.py
 
 after_success:
+  - kill -9 $(ps aux | grep 'python pympa38mac.py' | awk '{print $2}')
   # Check how much code is actually tested and send this report to codecov
   - ls -a
   - mv .coverage ../.coverage.empty
