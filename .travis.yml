@@ -52,9 +52,9 @@ install:
         PYFLAKES="pyflakes=0.9.0"
       fi
   - echo $PYTHON_VERSION
-  - conda create -q -n test-environment python=$PYTHON_VERSION colorama numpy scipy matplotlib obspy flake8 mock coverage bottleneck pyproj
+  - travis_wait conda create -q -n test-environment python=$PYTHON_VERSION colorama numpy scipy matplotlib obspy flake8 mock coverage bottleneck pyproj
   - source activate test-environment
-  - pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist codecov Cython
+  - travis_wait pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist codecov Cython
   - pip freeze
   - conda list
   # done installing dependencies
