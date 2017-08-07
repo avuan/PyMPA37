@@ -39,22 +39,6 @@ install:
     else
       export OS="Linux";
     fi
-  - |
-      if [[ "$ARCHITECTURE_32BIT" == "True" ]]; then
-        export ARCH=""
-        # OPT is used by setuptools patches contained in newer numpy versions
-        # used by obspy when running pip install --no-deps .
-        export OPT="-m32"
-        # workaround for sudo dpkg --add-architecture i386
-        # be sure multiarch is the only file in this directory
-        ls /etc/dpkg/dpkg.cfg.d/
-        # multiarch must contain foreign-architecture i386. If not it will
-        # error later and you need to do the following and add sudo: true
-        #sudo sh -c "echo 'foreign-architecture i386' > /etc/dpkg/dpkg.cfg.d/multiarch"
-        cat /etc/dpkg/dpkg.cfg.d/multiarch
-      else
-        export ARCH="_64"
-      fi
   - if [[ "${PYTHON_VERSION:0:1}" == '2' ]]; then
       wget https://repo.continuum.io/miniconda/Miniconda2-latest-${OS}-x86${ARCH}.sh -O miniconda.sh;
     else
@@ -64,9 +48,15 @@ install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
+  - conda config --add channels conda-forge
   - conda update -q conda
-  # Useful for debugging any issues with conda
   - conda info -a
+  - |
+      if [[ "${py:0:1}" == "3" ]]; then
+        PYFLAKES="pyflakes=1.0.0"
+      else
+        PYFLAKES="pyflakes=0.9.0"
+      fi
   - conda create -q -n test-environment
         python=$PYTHON_VERSION
         numpy 
