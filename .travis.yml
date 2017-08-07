@@ -1,64 +1,194 @@
-language: C
+language: c
+
+branches:
+  only:
+    - master
+
+sudo: false
 
 matrix:
   include:
+    # do one build run with our minimum dependencies
+    # (or, well, at least the lowest version number that is available through
+    #  anaconda..)
+    - os: linux
+      env: PYTHON_VERSION=2.7 MINIMUM_DEPENDENCIES="True"
     - os: linux
       env: PYTHON_VERSION=2.7
+    - os: linux
+      env: PYTHON_VERSION=3.3
+    - os: linux
+      env: PYTHON_VERSION=3.4
     - os: linux
       env: PYTHON_VERSION=3.5
     - os: linux
       env: PYTHON_VERSION=3.6
+    - os: linux
+      env: PYTHON_VERSION=3.5 ARCHITECTURE_32BIT="True"
+      addons:
+        apt:
+          packages:
+            # https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+            - libstdc++6:i386
+            - gcc-multilib
+    - os: osx
+      env: PYTHON_VERSION=2.7
+    - os: osx
+      env: PYTHON_VERSION=3.6
 
-    - os: osx
-      env:
-        - PYTHON_VERSION=2.7
-    - os: osx
-      env:
-        - PYTHON_VERSION=3.5
-    - os: osx
-      env:
-        - PYTHON_VERSION=3.6
-
-sudo: false
+# mimick travis fast fail and rolling build setup from:
+# https://github.com/JuliaLang/julia/blob/master/.travis.yml
+before_install:
+  - if [ `uname` = "Darwin" ]; then brew update; brew install -v jq; fi
+  - curl "https://raw.githubusercontent.com/JuliaLang/julia/master/contrib/travis_fastfail.sh" -o "/tmp/fastfail.sh" || echo "Failed to fetch travis_fastfail.sh"
+  - if [ -f /tmp/fastfail.sh ]; then chmod u+x /tmp/fastfail.sh; /tmp/fastfail.sh || exit 1; fi
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       export OS="MacOSX";
-      export py=$PYTHON_VERSION;
     else
       export OS="Linux";
-      export py=$PYTHON_VERSION;
     fi
-  - if [[ "$py" == "2.7_with_system_site_packages" ]]; then
-      export py="2.7";
-    fi
-  - if [[ "${py:0:1}" == '2' ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-${OS}-x86_64.sh -O miniconda.sh;
+  - |
+      if [[ "$ARCHITECTURE_32BIT" == "True" ]]; then
+        export ARCH=""
+        # OPT is used by setuptools patches contained in newer numpy versions
+        # used by obspy when running pip install --no-deps .
+        export OPT="-m32"
+        # workaround for sudo dpkg --add-architecture i386
+        # be sure multiarch is the only file in this directory
+        ls /etc/dpkg/dpkg.cfg.d/
+        # multiarch must contain foreign-architecture i386. If not it will
+        # error later and you need to do the following and add sudo: true
+        #sudo sh -c "echo 'foreign-architecture i386' > /etc/dpkg/dpkg.cfg.d/multiarch"
+        cat /etc/dpkg/dpkg.cfg.d/multiarch
+      else
+        export ARCH="_64"
+      fi
+  - if [[ "${PYTHON_VERSION:0:1}" == '2' ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-${OS}-x86${ARCH}.sh -O miniconda.sh;
     else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-${OS}-x86_64.sh -O miniconda.sh;
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-${OS}-x86${ARCH}.sh -O miniconda.sh;
     fi
-  - export OMP_NUM_THREADS=1;
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda config --add channels conda-forge
   - conda update -q conda
+  # Useful for debugging any issues with conda
   - conda info -a
   - |
-      if [[ "${py:0:1}" == "3" ]]; then
-        PYFLAKES="pyflakes=1.0.0"
+      if [[ "$MINIMUM_DEPENDENCIES" == 'True' ]]; then
+        NUMPY="numpy=1.6.2"
+        SCIPY="scipy=0.11.0"
+        MATPLOTLIB="matplotlib=1.1.1"
+        # no basemap version works with this old numpy, so leave out
+        BASEMAP=""
+        PYPROJ="pyproj"
+        # ancient matplotlib needs to be turned to AGG before anything else,
+        # otherwise it tries to import incompatible version of Qt as a backend
+        # and hick-ups..
+        mkdir -p $HOME/.matplotlib
+        echo 'backend:AGG' > $HOME/.matplotlib/matplotlibrc
+      elif [[ "${PYTHON_VERSION}" == '3.3' ]]; then
+        # Let conda resolve to the latest versions.
+        NUMPY="numpy"
+        SCIPY="scipy"
+        MATPLOTLIB="matplotlib"
+        BASEMAP="basemap"
+        # anaconda doesn't provide pyproj for Python 3.3 anymore
+        PYPROJ=""
+      elif [[ "${PYTHON_VERSION}" == '3.4' ]]; then
+        # 3.4 apparently no longer get's updated packages.
+        # Let conda resolve to the latest versions.
+        NUMPY="numpy"
+        SCIPY="scipy"
+        MATPLOTLIB="matplotlib"
+        BASEMAP="basemap"
+        PYPROJ="pyproj"
+      elif [[ "$ARCHITECTURE_32BIT" == "True" ]]; then
+        # Special packages for 32bit. Also let conda resolve to the latest
+        # versions.
+        NUMPY="numpy"
+        SCIPY="scipy"
+        MATPLOTLIB="matplotlib"
+        BASEMAP="basemap"
+        PYPROJ="pyproj"
+      # For anything else also let conda resolve, but force matplotlib 2.
       else
-        PYFLAKES="pyflakes=0.9.0"
+        NUMPY="numpy"
+        SCIPY="scipy"
+        MATPLOTLIB="matplotlib>=2.0.0"
+        BASEMAP="basemap"
+        PYPROJ="pyproj"
       fi
-  - echo $PYTHON_VERSION
-  - travis_wait conda create -q -n test-environment python=$PYTHON_VERSION colorama numpy scipy matplotlib obspy flake8 mock coverage bottleneck pyproj
+  - conda create -q -n test-environment
+        python=$PYTHON_VERSION
+        $NUMPY
+        $SCIPY
+        $MATPLOTLIB
+        $BASEMAP
+        $PYPROJ
+        future
+        lxml
+        decorator
+        sqlalchemy
+        mock
+        nose
+        docopt
+        coverage
+        requests
+        jsonschema
   - source activate test-environment
-  - travis_wait pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist codecov Cython
+  # additional, optional packages that run some more tests but are not
+  # available for all archs. "--no-update-dependencies" keeps other packages at
+  # already installed version (ideally we should handle package versions
+  # through pinning or an environment file..)
+  - conda config --add channels conda-forge
+  # XXX for now don't try to install other optional dependencies so that at
+  # least our builds work..
+  # XXX - conda install --no-update-dependencies m2crypto || true
+  # XXX - conda install --no-update-dependencies cartopy || true
+  # install packages not available via conda
+  - pip install bottleneck
+  - pip install codecov
+  - pip install geographiclib
+  # current pyimgur stable release has a py3 incompatibility
+  - pip install https://github.com/megies/PyImgur/archive/py3.zip
   - pip freeze
+  - pip install https://github.com/obspy/obspy_github_api/archive/0.7.0.zip
   - conda list
   # done installing dependencies
   - git version
+  - git fetch origin --tags --unshallow
+  - git remote add obspy git://github.com/obspy/obspy.git
+  - git fetch obspy --tags
+  - git status
+  - git branch -vv
+  - git remote -vv
+  # try to set correct remote tracking branch (to get branch info in version number of reports at tests.obspy.org)
+  - |
+      if [ "$TRAVIS_PULL_REQUEST" != "false" ]
+        # we're building a pull request, so we need to find out the fork it's coming from through github API
+        then GITHUB_LABEL=`python -c "from urllib import urlopen; import json; print(json.loads(urlopen(\"https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST\").read()).get('head').get('label'))"`
+             export GITHUB_FORK=${GITHUB_LABEL%:*}
+             export GITHUB_REMOTE=${GITHUB_FORK}/obspy
+             export GITHUB_BRANCH=${GITHUB_LABEL#*:}
+        # we're building a branch on the main repo
+        else export GITHUB_REMOTE=$TRAVIS_REPO_SLUG
+             export GITHUB_BRANCH=$TRAVIS_BRANCH
+             export GITHUB_FORK=${TRAVIS_REPO_SLUG%/*}; fi \
+      && echo "$GITHUB_REMOTE $GITHUB_FORK $GITHUB_BRANCH" \
+      && if [ "$GITHUB_FORK" != "obspy" ]
+          then git remote add $GITHUB_FORK git://github.com/$GITHUB_REMOTE; fi \
+      && git fetch $GITHUB_FORK +refs/heads/$GITHUB_BRANCH \
+      && git checkout -b tested_branch \
+      && git branch --set-upstream-to=$GITHUB_FORK/$GITHUB_BRANCH \
+      || echo
+  - git branch -vv
+  - git remote -vv
+  - pip install --no-deps .
+  - git status
   - git clone https://github.com/avuan/PyMPA37
 
 before_script:
@@ -67,14 +197,6 @@ before_script:
 script:
    - cd ./pympa38.dir
    - travis_wait python pympa38mac.py
-
-after_success:
-  # Check how much code is actually tested and send this report to codecov
-  - ls -a
-  - mv .coverage ../.coverage.empty
-  - cd ..
-  - coverage combine
-  - codecov
 
 notifications:
     email: false
