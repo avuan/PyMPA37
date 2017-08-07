@@ -8,19 +8,11 @@ matrix:
     # (or, well, at least the lowest version number that is available through
     #  anaconda..)
     - os: linux
-      env: PYTHON_VERSION=2.7 MINIMUM_DEPENDENCIES="True"
-    - os: linux
       env: PYTHON_VERSION=2.7
-    - os: linux
-      env: PYTHON_VERSION=3.3
-    - os: linux
-      env: PYTHON_VERSION=3.4
     - os: linux
       env: PYTHON_VERSION=3.5
     - os: linux
       env: PYTHON_VERSION=3.6
-    - os: linux
-      env: PYTHON_VERSION=3.5 ARCHITECTURE_32BIT="True"
       addons:
         apt:
           packages:
@@ -29,6 +21,8 @@ matrix:
             - gcc-multilib
     - os: osx
       env: PYTHON_VERSION=2.7
+    - os: osx
+      env: PYTHON_VERSION=3.5
     - os: osx
       env: PYTHON_VERSION=3.6
 
@@ -73,57 +67,12 @@ install:
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
-  - |
-      if [[ "$MINIMUM_DEPENDENCIES" == 'True' ]]; then
-        NUMPY="numpy=1.6.2"
-        #SCIPY="scipy=0.11.0"
-        MATPLOTLIB="matplotlib=1.1.1"
-        # no basemap version works with this old numpy, so leave out
-        BASEMAP=""
-        PYPROJ="pyproj"
-        # ancient matplotlib needs to be turned to AGG before anything else,
-        # otherwise it tries to import incompatible version of Qt as a backend
-        # and hick-ups..
-        mkdir -p $HOME/.matplotlib
-        echo 'backend:AGG' > $HOME/.matplotlib/matplotlibrc
-      elif [[ "${PYTHON_VERSION}" == '3.3' ]]; then
-        # Let conda resolve to the latest versions.
-        NUMPY="numpy"
-        #SCIPY="scipy"
-        MATPLOTLIB="matplotlib"
-        BASEMAP="basemap"
-        # anaconda doesn't provide pyproj for Python 3.3 anymore
-        PYPROJ=""
-      elif [[ "${PYTHON_VERSION}" == '3.4' ]]; then
-        # 3.4 apparently no longer get's updated packages.
-        # Let conda resolve to the latest versions.
-        NUMPY="numpy"
-        #SCIPY="scipy"
-        MATPLOTLIB="matplotlib"
-        BASEMAP="basemap"
-        PYPROJ="pyproj"
-      elif [[ "$ARCHITECTURE_32BIT" == "True" ]]; then
-        # Special packages for 32bit. Also let conda resolve to the latest
-        # versions.
-        NUMPY="numpy"
-        #SCIPY="scipy"
-        MATPLOTLIB="matplotlib"
-        BASEMAP="basemap"
-        PYPROJ="pyproj"
-      # For anything else also let conda resolve, but force matplotlib 2.
-      else
-        NUMPY="numpy"
-        #SCIPY="scipy"
-        MATPLOTLIB="matplotlib>=2.0.0"
-        BASEMAP="basemap"
-        PYPROJ="pyproj"
-      fi
   - conda create -q -n test-environment
         python=$PYTHON_VERSION
-        $NUMPY
-        $MATPLOTLIB
-        $BASEMAP
-        $PYPROJ
+        numpy 
+        matplotlib
+        basemap
+        pyproj
         future
         lxml
         decorator
@@ -135,6 +84,7 @@ install:
         coverage
         requests
         jsonschema
+        obspy
   - source activate test-environment
   # additional, optional packages that run some more tests but are not
   # available for all archs. "--no-update-dependencies" keeps other packages at
@@ -159,27 +109,6 @@ install:
   - git remote add obspy git://github.com/obspy/obspy.git
   - git fetch obspy --tags
   - git status
-  - git branch -vv
-  - git remote -vv
-  # try to set correct remote tracking branch (to get branch info in version number of reports at tests.obspy.org)
-  - |
-      if [ "$TRAVIS_PULL_REQUEST" != "false" ]
-        # we're building a pull request, so we need to find out the fork it's coming from through github API
-        then GITHUB_LABEL=`python -c "from urllib import urlopen; import json; print(json.loads(urlopen(\"https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST\").read()).get('head').get('label'))"`
-             export GITHUB_FORK=${GITHUB_LABEL%:*}
-             export GITHUB_REMOTE=${GITHUB_FORK}/obspy
-             export GITHUB_BRANCH=${GITHUB_LABEL#*:}
-        # we're building a branch on the main repo
-        else export GITHUB_REMOTE=$TRAVIS_REPO_SLUG
-             export GITHUB_BRANCH=$TRAVIS_BRANCH
-             export GITHUB_FORK=${TRAVIS_REPO_SLUG%/*}; fi \
-      && echo "$GITHUB_REMOTE $GITHUB_FORK $GITHUB_BRANCH" \
-      && if [ "$GITHUB_FORK" != "obspy" ]
-          then git remote add $GITHUB_FORK git://github.com/$GITHUB_REMOTE; fi \
-      && git fetch $GITHUB_FORK +refs/heads/$GITHUB_BRANCH \
-      && git checkout -b tested_branch \
-      && git branch --set-upstream-to=$GITHUB_FORK/$GITHUB_BRANCH \
-      || echo
   - git branch -vv
   - git remote -vv
   - pip install --no-deps .
