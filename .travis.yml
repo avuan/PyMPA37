@@ -19,7 +19,7 @@ matrix:
       env:
         - PYTHON_VERSION=3.6
 
-sudo: required
+sudo: false
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -69,7 +69,6 @@ script:
    - travis_wait python pympa38mac.py
 
 after_success:
-  - kill -9 $(ps aux | grep 'python pympa38mac.py' | awk '{print $2}')
   # Check how much code is actually tested and send this report to codecov
   - ls -a
   - mv .coverage ../.coverage.empty
