@@ -136,6 +136,7 @@ install:
         mock
         nose
         docopt
+        bottleneck
         coverage
         requests
         jsonschema
@@ -150,7 +151,6 @@ install:
   # XXX - conda install --no-update-dependencies m2crypto || true
   # XXX - conda install --no-update-dependencies cartopy || true
   # install packages not available via conda
-  - pip install bottleneck
   - pip install codecov
   - pip install geographiclib
   # current pyimgur stable release has a py3 incompatibility
