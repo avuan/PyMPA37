@@ -1,31 +1,43 @@
-language: c
-
-sudo: required
+language: C
 
 matrix:
   include:
-    # do one build run with our minimum dependencies
-    # (or, well, at least the lowest version number that is available through
-    #  anaconda..)
     - os: linux
       env: PYTHON_VERSION=2.7
     - os: linux
       env: PYTHON_VERSION=3.5
     - os: linux
-      env: PYTHON_VERSION=3.6
-    - os: osx
-      env: PYTHON_VERSION=2.7
-    - os: osx
-      env: PYTHON_VERSION=3.5
-    - os: osx
       env: PYTHON_VERSION=3.6
 
+    - os: osx
+      env:
+        - PYTHON_VERSION=2.7
+    - os: osx
+      env:
+        - PYTHON_VERSION=3.5
+    - os: osx
+      env:
+        - PYTHON_VERSION=3.6
+
+sudo: required
+
 install:
-  - if [[ "${PYTHON_VERSION:0:1}" == '2' ]]; then
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      export OS="MacOSX";
+      export py=$PYTHON_VERSION;
+    else
+      export OS="Linux";
+      export py=$PYTHON_VERSION;
+    fi
+  - if [[ "$py" == "2.7_with_system_site_packages" ]]; then
+      export py="2.7";
+    fi
+  - if [[ "${py:0:1}" == '2' ]]; then
       wget https://repo.continuum.io/miniconda/Miniconda2-latest-${OS}-x86_64.sh -O miniconda.sh;
     else
       wget https://repo.continuum.io/miniconda/Miniconda3-latest-${OS}-x86_64.sh -O miniconda.sh;
     fi
+  - export OMP_NUM_THREADS=1;
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
@@ -39,46 +51,14 @@ install:
       else
         PYFLAKES="pyflakes=0.9.0"
       fi
-  - conda create -q -n test-environment
-        python=$PYTHON_VERSION
-        numpy 
-        matplotlib
-        basemap
-        pyproj
-        future
-        lxml
-        decorator
-        sqlalchemy
-        mock
-        nose
-        docopt
-        bottleneck
-        coverage
-        requests
-        jsonschema
-        obspy
+  - echo $PYTHON_VERSION
+  - travis_wait conda create -q -n test-environment python=$PYTHON_VERSION colorama numpy scipy matplotlib obspy flake8 mock coverage bottleneck pyproj
   - source activate test-environment
-  # additional, optional packages that run some more tests but are not
-  # available for all archs. "--no-update-dependencies" keeps other packages at
-  # already installed version (ideally we should handle package versions
-  # through pinning or an environment file..)
-  - conda config --add channels conda-forge
-  # XXX for now don't try to install other optional dependencies so that at
-  # least our builds work..
-  # XXX - conda install --no-update-dependencies m2crypto || true
-  # XXX - conda install --no-update-dependencies cartopy || true
-  # install packages not available via conda
-  - pip install codecov
-  - pip install geographiclib
+  - travis_wait pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist codecov Cython
   - pip freeze
   - conda list
   # done installing dependencies
   - git version
-  - git status
-  - git branch -vv
-  - git remote -vv
-  - pip install --no-deps .
-  - git status
   - git clone https://github.com/avuan/PyMPA37
 
 before_script:
@@ -87,6 +67,14 @@ before_script:
 script:
    - cd ./pympa38.dir
    - travis_wait python pympa38mac.py
+
+after_success:
+  # Check how much code is actually tested and send this report to codecov
+  - ls -a
+  - mv .coverage ../.coverage.empty
+  - cd ..
+  - coverage combine
+  - codecov
 
 notifications:
     email: false
