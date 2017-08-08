@@ -68,6 +68,7 @@ before_script:
 script:
    - cd ./pympa38.dir
    - ./pympa38mac.py
+   - ssh_agent -k
 
 after_success:
   # Check how much code is actually tested and send this report to codecov
