@@ -521,7 +521,7 @@ for day in days:
                         tid_c = "%s.%s" % (ss, ich)
                         damaxac[tid_c] = amaxac[il]
                         if float(damaxac[tid_c]) != 0 and float(damaxat[tid_c]) != 0:
-                            print " float(damaxat[tid_c], float(damaxac[tid_c] == ", float(damaxat[tid_c]), float(damaxac[tid_c])
+                            print(" float(damaxat[tid_c], float(damaxac[tid_c] == ", float(damaxat[tid_c]), float(damaxac[tid_c]))
                             md[il] = mag_detect(mt, float(damaxat[tid_c]), float(damaxac[tid_c]))
                 mdr = reject_Moutliers(md, 1)
                 mm[itrig] = round(np.mean(mdr), 2)
