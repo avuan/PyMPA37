@@ -368,6 +368,7 @@ for day in days:
         # define travel time file for each template (travel time files for synchronizing CFTs are obtained
         # running calcTT01.py
         travel_file = "%s%s.ttimes" % (travel_dir, str(itemp))
+        print("travel_file = ", travel_file)
         # store ttimes info in a dictionary
         with open(travel_file, "r") as ttim:
             d = dict(x.rstrip().split(None, 1) for x in ttim)
@@ -376,9 +377,9 @@ for day in days:
         # find minimum time to recover origin time
         time_values = [float(v) for v in d.values()]
         min_time_value = min(time_values)
-        # print("min_time_value == ", min_time_value)
+        print("min_time_value == ", min_time_value)
         min_time_key = [k for k, v in d.items() if v == str(min_time_value)]
-        # print("key, mintime == ", min_time_key, min_time_value)
+        print("key, mintime == ", min_time_key, min_time_value)
 
         stream_cft.clear()
         for nn in networks:
@@ -520,7 +521,7 @@ for day in days:
                         tid_c = "%s.%s" % (ss, ich)
                         damaxac[tid_c] = amaxac[il]
                         if float(damaxac[tid_c]) != 0 and float(damaxat[tid_c]) != 0:
-                            # print " float(damaxat[tid_c], float(damaxac[tid_c] == ", float(damaxat[tid_c]), float(damaxac[tid_c])
+                            print " float(damaxat[tid_c], float(damaxac[tid_c] == ", float(damaxat[tid_c]), float(damaxac[tid_c])
                             md[il] = mag_detect(mt, float(damaxat[tid_c]), float(damaxac[tid_c]))
                 mdr = reject_Moutliers(md, 1)
                 mm[itrig] = round(np.mean(mdr), 2)
