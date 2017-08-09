@@ -17,7 +17,7 @@
 # line16 = template start number, 
 # line17 = template stop number(if line16==0  and line17==0 all templates are processed, 
 # line18, 19, 20  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20) 
-CAS05 MIR01 MIR02 MIR03 MIR04 MIR08 RAVA
+CAS05 MIR01 MIR02 MIR03
 EHE EHN EHZ HHE HHN HHZ HNE HNN HNZ
 IV TV
 2.0
