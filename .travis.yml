@@ -19,7 +19,7 @@ matrix:
       env:
         - PYTHON_VERSION=3.6
 
-sudo: false
+sudo: true 
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
