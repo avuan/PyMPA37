@@ -77,6 +77,7 @@ def processInput(itemp, nn, ss, ich, stream_df):
         tsize = 0
         try:
             tsize = os.path.getsize(finpt)
+            print("tsize == ", tsize)
             if tsize > 0:
                 # print "ok template exist and not empty"
                 st_temp = Stream()
@@ -86,15 +87,18 @@ def processInput(itemp, nn, ss, ich, stream_df):
                 sc = stream_df.select(station=ss, channel=ich)
                 if sc.__nonzero__():
                     tc = sc[0]
+                    print("check 03 == ok") 
                     fct = xcorr(tc.data, tt.data)
                     stats = {'network': tc.stats.network, 'station': tc.stats.station, 'location': '',
                              'channel': tc.stats.channel, 'starttime': tc.stats.starttime,
                              'npts': len(fct), 'sampling_rate': tc.stats.sampling_rate,
                              'mseed': {'dataquality': 'D'}}
+                    print("check 04 == ", stats)
                     trnew = Trace(data=fct, header=stats)
                     tc = trnew.copy()
                     # TrimFillOneDay(tc,iyear,imonth,iday)
                     stream_cft += Stream(traces=[tc])
+                    print("check 05 == ", stream_cft)
                     # tc.write(newfile, format = "MSEED")
                 else:
                     print("warning no stream is found")
