@@ -385,8 +385,9 @@ for day in days:
         for nn in networks:
             for ss in stations:
                 for ich in channels:
+                    print("check 01 == ok")
                     processInput(itemp, nn, ss, ich, stream_df)
-
+        print("check 02 == ok")
         stnew = Stream()
         stall = Stream()
         tr = Trace()
