@@ -67,10 +67,9 @@ before_script:
 script:
    - cd ./pympa38.dir
    - ./pympa38mac.py 
-
+   
 after_success:
   # Check how much code is actually tested and send this report to codecov
-  - ls -a
   - mv .coverage ../.coverage.empty
   - cd ..
   - coverage combine
