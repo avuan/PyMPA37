@@ -17,7 +17,6 @@ import bottleneck as bn
 import matplotlib.pyplot as plt
 import numpy as np
 import obspy.signal
-from mpl_toolkits.basemap import Basemap
 from obspy import Catalog, UTCDateTime
 from obspy.core import *
 from obspy.core.event import *
