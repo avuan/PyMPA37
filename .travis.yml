@@ -61,12 +61,17 @@ install:
   - git clone https://github.com/avuan/PyMPA37
 
 before_script:
-  - chmod +x ./pympa38.dir/pympa38mac.py
-  - chmod -R a+rw ./pympa38.dir
+  - chmod +x ./*.dir/*.py
 
 script:
-   - cd ./pympa38.dir
+   - cd ./trim_templates.dir
+   - ./trim_templates4.0.py
+   - cd ../calc_ttimes.dir
+   - ./calcTT06.py
+   - cd ../pympa38.dir
    - ./pympa38mac.py 
+   - cd ../postproc.dir
+   - ./postproc37.sh  
    
 after_success:
   # Check how much code is actually tested and send this report to codecov
