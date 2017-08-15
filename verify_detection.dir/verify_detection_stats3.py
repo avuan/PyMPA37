@@ -17,6 +17,8 @@ import numpy as np
 import math as M
 import bottleneck as bn
 from scipy.signal import argrelmax
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from pprint import pprint
 from matplotlib.backends.backend_pdf import PdfPages
