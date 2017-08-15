@@ -111,7 +111,8 @@ with open(fname) as fl:
     days = [line[:-1] for line in fl]
     print(days)
 fl.close()
-
+tvel = "./" + taup_model + ".tvel"
+build_taup_model(tvel)
 for day in days:
     print("day == ", day)
     inpfiles = cont_dir + day + ".*.???"
