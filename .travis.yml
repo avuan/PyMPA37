@@ -76,7 +76,7 @@ script:
    - cd ../postproc.dir
    - ./postproc37.sh  
    - cd ../verify_detection.dir
-   - ./verify_detection02.py
+   #- ./verify_detection02.py
    - ./verify_detection_stats3.py
    
 after_success:
