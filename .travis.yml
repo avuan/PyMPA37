@@ -73,8 +73,8 @@ script:
    - ./calcTT06.py
    - cd ../pympa38.dir
    - ./pympa38mac.py 
-   - diff 618.120520.cat 618.120520.cat.mac
-   - diff 618.120520.stats 618.120520.stats.mac
+   - ndiff --relative-error 1.0e-3 618.120520.cat 618.120520.cat.mac
+   - ndiff --relative-error 1.0e-3 618.120520.stats 618.120520.stats.mac
    - cd ../postproc.dir
    - ./postproc37.sh  
    - cd ../verify_detection.dir
