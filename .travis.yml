@@ -53,7 +53,7 @@ install:
   - echo $PYTHON_VERSION
   - travis_wait conda create -q -n test-environment python=$PYTHON_VERSION colorama numpy scipy matplotlib obspy flake8 mock coverage bottleneck pyproj
   - source activate test-environment
-  - travis_wait pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist codecov Cython
+  - travis_wait pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist coverage codecov Cython
   - pip freeze
   - conda list
   # done installing dependencies
@@ -73,8 +73,6 @@ script:
    - ./calcTT06.py
    - cd ../pympa38.dir
    - ./pympa38mac.py 
-   - ndiff --relative-error 1.0e-3 618.120520.cat 618.120520.cat.mac
-   - ndiff --relative-error 1.0e-3 618.120520.stats 618.120520.stats.mac
    - cd ../postproc.dir
    - ./postproc37.sh  
    - cd ../verify_detection.dir
@@ -83,10 +81,10 @@ script:
    
 after_success:
   # Check how much code is actually tested and send this report to codecov
-  - mv .coverage ../.coverage.empty
-  - cd ..
-  - coverage combine
-  - codecov
+  #- mv .coverage ../.coverage.empty
+  #- cd ..
+  #- coverage combine
+  #- codecov
 
 notifications:
     email: false
