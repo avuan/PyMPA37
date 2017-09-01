@@ -10,7 +10,7 @@ The software package PyMPA is an open source seismological software. It consists
 
 ### Motivation and significance
 
-The software was developed in the framework of a bilateral project between Italy and Japan 2013-2015 "Detection of slow slip events and space-time cluster analysis of low magnitude tremors preceding the 2009 L'Aquila earthquake and the 2012 Emilia seismic sequence in Italy", and was co-funded by Ministero Affari Esteri (Italy) - Scientific and Technological Collaboration Executive Program. Further improvements to the code are planned wothin Project H2020 - SERA 2017-2019 http://www.sera-eu.org/. 
+The software was developed in the framework of a bilateral project between Italy and Japan 2013-2015 "Detection of slow slip events and space-time cluster analysis of low magnitude tremors preceding the 2009 L'Aquila earthquake and the 2012 Emilia seismic sequence in Italy", and was co-funded by Ministero Affari Esteri (Italy) - Scientific and Technological Collaboration Executive Program. Further improvements to the code are planned within Project H2020 - SERA 2017-2019 http://www.sera-eu.org/. 
 
 
 ### System requirements
