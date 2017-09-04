@@ -35,6 +35,7 @@ cat = Catalog()
 cat = read_events("templates.zmap", format="ZMAP")
 
 # read 'filter.par' file to setup useful variables
+# ppp
 
 with open('filter.par') as fp:
     data = fp.read().splitlines()
