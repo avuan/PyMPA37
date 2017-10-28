@@ -232,8 +232,7 @@ def csc(stall, stCC, trg, tstda, sample_tol,
         nch07 = 1
         nch09 = 1
 
-    return nch, cft_ave, cftratio, cft_ave_trg, \
-        cftratio_trg, nch03, nch05, nch07, nch09
+    return nch, cft_ave, cftratio, cft_ave_trg, cftratio_trg, nch03, nch05, nch07, nch09
 
 
 def mag_detect(magt, amaxt, amaxd):
@@ -560,10 +559,9 @@ for day in days:
             traceID = trg['trace_ids']
             # check single channel CFT
             [nch[itrig], cft_ave[itrig], cftratio[itrig], cft_ave_trg[itrig],
-             cftratio_trg[itrig], nch3[itrig], nch5[
-                 itrig], nch7[itrig], nch9[itrig]] = csc(
-                stall, stCC, trg, tstda, sample_tol, cc_threshold,
-                nch_min, day, itemp, itrig, f1)
+             cftratio_trg[itrig], nch3[itrig], nch5[itrig], nch7[itrig],
+             nch9[itrig]] = csc(stall, stCC, trg, tstda, sample_tol,
+                                cc_threshold, nch_min, day, itemp, itrig, f1)
 
             if int(nch[itrig]) >= nch_min:
                 nn = len(stream_df)
