@@ -71,7 +71,7 @@ script:
    - ./trim_templates4.0.py
    - cd ../calc_ttimes.dir
    - ./calcTT06.py
-   - cd ../pympa38.dir
+   - cd ../pympa39.dir
    - ./pympa38mac.py 
    - cd ../postproc.dir
    - ./postproc37.sh  
