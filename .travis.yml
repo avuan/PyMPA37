@@ -71,8 +71,8 @@ script:
    - ./trim_templates4.0.py
    - cd ../calc_ttimes.dir
    - ./calcTT06.py
-   - cd ../pympa39.dir
-   - ./pympa38mac.py 
+   - cd ../pympa38.dir
+   - ./pympa39mac.py 
    - cd ../postproc.dir
    - ./postproc37.sh  
    - cd ../verify_detection.dir
