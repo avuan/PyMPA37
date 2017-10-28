@@ -173,7 +173,7 @@ def csc(stall, stCC, trg, tstda, sample_tol,
     tcft = stCC[0]
     t0_tcft = tcft.stats.starttime
     trigger_shift = trigger_time.timestamp - t0_tcft.timestamp
-    trigger_sample = round(trigger_shift / tcft.stats.delta)
+    trigger_sample = int(round(trigger_shift / tcft.stats.delta))
     max_sct = np.empty(len(stall))
     max_trg = np.empty(len(stall))
     max_ind = np.empty(len(stall))
@@ -186,8 +186,8 @@ def csc(stall, stCC, trg, tstda, sample_tol,
         # trg['cft_peaks']
         chan_sct[icft] = tsc.stats.network + "." + \
                          tsc.stats.station + " " + tsc.stats.channel
-        tmp0 = int(trigger_sample - sample_tolerance)
-        tmp1 = int(trigger_sample + sample_tolerance + 1)
+        tmp0 = trigger_sample - sample_tolerance
+        tmp1 = trigger_sample + sample_tolerance + 1
         max_sct[icft] = max(tsc.data[tmp0:tmp1])
         max_ind[icft] = np.argmax(tsc.data[tmp0:tmp1])
         max_ind[icft] = sample_tolerance - max_ind[icft]
