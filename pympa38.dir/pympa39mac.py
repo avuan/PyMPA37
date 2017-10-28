@@ -164,8 +164,8 @@ def csc(stall, stCC, trg, tstda, sample_tol,
     nch, cft_ave, cftratio are re-evaluated on the basis of
     +/- 2 sample approximation. Statistics are written in stat files
     """
-    # important parameters: a sample_tolerance less than 2 results
-    # in wrong magnitude
+    # important parameters: a sample_tolerance less than 2 results often
+    # in wrong magnitudes
     sample_tolerance = sample_tol
     single_channelCFT = cc_threshold
     #
@@ -186,12 +186,10 @@ def csc(stall, stCC, trg, tstda, sample_tol,
         # trg['cft_peaks']
         chan_sct[icft] = tsc.stats.network + "." + \
                          tsc.stats.station + " " + tsc.stats.channel
-        max_sct[icft] = max(tsc.data[(
-                            trigger_sample - sample_tolerance):(
-                            trigger_sample + sample_tolerance + 1)])
-        max_ind[icft] = np.argmax(tsc.data[(
-                            trigger_sample - sample_tolerance):(
-                            trigger_sample + sample_tolerance + 1)])
+        tmp0 = trigger_sample - sample_tolerance
+        tmp1 = trigger_sample + sample_tolerance + 1
+        max_sct[icft] = max(tsc.data[tmp0:tmp1])
+        max_ind[icft] = np.argmax(tsc.data[tmp0:tmp1])
         max_ind[icft] = sample_tolerance - max_ind[icft]
         max_trg[icft] = tsc.data[trigger_sample:trigger_sample + 1]
     nch = (max_sct > single_channelCFT).sum()
@@ -219,8 +217,8 @@ def csc(stall, stCC, trg, tstda, sample_tol,
 
         for idchan in range(0, len(max_sct)):
             str22 = "%s %s %s %s \n" % (
-                chan_sct[idchan].decode(),
-                max_trg[idchan], max_sct[idchan], max_ind[idchan])
+                chan_sct[idchan].decode(), max_trg[
+                    idchan], max_sct[idchan], max_ind[idchan])
             f1.write(str22)
 
     else:
@@ -620,8 +618,9 @@ for day in days:
                 cft_ave_trg[itrig] = round(cft_ave_trg[itrig], 3)
                 cftratio_trg[itrig] = round(cftratio_trg[itrig], 3)
                 str33 = "%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n" % (
-                    day[0:6], str(itemp), str(itrig), str(UTCDateTime(
-                        tt[itrig])), str(mm[itrig]), str(mt), str(nch[itrig]),
+                    day[0:6], str(itemp), str(itrig),
+                    str(UTCDateTime(tt[itrig])), str(mm[itrig]), str(mt),
+                    str(nch[itrig]),
                     str(tstda), str(cft_ave[itrig]), str(cftratio[itrig]),
                     str(cft_ave_trg[itrig]),
                     str(cftratio_trg[itrig]), str(nch3[itrig]),
@@ -634,4 +633,4 @@ for day in days:
                     str(int(nch[itrig])))
                 f.write(str1)
         f1.close()
-    f.close()
+        f.close()
