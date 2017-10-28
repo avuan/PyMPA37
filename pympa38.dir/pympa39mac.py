@@ -186,12 +186,12 @@ def csc(stall, stCC, trg, tstda, sample_tol,
         # trg['cft_peaks']
         chan_sct[icft] = tsc.stats.network + "." + \
                          tsc.stats.station + " " + tsc.stats.channel
-        max_sct[icft] = max(tsc.data[
-                            trigger_sample - sample_tolerance:trigger_sample +
-                            sample_tolerance + 1])
-        max_ind[icft] = np.argmax(tsc.data[
-                            trigger_sample - sample_tolerance:trigger_sample +
-                            sample_tolerance + 1])
+        max_sct[icft] = max(tsc.data[(
+                            trigger_sample - sample_tolerance):(
+                            trigger_sample + sample_tolerance + 1)])
+        max_ind[icft] = np.argmax(tsc.data[(
+                            trigger_sample - sample_tolerance):(
+                            trigger_sample + sample_tolerance + 1)])
         max_ind[icft] = sample_tolerance - max_ind[icft]
         max_trg[icft] = tsc.data[trigger_sample:trigger_sample + 1]
     nch = (max_sct > single_channelCFT).sum()
