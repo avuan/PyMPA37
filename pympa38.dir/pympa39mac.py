@@ -573,6 +573,7 @@ for day in days:
                 # data channels are trimmed and amplitude useful to estimate
                 # magnitude is measured.
                 damaxac = {}
+                mchan = {}
                 timex = UTCDateTime(tt[itrig])
 
                 for il, tc in enumerate(stream_df):
