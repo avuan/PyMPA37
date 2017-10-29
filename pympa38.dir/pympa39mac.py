@@ -544,6 +544,8 @@ for day in days:
         timex = UTCDateTime()
         fout1 = "%s.%s.stats" % (str(itemp), day[0:6])
         f1 = open(fout1, 'w+')
+        fout2 = "%s.%s.stats.mag" % (str(itemp), day[0:6])
+        f2 = open(fout2, 'w+')
 
         for itrig, trg in enumerate(triglist):
 
@@ -611,7 +613,7 @@ for day in days:
                                 mt, damaxat[tid_c], damaxac[tid_c])
                             mchan[tid_c] = md[il]
                             str00 = "%s %s\n" % (tid_c, mchan[tid_c])
-                            f1.write(str00)
+                            f2.write(str00)
 
                 mdr = reject_Moutliers(md, 1)
                 mm[itrig] = round(np.mean(mdr), 2)
@@ -628,6 +630,7 @@ for day in days:
                     str(crt_trg[itrig]), str(nch3[itrig]),
                     str(nch5[itrig]), str(nch7[itrig]), str(nch9[itrig]))
                 f1.write(str33)
+                f2.write(str33)
                 str1 = "%s %s %s %s %s %s %s %s\n" % (
                     str(itemp), str(UTCDateTime(tt[itrig])), str(mm[itrig]),
                     str(cft_ave[itrig]), str(crt[itrig]),
@@ -635,4 +638,5 @@ for day in days:
                     str(int(nch[itrig])))
                 f.write(str1)
         f1.close()
+        f2.close()
         f.close()
