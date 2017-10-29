@@ -161,7 +161,7 @@ def csc(stall, stCC, trg, tstda, sample_tol,
     The function check_singlechannelCFT compute the maximum CFT's
     values at each trigger time and counts the number of channels
     having higher cross-correlation
-    nch, cft_ave, cftratio are re-evaluated on the basis of
+    nch, cft_ave, crt are re-evaluated on the basis of
     +/- 2 sample approximation. Statistics are written in stat files
     """
     # important parameters: a sample_tolerance less than 2 results often
@@ -201,18 +201,18 @@ def csc(stall, stCC, trg, tstda, sample_tol,
         nch03 = (max_sct > 0.3).sum()
         # print("nch ==", nch03, nch05, nch07, nch09)
         cft_ave = bn.nanmean(max_sct[:])
-        cftratio = cft_ave / tstda
+        crt = cft_ave / tstda
         cft_ave_trg = bn.nanmean(max_trg[:])
-        cftratio_trg = cft_ave_trg / tstda
+        crt_trg = cft_ave_trg / tstda
         max_sct = max_sct.T
         max_trg = max_trg.T
         chan_sct = chan_sct.T
         # str11 = "%s %s %s %s %s %s %s %s %s %s %s %s %s \n" %
         # (day[0:6], str(itemp), str(itrig),
-        # trigger_time, tstda, cft_ave, cftratio, cft_ave_trg,
-        # cftratio_trg, nch03, nch05, nch07, nch09)
+        # trigger_time, tstda, cft_ave, crt, cft_ave_trg,
+        # crt_trg, nch03, nch05, nch07, nch09)
         # str11 = "%s %s %s %s %s %s %s %s \n" % ( nch03, nch04, nch05,
-        # nch06, nch07, nch08, cft_ave, cftratio )
+        # nch06, nch07, nch08, cft_ave, crt )
         # f1.write(str11)
 
         for idchan in range(0, len(max_sct)):
@@ -224,15 +224,15 @@ def csc(stall, stCC, trg, tstda, sample_tol,
     else:
         nch = 1
         cft_ave = 1
-        cftratio = 1
+        crt = 1
         cft_ave_trg = 1
-        cftratio_trg = 1
+        crt_trg = 1
         nch03 = 1
         nch05 = 1
         nch07 = 1
         nch09 = 1
 
-    return nch, cft_ave, cftratio, cft_ave_trg, cftratio_trg, nch03, nch05, nch07, nch09
+    return nch, cft_ave, crt, cft_ave_trg, crt_trg, nch03, nch05, nch07, nch09
 
 
 def mag_detect(magt, amaxt, amaxd):
@@ -533,9 +533,9 @@ for day in days:
         cs = np.empty(ntrig)
         nch = np.empty(ntrig)
         cft_ave = np.empty(ntrig)
-        cftratio = np.empty(ntrig)
+        crt = np.empty(ntrig)
         cft_ave_trg = np.empty(ntrig)
-        cftratio_trg = np.empty(ntrig)
+        crt_trg = np.empty(ntrig)
         nch3 = np.empty(ntrig)
         nch5 = np.empty(ntrig)
         nch7 = np.empty(ntrig)
@@ -555,11 +555,11 @@ for day in days:
 
             cs[itrig] = trg['coincidence_sum']
             cft_ave[itrig] = trg['cft_peak_wmean']
-            cftratio[itrig] = trg['cft_peaks'][0] / tstda
+            crt[itrig] = trg['cft_peaks'][0] / tstda
             traceID = trg['trace_ids']
             # check single channel CFT
-            [nch[itrig], cft_ave[itrig], cftratio[itrig], cft_ave_trg[itrig],
-             cftratio_trg[itrig], nch3[itrig], nch5[itrig], nch7[itrig],
+            [nch[itrig], cft_ave[itrig], crt[itrig], cft_ave_trg[itrig],
+             crt_trg[itrig], nch3[itrig], nch5[itrig], nch7[itrig],
              nch9[itrig]] = csc(stall, stCC, trg, tstda, sample_tol,
                                 cc_threshold, nch_min, day, itemp, itrig, f1)
 
@@ -612,22 +612,22 @@ for day in days:
                 mdr = reject_Moutliers(md, 1)
                 mm[itrig] = round(np.mean(mdr), 2)
                 cft_ave[itrig] = round(cft_ave[itrig], 3)
-                cftratio[itrig] = round(cftratio[itrig], 3)
+                crt[itrig] = round(crt[itrig], 3)
                 cft_ave_trg[itrig] = round(cft_ave_trg[itrig], 3)
-                cftratio_trg[itrig] = round(cftratio_trg[itrig], 3)
+                crt_trg[itrig] = round(crt_trg[itrig], 3)
                 str33 = "%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n" % (
                     day[0:6], str(itemp), str(itrig),
                     str(UTCDateTime(tt[itrig])), str(mm[itrig]), str(mt),
                     str(nch[itrig]),
-                    str(tstda), str(cft_ave[itrig]), str(cftratio[itrig]),
+                    str(tstda), str(cft_ave[itrig]), str(crt[itrig]),
                     str(cft_ave_trg[itrig]),
-                    str(cftratio_trg[itrig]), str(nch3[itrig]),
+                    str(crt_trg[itrig]), str(nch3[itrig]),
                     str(nch5[itrig]), str(nch7[itrig]), str(nch9[itrig]))
                 f1.write(str33)
                 str1 = "%s %s %s %s %s %s %s %s\n" % (
                     str(itemp), str(UTCDateTime(tt[itrig])), str(mm[itrig]),
-                    str(cft_ave[itrig]), str(cftratio[itrig]),
-                    str(cft_ave_trg[itrig]), str(cftratio_trg[itrig]),
+                    str(cft_ave[itrig]), str(crt[itrig]),
+                    str(cft_ave_trg[itrig]), str(crt_trg[itrig]),
                     str(int(nch[itrig])))
                 f.write(str1)
         f1.close()
