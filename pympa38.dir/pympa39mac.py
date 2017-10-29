@@ -608,6 +608,9 @@ for day in days:
                                   damaxat[tid_c], damaxac[tid_c])
                             md[il] = mag_detect(
                                 mt, damaxat[tid_c], damaxac[tid_c])
+                            mchan[tid_c] = md[il]
+                            str00 = "%s %s\n" % (tid_c, mchan[tid_c])
+                            f1.write(str00)
 
                 mdr = reject_Moutliers(md, 1)
                 mm[itrig] = round(np.mean(mdr), 2)
