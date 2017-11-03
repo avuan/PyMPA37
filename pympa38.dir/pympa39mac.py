@@ -44,7 +44,7 @@ from obspy.signal.trigger import coincidence_trigger
 
 # LIST OF USEFUL FUNCTIONS
 
-def TrimFillOneDay(tc, iiyear, iimonth, iiday, iihour, iimin, iisec):
+def trim_filloneday(tc, iiyear, iimonth, iiday, iihour, iimin, iisec):
     starttime_sec = UTCDateTime(iiyear, iimonth, iiday, iihour,
                                 iimin, iisec).timestamp
     starttime_sec = starttime_sec - 86400
@@ -75,7 +75,7 @@ def xcorr(x, y):
         return c
 
 
-def processInput(itemp, nn, ss, ich, stream_df):
+def process_input(itemp, nn, ss, ich, stream_df):
     global stream_cft
     # itemp = template number, nn =  network code, ss = station code,
     # ich = channel code, stream_df = Stream() object as defined in obspy
@@ -107,9 +107,7 @@ def processInput(itemp, nn, ss, ich, stream_df):
                              'mseed': {'dataquality': 'D'}}
                     trnew = Trace(data=fct, header=stats)
                     tc = trnew.copy()
-                    # TrimFillOneDay(tc,iyear,imonth,iday)
                     stream_cft += Stream(traces=[tc])
-                    # tc.write(newfile, format = "MSEED")
                 else:
                     print("warning no stream is found")
             else:
@@ -158,7 +156,7 @@ def stack(stall, df, tstart, npts, stdup, stddown):
 def csc(stall, stCC, trg, tstda, sample_tol,
         cc_threshold, nch_min, day, itemp, itrig, f1):
     """
-    The function check_singlechannelCFT compute the maximum CFT's
+    The function check_singlechannelcft compute the maximum CFT's
     values at each trigger time and counts the number of channels
     having higher cross-correlation
     nch, cft_ave, crt are re-evaluated on the basis of
@@ -167,7 +165,7 @@ def csc(stall, stCC, trg, tstda, sample_tol,
     # important parameters: a sample_tolerance less than 2 results often
     # in wrong magnitudes
     sample_tolerance = sample_tol
-    single_channelCFT = cc_threshold
+    single_channelcft = cc_threshold
     #
     trigger_time = trg['time']
     tcft = stCC[0]
@@ -192,7 +190,7 @@ def csc(stall, stCC, trg, tstda, sample_tol,
         max_ind[icft] = np.argmax(tsc.data[tmp0:tmp1])
         max_ind[icft] = sample_tolerance - max_ind[icft]
         max_trg[icft] = tsc.data[trigger_sample:trigger_sample + 1]
-    nch = (max_sct > single_channelCFT).sum()
+    nch = (max_sct > single_channelcft).sum()
 
     if nch >= nch_min:
         nch09 = (max_sct > 0.9).sum()
@@ -247,7 +245,7 @@ def mag_detect(magt, amaxt, amaxd):
     return magd
 
 
-def reject_Moutliers(data, m=1.):
+def reject_moutliers(data, m=1.):
     nonzeroind = np.nonzero(data)[0]
     nzlen = len(nonzeroind)
     # print("nonzeroind ==", nonzeroind)
@@ -361,7 +359,7 @@ for day in days:
         tc.detrend('constant')
         # ensuring that 24h continuous trace starts at
         # 00 hour 00 minut 00.0 seconds
-        TrimFillOneDay(tc, iiyear, iimonth, iiday, iihour, iimin, iisec)
+        trimfilloneday(tc, iiyear, iimonth, iiday, iihour, iimin, iisec)
         tc.filter("bandpass", freqmin=bandpass[0],
                   freqmax=bandpass[1], zerophase=True)
         # store detrended and filtered continuous data in a Stream
@@ -443,7 +441,7 @@ for day in days:
 
                 for ich in channels:
                     # print("check 01 == ok")
-                    processInput(itemp, nn, ss, ich, stream_df)
+                    process_input(itemp, nn, ss, ich, stream_df)
 
         # print("check 02 == ok")
         stnew = Stream()
@@ -615,7 +613,7 @@ for day in days:
                             str00 = "%s %s\n" % (tid_c, mchan[tid_c])
                             f2.write(str00)
 
-                mdr = reject_Moutliers(md, 1)
+                mdr = reject_moutliers(md, 1)
                 mm[itrig] = round(np.mean(mdr), 2)
                 cft_ave[itrig] = round(cft_ave[itrig], 3)
                 crt[itrig] = round(crt[itrig], 3)
