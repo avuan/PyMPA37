@@ -359,7 +359,7 @@ for day in days:
         tc.detrend('constant')
         # ensuring that 24h continuous trace starts at
         # 00 hour 00 minut 00.0 seconds
-        trimfilloneday(tc, iiyear, iimonth, iiday, iihour, iimin, iisec)
+        trim_filloneday(tc, iiyear, iimonth, iiday, iihour, iimin, iisec)
         tc.filter("bandpass", freqmin=bandpass[0],
                   freqmax=bandpass[1], zerophase=True)
         # store detrended and filtered continuous data in a Stream
@@ -605,8 +605,8 @@ for day in days:
                         damaxac[tid_c] = float(amaxac[il])
 
                         if damaxac[tid_c] != 0 and damaxat[tid_c] != 0:
-                            print("damaxat[tid_c], damaxac[tid_c] == ",
-                                  damaxat[tid_c], damaxac[tid_c])
+                            # print("damaxat[tid_c], damaxac[tid_c] == ",
+                            #      damaxat[tid_c], damaxac[tid_c])
                             md[il] = mag_detect(
                                 mt, damaxat[tid_c], damaxac[tid_c])
                             mchan[tid_c] = md[il]
