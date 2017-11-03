@@ -17,7 +17,7 @@ stations=["MC2"]
 channels=["EH*", "HH*", "HN*"]
 
 start="2016-01-01T00:00:00.000"
-stop="2016-02-01T00:00:00.000"
+stop="2016-01-02T00:00:00.000"
 
 # 24h as seconds 
 chuncklength=86400
