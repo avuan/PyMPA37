@@ -62,16 +62,16 @@ def rolling_window(a, window):
 
 
 def xcorr(x, y):
-    N = len(x)
-    M = len(y)
+    n = len(x)
+    m = len(y)
     meany = bn.nanmean(y)
     stdy = bn.nanstd(np.asarray(y))
-    tmp = rolling_window(x, M)
+    tmp = rolling_window(x, m)
     with np.errstate(divide='ignore'):
         c = bn.nansum((y - meany) * (
-            tmp - np.reshape(bn.nanmean(tmp, -1), (N - M + 1, 1))), -1) / (
-                M * bn.nanstd(tmp, -1) * stdy)
-        c[M * bn.nanstd(tmp, -1) * stdy == 0] = 0
+            tmp - np.reshape(bn.nanmean(tmp, -1), (n - m + 1, 1))), -1) / (
+                m * bn.nanstd(tmp, -1) * stdy)
+        c[m * bn.nanstd(tmp, -1) * stdy == 0] = 0
         return c
 
 
@@ -153,7 +153,7 @@ def stack(stall, df, tstart, npts, stdup, stddown):
     return tt
 
 
-def csc(stall, stCC, trg, tstda, sample_tol,
+def csc(stall, stcc, trg, tstda, sample_tol,
         cc_threshold, nch_min, day, itemp, itrig, f1):
     """
     The function check_singlechannelcft compute the maximum CFT's
@@ -168,7 +168,7 @@ def csc(stall, stCC, trg, tstda, sample_tol,
     single_channelcft = cc_threshold
     #
     trigger_time = trg['time']
-    tcft = stCC[0]
+    tcft = stcc[0]
     t0_tcft = tcft.stats.starttime
     trigger_shift = trigger_time.timestamp - t0_tcft.timestamp
     trigger_sample = int(round(trigger_shift / tcft.stats.delta))
@@ -406,7 +406,7 @@ for day in days:
         md = np.zeros(ntl)
         damaxat = {}
         # reference time to be used for retrieving time synchronization
-        refT = min([tr.stats.starttime for tr in stt])
+        reft = min([tr.stats.starttime for tr in stt])
 
         for il, tr in enumerate(stt):
             amaxat[il] = max(abs(tr.data))
@@ -454,8 +454,8 @@ for day in days:
         # seconds in 24 hours
         h24 = 86400
         nfile = len(stream_cft)
-        Tstart = np.empty(nfile)
-        Tend = np.empty(nfile)
+        tstart = np.empty(nfile)
+        tend = np.empty(nfile)
         tdif = np.empty(nfile)
 
         for idx, tc_cft in enumerate(stream_cft):
@@ -478,14 +478,14 @@ for day in days:
 
         for idx, tc_cft in enumerate(stream_cft):
             # get stream starttime
-            Tstart[idx] = tc_cft.stats.starttime + tdif[idx]
+            tstart[idx] = tc_cft.stats.starttime + tdif[idx]
             # waveforms should have the same number of npts
             # and should be synchronized to the S-wave travel time
             secs = h24 + 60
-            Tend[idx] = Tstart[idx] + secs
-            check_npts = (Tend[idx] - Tstart[idx]) / tc_cft.stats.delta
-            ts = UTCDateTime(Tstart[idx], precision=UTC_prec)
-            te = UTCDateTime(Tend[idx], precision=UTC_prec)
+            tend[idx] = tstart[idx] + secs
+            check_npts = (tend[idx] - tstart[idx]) / tc_cft.stats.delta
+            ts = UTCDateTime(tstart[idx], precision=UTC_prec)
+            te = UTCDateTime(tend[idx], precision=UTC_prec)
             stall += tc_cft.trim(
                 starttime=ts, endtime=te,
                 nearest_sample=True, pad=True, fill_value=0)
@@ -505,22 +505,22 @@ for day in days:
         tstda = bn.nanmedian(abs(ccm))
 
         # define threshold as 9 times std  and quality index
-        thresholdD = (factor_thre * tstda)
+        thresholdd = (factor_thre * tstda)
         # Trace ccmad is stored in a Stream
-        stCC = Stream(traces=[ccmad])
+        stcc = Stream(traces=[ccmad])
         # Run coincidence trigger on a single CC trace
         # resulting from the CFTs stack
 
         # essential threshold parameters
         # Cross correlation thresholds
-        xcor_cut = thresholdD
-        thr_on = thresholdD
-        thr_off = thresholdD - 0.15 * thresholdD
+        xcor_cut = thresholdd
+        thr_on = thresholdd
+        thr_off = thresholdd - 0.15 * thresholdd
         thr_coincidence_sum = 1.0
         similarity_thresholds = {"BH": thr_on}
         trigger_type = None
         triglist = coincidence_trigger(
-            trigger_type, thr_on, thr_off, stCC, thr_coincidence_sum,
+            trigger_type, thr_on, thr_off, stcc, thr_coincidence_sum,
             trace_ids=None,
             similarity_thresholds=similarity_thresholds,
             delete_long_trigger=False,
@@ -556,11 +556,11 @@ for day in days:
             cs[itrig] = trg['coincidence_sum']
             cft_ave[itrig] = trg['cft_peak_wmean']
             crt[itrig] = trg['cft_peaks'][0] / tstda
-            traceID = trg['trace_ids']
+            # traceID = trg['trace_ids']
             # check single channel CFT
             [nch[itrig], cft_ave[itrig], crt[itrig], cft_ave_trg[itrig],
              crt_trg[itrig], nch3[itrig], nch5[itrig], nch7[itrig],
-             nch9[itrig]] = csc(stall, stCC, trg, tstda, sample_tol,
+             nch9[itrig]] = csc(stall, stcc, trg, tstda, sample_tol,
                                 cc_threshold, nch_min, day, itemp, itrig, f1)
 
             if int(nch[itrig]) >= nch_min:
@@ -589,11 +589,11 @@ for day in days:
                         if tdifmin < 0:
                             timestart = timex + abs(tdifmin) + (UTCDateTime(
                                 ttt.stats.starttime).timestamp - UTCDateTime(
-                                refT).timestamp)
+                                reft).timestamp)
                         elif tdifmin > 0:
                             timestart = timex - abs(tdifmin) + (UTCDateTime(
                                 ttt.stats.starttime).timestamp - UTCDateTime(
-                                refT).timestamp)
+                                reft).timestamp)
 
                         timend = timestart + temp_length
                         ta = Trace()
