@@ -7,8 +7,8 @@ from obspy import read
 from obspy import read_inventory, read_events, Stream, Trace
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
-from obspy.taup.taup_create import build_taup_model, TauPyModel
-
+from obspy.taup.taup_create import build_taup_model
+from obspy.taup.tau import TauPyModel
 
 def kilometer2degrees(kilometer, radius=6371):
     """
