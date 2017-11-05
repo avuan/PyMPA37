@@ -68,7 +68,7 @@ script:
    - ./download_eida_ingv.py
    - ./download_inventory_ingv.py
    - cd ../trim_templates.dir
-   - ./trim_templates4.0.py
+   - ./trim_templates4.1.py
    - cd ../calc_ttimes.dir
    - ./calcTT06.py
    - cd ../pympa38.dir
