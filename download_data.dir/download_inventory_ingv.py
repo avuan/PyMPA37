@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 from obspy.clients.fdsn import Client
-from obspy import Catalog, UTCDateTime
-from obspy import read
-import time
+from obspy.core.utcdatetime import UTCDateTime
+
 
 client = Client("INGV")
 
