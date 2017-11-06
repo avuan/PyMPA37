@@ -3,11 +3,11 @@
 #
 
 import time
-
+import os
 from obspy.clients.fdsn import Client
 from obspy.core.utcdatetime import UTCDateTime
 
-# 
+
 client = Client("INGV")
 networks = ["MN", "IV"]
 #
@@ -16,16 +16,20 @@ networks = ["MN", "IV"]
 # "OFFI", "GUMA", "CESI", "MOMA", "CESX"]
 
 stations = ["MC2"]
-channels = ["EH*", "HH*", "HN*"]
+channels = ["EH?", "HH?", "HN?"]
 
 start = "2016-01-01T00:00:00.000"
 stop = "2016-01-02T00:00:00.000"
 
-# 24h as seconds 
+# 24h as seconds
 chuncklength = 86400
 
 # output directory
 inp_dir = "./24h/"
+
+# output directory
+if not os.path.exists(inp_dir):
+    os.makedirs(inp_dir)
 # ---------------------------do not change below
 
 for sta in stations:
@@ -34,7 +38,7 @@ for sta in stations:
     t2 = t1 + chuncklength
 
     while t2 <= t3:
-        print("station == ", sta)	
+        print("station == ", sta)
 
         for net in networks:
 
@@ -55,5 +59,5 @@ for sta in stations:
                 except Exception:
                     pass
 
-        t1 = t1 + chuncklength 
-        t2 = t2 + chuncklength 
+        t1 = t1 + chuncklength
+        t2 = t2 + chuncklength
