@@ -15,8 +15,8 @@ networks = ["MN", "IV"]
 # "LNSS", "MMO1", "NRCA", "RM33", "TERO", "T1243", "AQT1", "SMA1",
 # "OFFI", "GUMA", "CESI", "MOMA", "CESX"]
 
-stations = ["MC2"]
-channels = ["EH?", "HH?", "HN?"]
+stations = ["AQU"]
+channels = ["EHZ", "EHN", "EHE", "HHZ", "HHN", "HHE","HNZ", "HNN", "HNE"]
 
 start = "2016-01-01T00:00:00.000"
 stop = "2016-01-02T00:00:00.000"
@@ -53,8 +53,9 @@ for sta in stations:
                     dd = str(UTCDateTime(t1).day).zfill(2)
 
                     newfile = inp_dir + yy + mm + dd +\
-                        "." + sta + "." + chann[0:2]
-                    st = client.get_waveforms_bulk(bulk, filename=newfile)
+                        "." + sta + "." + chann[0:3]
+                     
+                    client.get_waveforms_bulk(bulk, filename=newfile)
                     time.sleep(2)
                 except Exception:
                     pass
