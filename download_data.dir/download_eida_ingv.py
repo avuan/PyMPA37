@@ -16,7 +16,7 @@ networks = ["MN", "IV"]
 # "OFFI", "GUMA", "CESI", "MOMA", "CESX"]
 
 stations = ["AQU"]
-channels = ["EHZ", "EHN", "EHE", "HHZ", "HHN", "HHE","HNZ", "HNN", "HNE"]
+channels = ["EHZ", "EHN", "EHE", "HHZ", "HHN", "HHE", "HNZ", "HNN", "HNE"]
 
 start = "2016-01-01T00:00:00.000"
 stop = "2016-01-02T00:00:00.000"
@@ -54,7 +54,6 @@ for sta in stations:
 
                     newfile = inp_dir + yy + mm + dd +\
                         "." + sta + "." + chann[0:3]
-                     
                     client.get_waveforms_bulk(bulk, filename=newfile)
                     time.sleep(2)
                 except Exception:
