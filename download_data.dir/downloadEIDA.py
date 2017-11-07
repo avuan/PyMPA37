@@ -33,7 +33,7 @@ def call_bulk(net, sta, chann, start, stop, chuncklength):
                     dd = str(UTCDateTime(t1).day).zfill(2)
 
                     newfile = inp_dir + yy + mm + dd + "." + sta +\
-                        "." + chann[0:2]
+                        "." + chann[0:3]
                     client.get_waveforms_bulk(bulk, filename=newfile)
                     time.sleep(2)
                 except Exception:
@@ -43,12 +43,12 @@ def call_bulk(net, sta, chann, start, stop, chuncklength):
 client = Client("INGV")
 networks = ["MN", "IV"]
 
-# stations = ["AQU", "ARRO", "CAMP", "FEMA", "FDMO", "GIGS", "LNSS", "MMO1",
-#            "NRCA", "RM33", "TERO", "T1243", "AQT1", "SMA1", "OFFI", "GUMA",
-#            "CESI", "MOMA", "CESX"]
+stations = ["AQU", "ARRO", "CAMP", "FEMA", "FDMO", "GIGS", "LNSS", "MMO1",
+            "NRCA", "RM33", "TERO", "T1243", "AQT1", "SMA1", "OFFI", "GUMA",
+            "CESI", "MOMA", "CESX"]
 
 stations = ["AQU"]
-channels = ["EH?", "HH?", "HN?"]
+channels = ["EHZ", "EHN", "EHE", "HHZ", "HHN", "HHE", "HNZ", "HNN", "HNE"]
 
 # 24h as seconds
 chuncklength = 86400
@@ -64,8 +64,8 @@ if not os.path.exists(inp_dir):
 ichoice = 0
 
 if ichoice == 0:
-    start = "2012-06-26T00:00:00.000"
-    stop = "2012-06-28T00:00:00.000"
+    start = "2016-06-26T00:00:00.000"
+    stop = "2016-06-27T00:00:00.000"
 
     for sta in stations:
 
