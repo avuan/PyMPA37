@@ -501,6 +501,7 @@ for day in days:
         # compute standard deviation of abs(ccmad)
         # tstda=np.std(abs(ccmad.data))
 
+        # aggiungere soglia di tolleranza per non includere numeri prossimi a zero
         ccm = ccmad.data[ccmad.data != 0]
         tstda = bn.nanmedian(abs(ccm))
 
