@@ -1,25 +1,9 @@
 #!/usr/bin/env python
 #
 # import useful libraries
-import os
-import sys
-import obspy
-import obspy.signal
 import numpy as np
-import math as M
-import glob
-import datetime
-import numpy.ma as ma
-import os.path
-
-from math import log10
-from obspy.core import *
-from obspy.core.event import *
-from obspy.signal import *
-from obspy.signal.util import *
-from obspy.imaging import *
-from scipy.signal import argrelmax
-from obspy import read
+from obspy.core.utcdatetime import UTCDateTime
+from obspy.core.event import read_events
 
 
 def empty(value):
@@ -31,7 +15,6 @@ def empty(value):
 
 
 # read event coordinates from catalog
-cat = Catalog()
 cat = read_events("templates.zmap", format="ZMAP")
 
 # read 'filter.par' file to setup useful variables
@@ -39,6 +22,7 @@ cat = read_events("templates.zmap", format="ZMAP")
 
 with open('filter.par') as fp:
     data = fp.read().splitlines()
+
 FlagDateTime = int(data[7])
 Flag_cc = int(data[8])
 inp_file = str(data[9])
@@ -57,10 +41,12 @@ print("min_nch == ", min_nch)
 
 fp.close()
 
-# if FlagDateTime==0 output time is in unix seconds 123845678,23 to be used for plotTM.gmt script
+# if FlagDateTime==0 output time is in unix seconds 123845678,23
+# to be used for plotTM.gmt script
 # if FlagDateTime==1 output time is a timestamp e.g 2009-03-30T16:34:25.12
 # FlagDateTime=1
-# if Flag_cc==0 read cc_ave and cc_sum at trigger time elif Flag_cc ==1 read the best cc_ave and cc_sum
+# if Flag_cc==0 read cc_ave and cc_sum at trigger time elif Flag_cc ==1
+# read the best cc_ave and cc_sum
 # within the sample tolerance interval
 # Flag_cc=1
 # defines directorY of cat.out 
@@ -86,9 +72,11 @@ cc_ave = np.empty(num_lines)
 cc_sum = np.empty(num_lines)
 nch = np.empty(num_lines)
 
-# read daily catalog as an output from running all templates on a one day coninuous data
+# read daily catalog as an output from running all templates on a
+# one day coninuous data
 #
 f = open(fileinp, 'r')
+
 for ind, line in enumerate(f):
     line = line.strip()
     # print(repr(line))
@@ -98,12 +86,14 @@ for ind, line in enumerate(f):
     times[ind] = float(UTCDateTime(columns[1]))
     #    print("TIMES ==", times[ind])
     mt[ind] = columns[2]
+
     if Flag_cc == 1:
         cc_ave[ind] = columns[3]
         cc_sum[ind] = columns[4]
     elif Flag_cc == 0:
         cc_ave[ind] = columns[5]
         cc_sum[ind] = columns[6]
+
     nch[ind] = columns[7]
 
 # search is performed on the number of detections
@@ -134,9 +124,12 @@ for it, tt in enumerate(times):
     index = np.argmax(cc_sum[indeces])
 
     # store the event value (0-15390) in the variable det[it]
-    # print("it, threshold, index,  == ", it, threshold, indeces[0][index],  template_num[indeces[0][index]])
+    # print("it, threshold, index,  == ", it, threshold, indeces[0][index],
+    # template_num[indeces[0][index]])
 
-    # print("Flag 1111", template_num[indeces[0][index]], round(times[indeces[0][index]], 2),  mt[indeces[0][index]], cc_ave[indeces[0][index]], cc_sum[indeces[0][index]])
+    # print("Flag 1111", template_num[indeces[0][index]],
+    # round(times[indeces[0][index]], 2),  mt[indeces[0][index]],
+    # cc_ave[indeces[0][index]], cc_sum[indeces[0][index]])
     strtemp = str(template_num[indeces[0][index]])
     ttdet = str(UTCDateTime(times[indeces[0][index]]))
     # print("ttdet == ", ttdet)
@@ -156,9 +149,11 @@ detections = np.unique(det.decode())
 nu = len(detections)
 print(" detections are reduced to == ", nu)
 outfile = open(fileinp + "f1", 'w+')
+
 for iu in detections:
     # print(iu)
     outfile.write(iu + "\n")
+
 outfile.close()
 
 # reorder events by time
@@ -177,9 +172,11 @@ t_ave = np.empty(num_lines1)
 t_sum = np.empty(num_lines1)
 t_nch = np.empty(num_lines1)
 
-# read daily catalog as an output from running all templates on a one day continuous data
+# read daily catalog as an output from running all templates
+# on a one day continuous data
 #
 f1 = open(fileinp1, 'r')
+
 for ind1, line in enumerate(f1):
     line = line.strip()
     # print(repr(line))
@@ -191,6 +188,7 @@ for ind1, line in enumerate(f1):
     t_ave[ind1] = columns1[3]
     t_sum[ind1] = columns1[4]
     t_nch[ind1] = columns1[5]
+
 f1.close()
 # sort arrays
 t_numr = np.empty(num_lines1)
@@ -205,6 +203,7 @@ ttmaxi = np.empty(num_lines1)
 
 ireorder = np.argsort(t_tim)
 # print ireorder
+
 for irr, jj in enumerate(ireorder):
     # print( "irr, jj == ", irr, jj)
     t_numr[irr] = t_num[jj]
@@ -214,15 +213,20 @@ for irr, jj in enumerate(ireorder):
     t_aver[irr] = t_ave[jj]
     t_sumr[irr] = t_sum[jj]
     t_nchr[irr] = t_nch[jj]
+
 outfile1 = open(fileinp1 + "f2", 'w+')
+
 for iu, ti in enumerate(t_timr):
     ttmini[iu] = ti - window_length
     ttmaxi[iu] = ti + window_length
     # print("ti - ttmaxi[iu-1] == ", ti-ttmaxi[iu-1])
+
     if iu == 0:
-        # print("ttmini, ttmaxi ===", UTCDateTime(ttmini[iu]), UTCDateTime(ttmaxi[iu]))
+        # print("ttmini, ttmaxi ===", UTCDateTime(ttmini[iu]),
+        # UTCDateTime(ttmaxi[iu]))
         # find events in a 5 seconds window for each ttmin-ttmax window
-        indeces1 = np.where(np.logical_and(t_timr >= ttmini[iu], t_timr <= ttmaxi[iu]))
+        indeces1 = np.where(np.logical_and(t_timr >=
+                                           ttmini[iu], t_timr <= ttmaxi[iu]))
 
         # find the maximum ccmad and the corresponding
         # "index" between indeces of events that are within a time interval
@@ -242,27 +246,39 @@ for iu, ti in enumerate(t_timr):
         precision = 10 ** UTCDateTime.DEFAULT_PRECISION
         tmicro = UTCDateTime(t_timr[ie]).microsecond / precision
         tmicro = UTCDateTime(t_timr[ie]).microsecond
-        print("tsecond, tmicro == ", tsecond, tmicro, UTCDateTime(t_timr[ie]).microsecond)
+        print("tsecond, tmicro == ", tsecond, tmicro,
+              UTCDateTime(t_timr[ie]).microsecond)
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
-        stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " " + str(th) + " " + str(tminute) + " " + str(
+        stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " "\
+                     + str(th) + " " + str(tminute) + " " + str(
             tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
-        # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " + str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
+        # stringtime=str(ty) + " " + str(tmm) + " " +
+        # str(td) + " " + str(th) + " " + str(tminute) + " "
+        # + str(tsecond) + "." + str(tmicro)
+
         if (t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch):
+
             if FlagDateTime == 1:
                 lon = cat[int(t_numr[ie])].origins[0].longitude
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
-                sf = stringtime + " " + str(t_magr[ie]) + " " + str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
-                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) + " " + str(dep) + " " + str(t_nchr[ie])
+                sf = stringtime + " " + str(t_magr[ie]) + " " +\
+                     str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
+                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
+                     " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
-                sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " +\
+                     str(t_sumr[ie]) + " " + str(t_nchr[ie])
+
             outfile1.write(sf + "\n")
 
     elif iu > 0 and ti > ttmaxi[iu - 1]:
-        # print("ttmini, ttmaxi ===", UTCDateTime(ttmini[iu]), UTCDateTime(ttmaxi[iu]))
+        # print("ttmini, ttmaxi ===", UTCDateTime(ttmini[iu]),
+        # UTCDateTime(ttmaxi[iu]))
         # find events in a 5 seconds window for each ttmin-ttmax window
-        indeces1 = np.where(np.logical_and(t_timr >= ttmini[iu], t_timr <= ttmaxi[iu]))
+        indeces1 = np.where(np.logical_and(t_timr >= ttmini[iu],
+                                           t_timr <= ttmaxi[iu]))
 
         # find the maximum ccmad and the corresponding
         # "index" between indeces of events that are within a time interval
@@ -281,22 +297,34 @@ for iu, ti in enumerate(t_timr):
         tsecond = UTCDateTime(t_timr[ie]).second
         tmicro = UTCDateTime(t_timr[ie]).microsecond / precision
         tmicro = UTCDateTime(t_timr[ie]).microsecond
-        print("tsecond, tmicro == ", tsecond, tmicro, UTCDateTime(t_timr[ie]).microsecond)
+        print("tsecond, tmicro == ", tsecond, tmicro, UTCDateTime(
+            t_timr[ie]).microsecond)
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
-        stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " " + str(th) + " " + str(tminute) + " " + str(
+        stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " " +\
+                     str(th) + " " + str(tminute) + " " + str(
             tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
-        # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " + str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
-        if (t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch):
+        # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " +
+        #  str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
+
+        if t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch:
+
             if FlagDateTime == 1:
                 lon = cat[int(t_numr[ie])].origins[0].longitude
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
-                sf = stringtime + " " + str(t_magr[ie]) + " " + str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
-                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) + " " + str(dep) + " " + str(t_nchr[ie])
+                sf = stringtime + " " + str(t_magr[ie]) + " " +\
+                     str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
+                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
+                     " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
-                sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                sf = str(t_timr[ie]) + " " + str(t_magr[ie]) +\
+                     " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
+
             outfile1.write(sf + "\n")
+
     elif iu > 0 and ti < ttmaxi[iu - 1]:
-        print("iur<0 ttmini, ttmaxi >===", UTCDateTime(ttmini[iu]), UTCDateTime(ttmaxi[iu]))
+        print("iur<0 ttmini, ttmaxi >===", UTCDateTime(ttmini[iu]),
+              UTCDateTime(ttmaxi[iu]))
+
 outfile1.close()
