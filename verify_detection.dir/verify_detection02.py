@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# import of useful subroutines and libraries 
+# import of useful subroutines and libraries
 # Plot template versus continuous data and check differences
 
 import glob
@@ -15,6 +15,7 @@ from obspy.core.inventory import read_inventory
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
 from obspy.taup import TauPyModel
+from obspy.taup.taup_create import build_taup_model
 
 
 def kilometer2degrees(kilometer, radius=6371):
@@ -39,7 +40,6 @@ def calc_timeshift(eve_lat, eve_lon, eve_dep, sta_lat, sta_lon):
     epi_dist, az, baz = gps2dist_azimuth(eve_lat, eve_lon, sta_lat, sta_lon)
     epi_dist = epi_dist / 1000
     deg = kilometer2degrees(epi_dist)
-    # build_taup_model(taup_model)
     model = TauPyModel(model=taup_model)
     arrivals = model.get_travel_times(
         source_depth_in_km=eve_dep, distance_in_degree=deg,
@@ -88,8 +88,8 @@ def read_input_par(vfile):
     det_dur = float(data[30])
     taup_model = str(data[31])
     return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
-           tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog,\
-           start_det, stop_det, det_dur, taup_model
+        tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog,\
+        start_det, stop_det, det_dur, taup_model
 
 
 def read_sta_inv(invfiles, sta):
@@ -102,11 +102,14 @@ def read_sta_inv(invfiles, sta):
             elev = nt0[0].elevation
             return lat, lon, elev
 
-
 vfile = 'verify.par'
 [stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft,
  UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_det, stop_det,
  det_dur, taup_model] = read_input_par(vfile)
+
+# generate model for travel times
+gen_model = taup_model + '.tvel'
+build_taup_model(gen_model)
 
 invfiles = ["inv.ingv.iv", "inv.ingv.mn"]
 Flag_Save_Figure = 1
@@ -182,7 +185,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     eve_lon = cat[template_num].origins[0].longitude
     eve_dep = cat[template_num].origins[0].depth / 1000
 
-    # read time and parameters of template event 
+    # read time and parameters of template event
     ot = cat[template_num].origins[0].time.datetime
     ot1 = UTCDateTime(ot)
     yyt = ot1.year
@@ -198,8 +201,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     magt = cat[template_num].magnitudes[0].mag
     template_otime = UTCDateTime(yyt, mmt, ddt, hht, mint, sst, microsect)
     template_daily_otime = UTCDateTime(
-        yyt, mmt, ddt, hht, mint, sst, microsect).timestamp - \
-                           UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
+        yyt, mmt, ddt, hht, mint, sst, microsect).timestamp -\
+        UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
     print("yyt, mmt, ddt, hht, mint, sst, microsect == ", yyt, mmt,
           ddt, hht, mint, sst, microsect)
     print("detection_daily_otime, template_daily_otime == ",
@@ -344,8 +347,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             if count == 1:
                 axarray[count - 1].text(det_dur * 0.65, 1.4 * magg,
                                         'Detection = ' + str(detection_num) +
-                                        ' ' + 'Template = ' + str(template_num),
-                                        fontsize=16)
+                                        ' ' + 'Template = ' + str(
+                                            template_num), fontsize=16)
                 print("det_dur, magg == ", det_dur, magg)
 
                 # axes = plt.gca()
@@ -367,6 +370,6 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         fig.set_size_inches(15.98, 11.93)
         # print "sfig===", sfig
         outfile = sday + sstat + "." + str(detection_num) +\
-                  "." + str(template_num).zfill(3) + ".png"
+            "." + str(template_num).zfill(3) + ".png"
         fig.savefig(outfile, dpi=300)
         fig.clf()
