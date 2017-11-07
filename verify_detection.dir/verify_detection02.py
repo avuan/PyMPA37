@@ -5,24 +5,16 @@
 # Plot template versus continuous data and check differences
 
 import glob
-import json
-import math as M
 from math import log10
-from pprint import pprint
 
-import bottleneck as bn
 import matplotlib.pyplot as plt
 import numpy as np
-import obspy.signal
-from obspy.core import *
-from obspy.core.event import *
+from obspy.core import Stream, Trace, read
+from obspy.core.event import read_events
 from obspy.core.inventory import read_inventory
+from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
-from obspy.imaging import *
-from obspy.signal import *
-from obspy.signal.util import *
-from obspy.taup import *
-from obspy.taup.taup_create import *
+from obspy.taup import TauPyModel
 
 
 def kilometer2degrees(kilometer, radius=6371):
@@ -37,11 +29,6 @@ def kilometer2degrees(kilometer, radius=6371):
     :rtype: float
     :return: Distance in degrees as a floating point number.
 
-    .. rubric:: Example
-
-    >>> from obspy.core.util import kilometer2degrees
-    >>> kilometer2degrees(300)
-    2.6979648177561915
     """
     pi = 3.14159265359
     return kilometer / (2.0 * radius * pi / 360.0)
@@ -54,7 +41,9 @@ def calc_timeshift(eve_lat, eve_lon, eve_dep, sta_lat, sta_lon):
     deg = kilometer2degrees(epi_dist)
     # build_taup_model(taup_model)
     model = TauPyModel(model=taup_model)
-    arrivals = model.get_travel_times(source_depth_in_km=eve_dep, distance_in_degree=deg, phase_list=["s", "S"])
+    arrivals = model.get_travel_times(
+        source_depth_in_km=eve_dep, distance_in_degree=deg,
+        phase_list=["s", "S"])
     print(arrivals)
     arrS = arrivals[0]
     # correction to be used to evaluate the origin time of event
@@ -65,7 +54,8 @@ def calc_timeshift(eve_lat, eve_lon, eve_dep, sta_lat, sta_lon):
 def mag_detect(magt, amaxt, amaxd):
     """
     mag_detect(mag_temp,amax_temp,amax_detect)
-    Returns the magnitude of the new detection by using the template/detection amplitude trace ratio
+    Returns the magnitude of the new detection by using
+    the template/detection amplitude trace ratio
     and the magnitude of the template event
     """
     print("magt == ", magt)
@@ -97,7 +87,9 @@ def read_input_par(vfile):
     stop_det = int(data[29])
     det_dur = float(data[30])
     taup_model = str(data[31])
-    return stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_det, stop_det, det_dur, taup_model
+    return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
+           tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog,\
+           start_det, stop_det, det_dur, taup_model
 
 
 def read_sta_inv(invfiles, sta):
@@ -112,14 +104,16 @@ def read_sta_inv(invfiles, sta):
 
 
 vfile = 'verify.par'
-stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_det, stop_det, det_dur, taup_model = read_input_par(
-    vfile)
+[stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft,
+ UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog, start_det, stop_det,
+ det_dur, taup_model] = read_input_par(vfile)
+
 invfiles = ["inv.ingv.iv", "inv.ingv.mn"]
 Flag_Save_Figure = 1
 # pay attention it must be equal to detection
 
 # read Template Catalog
-cat = Catalog()
+
 cat = read_events(ev_catalog, format="ZMAP")
 ncat = len(cat)
 aa = np.loadtxt(ev_catalog)
@@ -174,8 +168,9 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     print("ss ==", ss)
 
     detection_otime = UTCDateTime(yy, mm, dd, hh, mmn, ss)
-    detection_daily_otime = UTCDateTime(yy, mm, dd, hh, mmn, ss).timestamp - UTCDateTime(yy, mm, dd, 0, 0, 0,
-                                                                                         0).timestamp
+    detection_daily_otime = UTCDateTime(
+        yy, mm, dd, hh, mmn, ss).timestamp - UTCDateTime(
+        yy, mm, dd, 0, 0, 0, 0).timestamp
     magd = dcmag[detection_num]
     avcc = dcavcc[detection_num]
     thre = dcthre[detection_num]
@@ -202,11 +197,13 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
     magt = cat[template_num].magnitudes[0].mag
     template_otime = UTCDateTime(yyt, mmt, ddt, hht, mint, sst, microsect)
-    template_daily_otime = UTCDateTime(yyt, mmt, ddt, hht, mint, sst, microsect).timestamp - UTCDateTime(yyt, mmt, ddt,
-                                                                                                         0, 0, 0,
-                                                                                                         0).timestamp
-    print("yyt, mmt, ddt, hht, mint, sst, microsect == ", yyt, mmt, ddt, hht, mint, sst, microsect)
-    print("detection_daily_otime, template_daily_otime == ", detection_daily_otime, template_daily_otime)
+    template_daily_otime = UTCDateTime(
+        yyt, mmt, ddt, hht, mint, sst, microsect).timestamp - \
+                           UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
+    print("yyt, mmt, ddt, hht, mint, sst, microsect == ", yyt, mmt,
+          ddt, hht, mint, sst, microsect)
+    print("detection_daily_otime, template_daily_otime == ",
+          detection_daily_otime, template_daily_otime)
     # define useful parameters for the stream of continuous data
     # string name
     sday = str(yy)[2:4] + str(mm).zfill(2) + str(dd).zfill(2)
@@ -232,11 +229,13 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     for file1 in glob.glob(cont_dir + sday + '.*' + '.' + channel[0]):
         print(" file1 ===", file1)
         st_cont += read(file1)
-    st_cont.filter('bandpass', freqmin=bandpass[0], freqmax=bandpass[1], zerophase=True)
+    st_cont.filter('bandpass', freqmin=bandpass[0], freqmax=bandpass[1],
+                   zerophase=True)
     # load ttimes calculated by calcTT02.py
     d = {}
 
-    # define travel time file for each template (travel time files for synchronizing CFTs are obtained
+    # define travel time file for each template (travel time
+    # files for synchronizing CFTs are obtained
     # running calcTT01.py
     travel_file = "%s%s.ttimes" % (ttimes_dir, template_num)
 
@@ -284,7 +283,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             print(st1_cont.__str__(extended=True))
             tc = st1_cont[0]
             print("Trace Id.i= ", st1_cont[0])
-            tc.trim(starttime=UTCDateTime(detection_otime), endtime=UTCDateTime(detection_otime) + 2 * det_dur,
+            tc.trim(starttime=UTCDateTime(detection_otime),
+                    endtime=UTCDateTime(detection_otime) + 2 * det_dur,
                     pad=True, nearest_sample=True, fill_value=0)
             print("tc.stats.starttime == ", tc.stats.starttime)
             print("detection_otime == ", UTCDateTime(detection_otime))
@@ -310,28 +310,41 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             mag = amaxad
             tlen = UTCDateTime(detection_otime).timestamp
 
-            # tt.trim(starttime=UTCDateTime(template_otime), endtime=UTCDateTime(ttbegin)+5, fill_value=0)
-            ############################################################################################
-            ## Plot detected events versus template
-            ############################################################################################
-            tad = np.arange(0, (tt.stats.npts / tt.stats.sampling_rate), tt.stats.delta)
-            t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate, tc.stats.delta)
+            # tt.trim(starttime=UTCDateTime(template_otime),
+            # endtime=UTCDateTime(ttbegin)+5, fill_value=0)
+            # Plot detected events versus template
+
+            tad = np.arange(0, (tt.stats.npts / tt.stats.sampling_rate),
+                            tt.stats.delta)
+            t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate,
+                          tc.stats.delta)
             axarray[count - 1].plot(t, tc.data, 'k', lw=1.5)
             axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5)
-            axarray[count - 1].text(det_dur * 0.05, 0.65 * magg, smagd, fontsize=11)
-            axarray[count - 1].text(det_dur * 0.45, 0.65 * magg, 'avcc= ' + str(avcc), fontsize=11)
-            axarray[count - 1].text(det_dur * 0.7, 0.65 * magg, 'thre= ' + str(thre), fontsize=11)
-            axarray[count - 1].text(det_dur, 0.65 * magg, 'template_num=' + str(template_num), fontsize=11)
-            axarray[count - 1].text(det_dur * 1.8, 0.65 * magg, tc.stats.station + '.' + tc.stats.channel, fontsize=11)
+            axarray[count - 1].text(det_dur * 0.05, 0.65 * magg,
+                                    smagd, fontsize=11)
+            axarray[count - 1].text(det_dur * 0.45, 0.65 * magg,
+                                    'avcc= ' + str(avcc), fontsize=11)
+            axarray[count - 1].text(det_dur * 0.7, 0.65 * magg,
+                                    'thre= ' + str(thre), fontsize=11)
+            axarray[count - 1].text(det_dur, 0.65 * magg, 'template_num=' +
+                                    str(template_num), fontsize=11)
+            axarray[count - 1].text(det_dur * 1.8, 0.65 * magg,
+                                    tc.stats.station + '.' +
+                                    tc.stats.channel, fontsize=11)
             print("det_dur, magg == ", det_dur, magg)
-            # axarray[count-1].text(det_dur, -0.9*magg, 'template_time=' + str(tt.stats.starttime), fontsize=11)
+            # axarray[count-1].text(det_dur, -0.9*magg, 'template_time=' +
+            # str(tt.stats.starttime), fontsize=11)
 
             # uncomment 2 lines below to display template and detection time
-            # axarray[count-1].text(det_dur, -0.9*magg, 'template_time=' + str(tt.stats.starttime-ori), fontsize=11)
-            # axarray[count-1].text(det_dur*0.05, -0.9*magg, 'detection_time=' + str(detection_otime), fontsize=11)
+            # axarray[count-1].text(det_dur, -0.9*magg, 'template_time=' +
+            # str(tt.stats.starttime-ori), fontsize=11)
+            # axarray[count-1].text(det_dur*0.05, -0.9*magg,
+            # 'detection_time=' + str(detection_otime), fontsize=11)
+
             if count == 1:
                 axarray[count - 1].text(det_dur * 0.65, 1.4 * magg,
-                                        'Detection = ' + str(detection_num) + ' ' + 'Template = ' + str(template_num),
+                                        'Detection = ' + str(detection_num) +
+                                        ' ' + 'Template = ' + str(template_num),
                                         fontsize=16)
                 print("det_dur, magg == ", det_dur, magg)
 
@@ -342,9 +355,10 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             # plt.ylim(-amaxat,amaxat)
             # fig = plt.gcf()
             # fig.set_size_inches(11.93, 15.98,11.93)
-            ###############################################################################
-            # Set Flag_Save_Figure=1 to save png files or Flag_Save_Figure=0 to show results
-            ###############################################################################
+
+            # Set Flag_Save_Figure=1 to save png files or
+            # Flag_Save_Figure=0 to show results
+
     if Flag_Save_Figure == 0:
         plt.show()
     if Flag_Save_Figure == 1:
@@ -352,6 +366,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         # fig.set_size_inches(11.93,15.98)
         fig.set_size_inches(15.98, 11.93)
         # print "sfig===", sfig
-        outfile = sday + sstat + "." + str(detection_num) + "." + str(template_num).zfill(3) + ".png"
+        outfile = sday + sstat + "." + str(detection_num) +\
+                  "." + str(template_num).zfill(3) + ".png"
         fig.savefig(outfile, dpi=300)
         fig.clf()
