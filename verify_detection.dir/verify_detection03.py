@@ -97,7 +97,6 @@ def read_input_par(vfile):
 def read_sta_inv(invfiles, sta):
     for invv in invfiles:
         inv = read_inventory(invv)
-        print(inv)
         nt0 = inv[0].select(station=sta)
         if bool(nt0):
             lat = nt0[0].latitude
@@ -135,7 +134,7 @@ def read_stats(stats_dir, template_num, yymmdd,
         if ichan >= linestart and ichan < linestop:
             # print("lstat1 == ", lstat1)
             ch_string = ch_name + ' ' + ch_cmp
-            print(ch_string)
+
             if ch_string in lstat1:
                 cols = lstat1.split()
                 channel_name = cols[0]
