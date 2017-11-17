@@ -1,24 +1,26 @@
-#Line 1 -- list of stations
-#Line 2 -- list of channels
-#Line 3 -- list of networks
-#Line 4 -- Lowpass frequency
-#Line 5 -- Highpass frequency
-#Line 6 -- Trimmed Time before S-wave
-#Line 7 -- Trimmed Time after S-wave
-#Line 8 -- UTC precision
-#Line 9 -- Continuous data dir
-#Line 10 -- Template data dir
-#Line 11 -- Ttimes data dir  
-#Line 12 -- Zmap catalog
-#Line 13 -- Starting template
-#Line 14 -- Stopping template
-#Line 15 -- Half of the visualized time window in sec 
-#Line 16 -- Taup Model 
-ORI SALB SCHR SIRI CUC MMN T0701 T0711 T0715 CET2
-BHE BHN BHZ
+# Line 1 -- list of stations
+# Line 2 -- list of channels
+# Line 3 -- list of networks
+# Line 4 -- Lowpass frequency
+# Line 5 -- Highpass frequency
+# Line 6 -- Trimmed Time before S-wave
+# Line 7 -- Trimmed Time after S-wave
+# Line 8 -- UTC precision
+# Line 9 -- Continuous data dir
+# Line 10 -- Template data dir
+# Line 11 -- Ttimes data dir  
+# Line 12 -- Zmap catalog
+# Line 13 -- Starting detection
+# Line 14 -- Stopping detection
+# Line 15 -- Half of the visualized time window in sec 
+# Line 16 -- Taup Model 
+# Line 17 -- Flag_Save_Fig (0 = show, 1 = save figure)
+# Line 18 -- Flag_Read_Stats (0 = no stats, 1 = read stats) 
+MMN CUC SALB SIRI SCHR 
+EHE EHN EHZ HHE HHN HHZ HNE HNN HNZ
 IV MN
 2.0
-8.0
+5.0
 2.5
 2.5
 6
@@ -28,5 +30,7 @@ ttimes
 templates.zmap
 0
 2
-20.0
-pollino_guerra
+15.0
+emilia
+1
+1
