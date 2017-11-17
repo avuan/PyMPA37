@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # 2016/08/23 Version 34 - parameters24 input file needed
 # 2017/10/27 Version 39 - Reformatted PEP8 Code
+# 2017/11/05 Version 40 - Corrections to tdifmin, tstda calculations
 
 # First Version August 2014 - Last October 2017 (author: Alessandro Vuan)
 
@@ -11,8 +12,7 @@
 # Method's references:
 # The code is developed and maintained at
 # Istituto Nazionale di Oceanografia e Geofisica di Trieste (OGS)
-# and was inspired by the following work by Aitaro Kato and collegues.
-
+# and was inspired by the Aitaro Kato and collegues.
 # Kato A, Obara K, Igarashi T, Tsuruoka H, Nakagawa S, Hirata N (2012)
 # Propagation of slow slip leading up to the 2011 Mw 9.0 Tohoku-Oki
 # earthquake. Science doi:10.1126/science.1215141
@@ -32,6 +32,7 @@
 import glob
 import os
 import os.path
+import timeit
 from math import log10
 
 import bottleneck as bn
@@ -76,7 +77,7 @@ def xcorr(x, y):
 
 
 def process_input(itemp, nn, ss, ich, stream_df):
-    global stream_cft
+    st_cft = Stream()
     # itemp = template number, nn =  network code, ss = station code,
     # ich = channel code, stream_df = Stream() object as defined in obspy
     # library
@@ -107,14 +108,14 @@ def process_input(itemp, nn, ss, ich, stream_df):
                              'mseed': {'dataquality': 'D'}}
                     trnew = Trace(data=fct, header=stats)
                     tc = trnew.copy()
-                    stream_cft += Stream(traces=[tc])
+                    st_cft = Stream(traces=[tc])
                 else:
                     print("warning no stream is found")
             else:
                 print("warning template event is empty")
         except OSError:
             pass
-
+    return st_cft
 
 def quality_cft(trac):
     std_trac = bn.nanstd(abs(trac.data))
@@ -123,6 +124,7 @@ def quality_cft(trac):
 
 def stack(stall, df, tstart, npts, stdup, stddown):
     std_trac = np.empty(len(stall))
+    td = np.empty(len(stall))
     """
     Function to stack traces in a stream with different trace.id and
     different starttime but the same number of datapoints.
@@ -135,13 +137,24 @@ def stack(stall, df, tstart, npts, stdup, stddown):
     avestdup = avestd * stdup
     avestddw = avestd * stddown
 
-    for itr, tr in enumerate(stall):
+    for jtr, tr in enumerate(stall):
 
-        if (std_trac[itr] >= avestdup or std_trac[itr] <= avestddw):
+        if (std_trac[jtr] >= avestdup or std_trac[jtr] <= avestddw):
             stall.remove(tr)
-            print("removed Trace n Stream = ...", tr, std_trac[itr], avestd)
+            print("removed Trace n Stream = ...", tr, std_trac[jtr], avestd)
+            td[jtr] = 99.99
+            print(td[jtr])
+        else:
+            sta = tr.stats.station
+            chan = tr.stats.channel
+            net = tr.stats.network
+            s = "%s.%s.%s" % (net, sta, chan)
+            td[jtr] = float(d[s])
+            print(td[jtr])
 
+    tdifmin = min(td)
     itr = len(stall)
+
     tdat = bn.nansum([tr.data for tr in stall], axis=0) / itr
     sta = "STACK"
     cha = "BH"
@@ -150,7 +163,7 @@ def stack(stall, df, tstart, npts, stdup, stddown):
               'channel': cha, 'starttime': tstart,
               'sampling_rate': df, 'npts': npts}
     tt = Trace(data=tdat, header=header)
-    return tt
+    return tt, tdifmin
 
 
 def csc(stall, stcc, trg, tstda, sample_tol,
@@ -251,7 +264,7 @@ def reject_moutliers(data, m=1.):
     # print("nonzeroind ==", nonzeroind)
     data = data[nonzeroind]
     # print("data ==", data)
-    datamed = np.median(data)
+    datamed = bn.nanmedian(data)
     # print("datamed ==", datamed)
     d = np.abs(data - datamed)
     mdev = 2 * np.median(d)
@@ -266,6 +279,12 @@ def reject_moutliers(data, m=1.):
         # print("inds ==", inds)
     return data[inds]
 
+def mad(dmad):
+    # calculate daily median absolute deviation
+    ccm = dmad[dmad!= 0]
+    med_val = bn.nanmedian(ccm)
+    tstda = bn.nansum(abs(ccm - med_val)/len(ccm))
+    return tstda
 
 # read 'parameters24' file to setup useful variables
 
@@ -303,14 +322,14 @@ cat = read_events(ev_catalog, format="ZMAP")
 ncat = len(cat)
 
 # read template from standard input
-startTemplate = input("INPUT: Enter Starting template ")
-stopTemplate = input("INPUT: Enter Ending template ")
-print("OUTPUT: Running from template", startTemplate,  " to ", stopTemplate)
-# t_start = start_itemp
-# t_stop = stop_itemp
+# startTemplate = input("INPUT: Enter Starting template ")
+# stopTemplate = input("INPUT: Enter Ending template ")
+# print("OUTPUT: Running from template", startTemplate,  " to ", stopTemplate)
+t_start = start_itemp
+t_stop = stop_itemp
 
-t_start = int(startTemplate)
-t_stop = int(stopTemplate)
+# t_start = int(startTemplate)
+# t_stop = int(stopTemplate)
 
 fname = day_list
 
@@ -433,6 +452,7 @@ for day in days:
         min_time_key = [k for k, v in d.items() if v == str(min_time_value)]
         # print("key, mintime == ", min_time_key, min_time_value)
 
+        # clear global_variable
         stream_cft.clear()
 
         for nn in networks:
@@ -440,10 +460,8 @@ for day in days:
             for ss in stations:
 
                 for ich in channels:
-                    # print("check 01 == ok")
-                    process_input(itemp, nn, ss, ich, stream_df)
+                    stream_cft += process_input(itemp, nn, ss, ich, stream_df)
 
-        # print("check 02 == ok")
         stnew = Stream()
         stall = Stream()
         tr = Trace()
@@ -460,7 +478,6 @@ for day in days:
 
         for idx, tc_cft in enumerate(stream_cft):
             # get station name from trace
-            # s=tc_cft.id
             sta = tc_cft.stats.station
             chan = tc_cft.stats.channel
             net = tc_cft.stats.network
@@ -468,13 +485,7 @@ for day in days:
 
             npts = h24 / delta
             s = "%s.%s.%s" % (net, sta, chan)
-            # read S-wave travel time for synchro
-            # (network.station.channel = column[0]
-            # arr.s correction = column[1])
-            # Scol=columns[1]
-            # print(d)
             tdif[idx] = float(d[s])
-        tdifmin = min(tdif[0:])
 
         for idx, tc_cft in enumerate(stream_cft):
             # get stream starttime
@@ -489,28 +500,25 @@ for day in days:
             stall += tc_cft.trim(
                 starttime=ts, endtime=te,
                 nearest_sample=True, pad=True, fill_value=0)
-
         tstart = min([tr.stats.starttime for tr in stall])
         df = stall[0].stats.sampling_rate
         npts = stall[0].stats.npts
 
         # compute mean cross correlation from the stack of
         # CFTs (see stack function)
-        ccmad = stack(stall, df, tstart, npts, stdup, stddown)
+        ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown)
 
-        # compute standard deviation of abs(ccmad)
-        # tstda=np.std(abs(ccmad.data))
-
-        ccm = ccmad.data[ccmad.data != 0]
-        tstda = bn.nanmedian(abs(ccm))
+        # compute mean absolute deviation of abs(ccmad)
+        tstda = mad(ccmad.data)
 
         # define threshold as 9 times std  and quality index
         thresholdd = (factor_thre * tstda)
+        
         # Trace ccmad is stored in a Stream
         stcc = Stream(traces=[ccmad])
+        
         # Run coincidence trigger on a single CC trace
         # resulting from the CFTs stack
-
         # essential threshold parameters
         # Cross correlation thresholds
         xcor_cut = thresholdd
@@ -544,19 +552,22 @@ for day in days:
         f1 = open(fout1, 'w+')
         fout2 = "%s.%s.stats.mag" % (str(itemp), day[0:6])
         f2 = open(fout2, 'w+')
-
+        
+        tdifmin = min(tdif[0:])
         for itrig, trg in enumerate(triglist):
-
+            # tdifmin is computed for contributing channels
+            # within the stack function
+            # 
             if tdifmin == min_time_value:
-                tt[itrig] = trg['time'] + tdifmin
+                tt[itrig] = trg['time'] + min_time_value
             elif tdifmin != min_time_value:
                 diff_time = min_time_value - tdifmin
-                tt[itrig] = trg['time'] + diff_time
+                tt[itrig] = trg['time'] + diff_time + min_time_value
 
             cs[itrig] = trg['coincidence_sum']
             cft_ave[itrig] = trg['cft_peak_wmean']
             crt[itrig] = trg['cft_peaks'][0] / tstda
-            traceID = trg['trace_ids']
+            # traceID = trg['trace_ids']
             # check single channel CFT
             [nch[itrig], cft_ave[itrig], crt[itrig], cft_ave_trg[itrig],
              crt_trg[itrig], nch3[itrig], nch5[itrig], nch7[itrig],
