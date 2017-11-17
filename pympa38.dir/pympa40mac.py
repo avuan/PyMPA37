@@ -143,14 +143,14 @@ def stack(stall, df, tstart, npts, stdup, stddown):
             stall.remove(tr)
             print("removed Trace n Stream = ...", tr, std_trac[jtr], avestd)
             td[jtr] = 99.99
-            print(td[jtr])
+            # print(td[jtr])
         else:
             sta = tr.stats.station
             chan = tr.stats.channel
             net = tr.stats.network
             s = "%s.%s.%s" % (net, sta, chan)
             td[jtr] = float(d[s])
-            print(td[jtr])
+            # print(td[jtr])
 
     tdifmin = min(td)
     itr = len(stall)
