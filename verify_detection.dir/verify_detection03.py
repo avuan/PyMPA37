@@ -158,7 +158,7 @@ gen_model = taup_model + '.tvel'
 build_taup_model(gen_model)
 
 # set inventory files
-invfiles = ["inv.ingv.iv", "inv.ingv.mn"]
+invfiles = ["inv.ingv.iv.xml", "inv.ingv.mn.xml", "inv.ingv.tv.xml"]
 
 # read Template Catalog
 cat = read_events(ev_catalog, format="ZMAP")
