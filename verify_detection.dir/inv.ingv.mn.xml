@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fdsnstationxml xmlns:xsi="http://www.w3.org/2001/xmlschema-instance" xmlns="http://www.fdsn.org/xml/station/1"
+                schemaversion="1.0"
+                xsi:schemalocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.0.xsd">
+    <source>seisnet-mysql</source>
+    <sender>ingv-cnt</sender>
+    <module>ingv-cnt web service: fdsnws-station | version: 1.1.34</module>
+    <moduleuri>http://webservices.rm.ingv.it/fdsnws/station/1/query?channel=%2a&amp;endtime=2017-01-02t00%3a00%3a00.000000&amp;format=xml&amp;network=mn&amp;starttime=2009-01-01t00%3a00%3a00.000000&amp;station=%2a</moduleuri>
+    <created>2017-06-30t20:29:54</created>
+    <network code="tv" startdate="1988-01-01t00:00:00" restrictedstatus="open">
+        <description>temporary experiment in the 2012 Emilia seismic sequence
+        </description>
+        <totalnumberstations>35</totalnumberstations>
+        <selectednumberstations>28</selectednumberstations>
+        <station code="aio" startdate="2012-05-31t12:00:00"
+                 restrictedstatus="open">
+            <latitude>37.9712</latitude>
+            <longitude>15.233</longitude>
+            <elevation>751</elevation>
+            <site>
+                <name>antillo, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="aqu" startdate="1988-08-01t00:00:00"
+                 restrictedstatus="open">
+            <latitude>42.354</latitude>
+            <longitude>13.405</longitude>
+            <elevation>710</elevation>
+            <site>
+                <name>l aquila</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="arpr" startdate="2014-01-23t00:00:00"
+                 restrictedstatus="open">
+            <latitude>39.09289</latitude>
+            <longitude>38.33557</longitude>
+            <elevation>1537</elevation>
+            <site>
+                <name>geofon/mednet/koeri station arapgir, turkey</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="bly" startdate="2009-05-21t08:00:00"
+                 restrictedstatus="open">
+            <latitude>44.7488</latitude>
+            <longitude>17.1839</longitude>
+            <elevation>256</elevation>
+            <site>
+                <name>banja luka, bosnia and herzegovina</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="bni" startdate="1988-04-30t00:00:00"
+                 restrictedstatus="open">
+            <latitude>45.052</latitude>
+            <longitude>6.678</longitude>
+            <elevation>1395</elevation>
+            <site>
+                <name>bardonecchia, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="bzs" startdate="2005-11-23t00:00:00"
+                 restrictedstatus="open">
+            <latitude>45.6188</latitude>
+            <longitude>21.6401</longitude>
+            <elevation>260</elevation>
+            <site>
+                <name>buzias</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="cel" startdate="2003-10-29t00:00:00"
+                 restrictedstatus="open">
+            <latitude>38.2603</latitude>
+            <longitude>15.8939</longitude>
+            <elevation>702</elevation>
+            <site>
+                <name>celeste, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="cltb" startdate="2000-09-07t00:00:00"
+                 restrictedstatus="open">
+            <latitude>37.578</latitude>
+            <longitude>13.216</longitude>
+            <elevation>949</elevation>
+            <site>
+                <name>caltabellotta, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="cuc" startdate="2003-07-16t00:00:00"
+                 restrictedstatus="open">
+            <latitude>39.9938</latitude>
+            <longitude>15.8155</longitude>
+            <elevation>637</elevation>
+            <site>
+                <name>castrocucco, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="divs" startdate="2005-07-14t00:00:00"
+                 restrictedstatus="open">
+            <latitude>44.0981</latitude>
+            <longitude>19.9917</longitude>
+            <elevation>1000</elevation>
+            <site>
+                <name>divcibare,serbia</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="dpc" startdate="1993-01-01t00:00:00"
+                 restrictedstatus="open">
+            <latitude>50.3502</latitude>
+            <longitude>16.3222</longitude>
+            <elevation>748</elevation>
+            <site>
+                <name>dobruska/polom, cz</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="idi" startdate="1994-10-02t00:00:00"
+                 restrictedstatus="open">
+            <latitude>35.288</latitude>
+            <longitude>24.89</longitude>
+            <elevation>750</elevation>
+            <site>
+                <name>anogia, greece</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="isp" startdate="1996-10-24t00:00:00"
+                 restrictedstatus="open">
+            <latitude>37.8433</latitude>
+            <longitude>30.5093</longitude>
+            <elevation>1100</elevation>
+            <site>
+                <name>isparta, turkey</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="kek" startdate="2000-03-02t00:00:00"
+                 restrictedstatus="open">
+            <latitude>39.7127</latitude>
+            <longitude>19.79623</longitude>
+            <elevation>227</elevation>
+            <site>
+                <name>kerkira, greece</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="klv" startdate="2009-04-08t00:00:00"
+                 restrictedstatus="open">
+            <latitude>38.04367</latitude>
+            <longitude>22.15042</longitude>
+            <elevation>758</elevation>
+            <site>
+                <name>kalavryta achaia</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="malt" startdate="2000-05-26t00:00:00"
+                 enddate="2011-12-31t00:00:00" restrictedstatus="open">
+            <latitude>38.3134</latitude>
+            <longitude>38.4273</longitude>
+            <elevation>1120</elevation>
+            <site>
+                <name>malatya, turkey</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="pdg" startdate="2008-07-18t00:00:00"
+                 restrictedstatus="open">
+            <latitude>42.4297</latitude>
+            <longitude>19.2608</longitude>
+            <elevation>40</elevation>
+            <site>
+                <name>podgorica, crna gora</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="rtc" startdate="2002-07-22t12:00:00"
+                 restrictedstatus="open">
+            <latitude>33.9881</latitude>
+            <longitude>-6.8569</longitude>
+            <elevation>50</elevation>
+            <site>
+                <name>rabat, morocco</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="thl" startdate="2006-11-28t12:00:00"
+                 restrictedstatus="open">
+            <latitude>39.56468</latitude>
+            <longitude>22.0144</longitude>
+            <elevation>86</elevation>
+            <site>
+                <name>klokotos,thessalia</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="tip" startdate="2003-09-10t00:00:00"
+                 restrictedstatus="open">
+            <latitude>39.1794</latitude>
+            <longitude>16.7583</longitude>
+            <elevation>789</elevation>
+            <site>
+                <name>timpagrande, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="tir" startdate="1994-07-13t00:00:00"
+                 restrictedstatus="open">
+            <latitude>41.3472</latitude>
+            <longitude>19.8631</longitude>
+            <elevation>247</elevation>
+            <site>
+                <name>tirana, albania</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="tri" startdate="1996-05-15t00:00:00"
+                 restrictedstatus="open">
+            <latitude>45.709</latitude>
+            <longitude>13.764</longitude>
+            <elevation>161</elevation>
+            <site>
+                <name>trieste, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="tue" startdate="2001-11-14t00:00:00"
+                 restrictedstatus="open">
+            <latitude>46.47223</latitude>
+            <longitude>9.34732</longitude>
+            <elevation>1924</elevation>
+            <site>
+                <name>stuetta, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="vae" startdate="2000-01-01t00:00:00"
+                 restrictedstatus="open">
+            <latitude>37.469</latitude>
+            <longitude>14.3533</longitude>
+            <elevation>735</elevation>
+            <site>
+                <name>valguarnera, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="vlc" startdate="2001-01-01t00:00:00"
+                 restrictedstatus="open">
+            <latitude>44.1594</latitude>
+            <longitude>10.3864</longitude>
+            <elevation>555</elevation>
+            <site>
+                <name>villacollemandina, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="vsl" startdate="1989-07-19t00:00:00"
+                 restrictedstatus="open">
+            <latitude>39.496</latitude>
+            <longitude>9.378</longitude>
+            <elevation>370</elevation>
+            <site>
+                <name>villasalto, italy</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="vts" startdate="1996-05-10t00:00:00"
+                 restrictedstatus="open">
+            <latitude>42.618</latitude>
+            <longitude>23.235</longitude>
+            <elevation>1490</elevation>
+            <site>
+                <name>vitosha, bulgary</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+        <station code="wdd" startdate="1995-07-06t00:00:00"
+                 restrictedstatus="open">
+            <latitude>35.8373</latitude>
+            <longitude>14.5242</longitude>
+            <elevation>44</elevation>
+            <site>
+                <name>wied dalam</name>
+            </site>
+            <creationdate>2017-06-30t20:29:52</creationdate>
+        </station>
+    </network>
+</fdsnstationxml>
