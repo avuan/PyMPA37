@@ -7,7 +7,8 @@
 
 import os.path
 from math import log10
-
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from obspy.core import Stream, Trace, read
