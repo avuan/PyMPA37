@@ -1,7 +1,7 @@
 <application>
   <component name="FindSettings">
-    <option name="customScope" value="All Places" />
-    <option name="defaultScopeName" value="All Places" />
-    <option name="SEARCH_SCOPE" value="All Places" />
+    <option name="customScope" value="File '.../verify_detection.dir/inv.ingv.mn - [PyMPA40]'" />
+    <option name="defaultScopeName" value="File '.../verify_detection.dir/inv.ingv.mn - [PyMPA40]'" />
+    <option name="SEARCH_SCOPE" value="File '.../verify_detection.dir/inv.ingv.mn - [PyMPA40]'" />
   </component>
 </application>
