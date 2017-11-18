@@ -450,7 +450,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         fig = plt.gcf()
         fig.set_size_inches(15.98, 11.93)
         # print "sfig===", sfig
-        outfile = sday + sstat + "." + str(detection_num) +\
+        outfile = sday + "." + str(detection_num) +\
             "." + str(template_num).zfill(3) + ".png"
         fig.savefig(outfile, dpi=300)
         fig.clf()
