@@ -8,7 +8,6 @@ import os.path
 from math import log10
 
 import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 from obspy.core import Stream, Trace, read
 from obspy.core.event import read_events
@@ -19,6 +18,7 @@ from obspy.taup import TauPyModel
 from obspy.taup.taup_create import build_taup_model
 
 matplotlib.use('agg')
+import matplotlib.pyplot as plt
 
 
 def kilometer2degrees(kilometer, radius=6371):
