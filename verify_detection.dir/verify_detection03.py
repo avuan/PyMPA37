@@ -4,10 +4,11 @@
 # import of useful subroutines and libraries
 # Plot template versus continuous data and check differences
 
-
 import os.path
 from math import log10
+
 import matplotlib
+
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import numpy as np
@@ -324,7 +325,6 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         slat, slon, selev = read_sta_inv(invfiles, sstat)
         print("sta_lat, sta_lon === ", eve_lat, eve_lon, eve_dep, slat, slon)
 
-
         if Flag_Read_Stats == 1:
             # compute shift from the origin time
             stats_dir = './'
@@ -426,7 +426,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
             on_of = ori + tlen_bef
             axarray[count - 1].axvline(on_of, color='b',
-                linewidth=1.8, linestyle='--')
+                                       linewidth=1.8, linestyle='--')
             if count == 1:
                 axarray[count - 1].text(det_dur * 0.10, 1.4 * magg,
                                         'Detection = ' + str(detection_num) +
@@ -441,7 +441,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
             on_of = ori + tlen_bef
             axarray[count - 1].axvline(on_of, color='b',
-                linewidth=1.8, linestyle='--')
+                                       linewidth=1.8, linestyle='--')
 
     if Flag_Save_Figure == 0:
         plt.show()
