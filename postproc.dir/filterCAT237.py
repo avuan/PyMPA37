@@ -49,11 +49,11 @@ fp.close()
 # read the best cc_ave and cc_sum
 # within the sample tolerance interval
 # Flag_cc=1
-# defines directorY of cat.out 
+# defines directorY of cat.out
 # cont_dir=["./"]
 # set time precision for UTCDATETIME
 # UTCDateTime.DEFAULT_PRECISION=6
-# set itime interval before and after detection time to apply for a search 
+# set itime interval before and after detection time to apply for a search
 # tt_int=6.0
 # min_threshold
 # min_nch
@@ -61,7 +61,7 @@ fp.close()
 # loop over detections
 # inp1=input()
 fileinp = inp_file
-# count input file's number of lines 
+# count input file's number of lines
 num_lines = sum(1 for line in open(fileinp))
 print(" detections (all) == ", num_lines)
 # define empty array for each field data
@@ -250,7 +250,7 @@ for iu, ti in enumerate(t_timr):
               UTCDateTime(t_timr[ie]).microsecond)
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
         stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " "\
-                     + str(th) + " " + str(tminute) + " " + str(
+            + str(th) + " " + str(tminute) + " " + str(
             tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
         # stringtime=str(ty) + " " + str(tmm) + " " +
         # str(td) + " " + str(th) + " " + str(tminute) + " "
@@ -263,13 +263,13 @@ for iu, ti in enumerate(t_timr):
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
                 sf = stringtime + " " + str(t_magr[ie]) + " " +\
-                     str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
+                    str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
                     int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
-                     " " + str(dep) + " " + str(t_nchr[ie])
+                    " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
                 sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " +\
-                     str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                    str(t_sumr[ie]) + " " + str(t_nchr[ie])
 
             outfile1.write(sf + "\n")
 
@@ -301,10 +301,11 @@ for iu, ti in enumerate(t_timr):
             t_timr[ie]).microsecond)
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
         stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " " +\
-                     str(th) + " " + str(tminute) + " " + str(
+            str(th) + " " + str(tminute) + " " + str(
             tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
         # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " +
-        #  str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
+        # str(th) + " " + str(tminute) + " " + str(tsecond) + "." +
+        # str(tmicro)
 
         if t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch:
 
@@ -313,13 +314,13 @@ for iu, ti in enumerate(t_timr):
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
                 sf = stringtime + " " + str(t_magr[ie]) + " " +\
-                     str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
+                    str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
                     int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
-                     " " + str(dep) + " " + str(t_nchr[ie])
+                    " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
                 sf = str(t_timr[ie]) + " " + str(t_magr[ie]) +\
-                     " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                    " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
 
             outfile1.write(sf + "\n")
 
