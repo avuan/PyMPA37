@@ -559,7 +559,6 @@ for day in days:
         for itrig, trg in enumerate(triglist):
             # tdifmin is computed for contributing channels
             # within the stack function
-            
             if tdifmin == min_time_value:
                 tt[itrig] = trg['time'] + min_time_value
             elif tdifmin != min_time_value:
