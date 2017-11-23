@@ -100,9 +100,8 @@ for ind, line in enumerate(f):
 # define an empty numpy array
 #
 det = np.chararray(num_lines, 80)
-# for each new detection evaluate the time span and define indeces corresponding
-# to events that are detected within this time interval
-#
+# for each new detection evaluate the time span and define indeces
+# corresponding to events that are detected within this time interval
 
 for it, tt in enumerate(times):
     ttmin = tt - window_length
@@ -113,9 +112,9 @@ for it, tt in enumerate(times):
     # printout indeces
     # print("it, indeces == ", it, indeces)
 
-    # find the maximum ccmad and the corresponding 
+    # find the maximum ccmad and the corresponding
     # "index" between indeces of events that are within a time interval
-    # for each new detection we search for the index of the detection 
+    # for each new detection we search for the index of the detection
     # within the same time window that shows the maximum CCMAD
 
     threshold = np.max(cc_sum[indeces])
@@ -143,7 +142,7 @@ for it, tt in enumerate(times):
     # print("dets == ", dets)
     det[it] = dets
     # print("det == ", det[it].decode())
-    # find unique detections - avoid duplications - and printout 
+    # find unique detections - avoid duplications - and printout
 #
 detections = np.unique(det.decode())
 nu = len(detections)
