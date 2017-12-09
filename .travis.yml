@@ -87,4 +87,8 @@ after_success:
   #- codecov
 
 notifications:
-    email: false
+  email:
+    recipients:
+      - avuan@inogs.it
+    on_success: never # default: change
+    on_failure: always # default: always
