@@ -7,10 +7,10 @@ from obspy.core.utcdatetime import UTCDateTime
 
 client = Client("INGV")
 
-starttime = UTCDateTime("2001-01-01")
+starttime = UTCDateTime("2011-01-01")
 endtime = UTCDateTime("2017-06-30")
 
 inventory = client.get_stations(
     starttime=starttime, endtime=endtime,
-    network="IV,MN", sta="*", channel="*", filename="inv.ingv", format='xml')
+    network="MN", sta="AQU", channel="*", filename="inv.aqu", format='xml')
 print(inventory)
