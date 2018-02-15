@@ -49,11 +49,11 @@ fp.close()
 # read the best cc_ave and cc_sum
 # within the sample tolerance interval
 # Flag_cc=1
-# defines directorY of cat.out 
+# defines directorY of cat.out
 # cont_dir=["./"]
 # set time precision for UTCDATETIME
 # UTCDateTime.DEFAULT_PRECISION=6
-# set itime interval before and after detection time to apply for a search 
+# set itime interval before and after detection time to apply for a search
 # tt_int=6.0
 # min_threshold
 # min_nch
@@ -61,7 +61,7 @@ fp.close()
 # loop over detections
 # inp1=input()
 fileinp = inp_file
-# count input file's number of lines 
+# count input file's number of lines
 num_lines = sum(1 for line in open(fileinp))
 print(" detections (all) == ", num_lines)
 # define empty array for each field data
@@ -100,9 +100,8 @@ for ind, line in enumerate(f):
 # define an empty numpy array
 #
 det = np.chararray(num_lines, 80)
-# for each new detection evaluate the time span and define indeces corresponding
-# to events that are detected within this time interval
-#
+# for each new detection evaluate the time span and define indeces
+# corresponding to events that are detected within this time interval
 
 for it, tt in enumerate(times):
     ttmin = tt - window_length
@@ -113,9 +112,9 @@ for it, tt in enumerate(times):
     # printout indeces
     # print("it, indeces == ", it, indeces)
 
-    # find the maximum ccmad and the corresponding 
+    # find the maximum ccmad and the corresponding
     # "index" between indeces of events that are within a time interval
-    # for each new detection we search for the index of the detection 
+    # for each new detection we search for the index of the detection
     # within the same time window that shows the maximum CCMAD
 
     threshold = np.max(cc_sum[indeces])
@@ -143,7 +142,7 @@ for it, tt in enumerate(times):
     # print("dets == ", dets)
     det[it] = dets
     # print("det == ", det[it].decode())
-    # find unique detections - avoid duplications - and printout 
+    # find unique detections - avoid duplications - and printout
 #
 detections = np.unique(det.decode())
 nu = len(detections)
@@ -250,7 +249,7 @@ for iu, ti in enumerate(t_timr):
               UTCDateTime(t_timr[ie]).microsecond)
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
         stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " "\
-                     + str(th) + " " + str(tminute) + " " + str(
+            + str(th) + " " + str(tminute) + " " + str(
             tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
         # stringtime=str(ty) + " " + str(tmm) + " " +
         # str(td) + " " + str(th) + " " + str(tminute) + " "
@@ -263,13 +262,13 @@ for iu, ti in enumerate(t_timr):
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
                 sf = stringtime + " " + str(t_magr[ie]) + " " +\
-                     str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
+                    str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
                     int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
-                     " " + str(dep) + " " + str(t_nchr[ie])
+                    " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
                 sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " +\
-                     str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                    str(t_sumr[ie]) + " " + str(t_nchr[ie])
 
             outfile1.write(sf + "\n")
 
@@ -301,10 +300,11 @@ for iu, ti in enumerate(t_timr):
             t_timr[ie]).microsecond)
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
         stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " " +\
-                     str(th) + " " + str(tminute) + " " + str(
+            str(th) + " " + str(tminute) + " " + str(
             tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
         # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " +
-        #  str(th) + " " + str(tminute) + " " + str(tsecond) + "." + str(tmicro)
+        # str(th) + " " + str(tminute) + " " + str(tsecond) + "." +
+        # str(tmicro)
 
         if t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch:
 
@@ -313,13 +313,13 @@ for iu, ti in enumerate(t_timr):
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
                 sf = stringtime + " " + str(t_magr[ie]) + " " +\
-                     str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
+                    str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
                     int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
-                     " " + str(dep) + " " + str(t_nchr[ie])
+                    " " + str(dep) + " " + str(t_nchr[ie])
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
                 sf = str(t_timr[ie]) + " " + str(t_magr[ie]) +\
-                     " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                    " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
 
             outfile1.write(sf + "\n")
 

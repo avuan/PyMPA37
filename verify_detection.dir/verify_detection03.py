@@ -4,11 +4,10 @@
 # import of useful subroutines and libraries
 # Plot template versus continuous data and check differences
 
-
 import os.path
 from math import log10
 
-import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 from obspy.core import Stream, Trace, read
 from obspy.core.event import read_events
@@ -17,6 +16,9 @@ from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
 from obspy.taup import TauPyModel
 from obspy.taup.taup_create import build_taup_model
+
+matplotlib.use('agg')
+import matplotlib.pyplot as plt
 
 
 def kilometer2degrees(kilometer, radius=6371):
@@ -323,7 +325,6 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         slat, slon, selev = read_sta_inv(invfiles, sstat)
         print("sta_lat, sta_lon === ", eve_lat, eve_lon, eve_dep, slat, slon)
 
-
         if Flag_Read_Stats == 1:
             # compute shift from the origin time
             stats_dir = './'
@@ -425,7 +426,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
             on_of = ori + tlen_bef
             axarray[count - 1].axvline(on_of, color='b',
-                linewidth=1.8, linestyle='--')
+                                       linewidth=1.8, linestyle='--')
             if count == 1:
                 axarray[count - 1].text(det_dur * 0.10, 1.4 * magg,
                                         'Detection = ' + str(detection_num) +
@@ -440,7 +441,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
             on_of = ori + tlen_bef
             axarray[count - 1].axvline(on_of, color='b',
-                linewidth=1.8, linestyle='--')
+                                       linewidth=1.8, linestyle='--')
 
     if Flag_Save_Figure == 0:
         plt.show()
@@ -449,7 +450,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         fig = plt.gcf()
         fig.set_size_inches(15.98, 11.93)
         # print "sfig===", sfig
-        outfile = sday + sstat + "." + str(detection_num) +\
+        outfile = sday + "." + str(detection_num) +\
             "." + str(template_num).zfill(3) + ".png"
         fig.savefig(outfile, dpi=300)
         fig.clf()

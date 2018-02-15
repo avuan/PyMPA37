@@ -32,7 +32,6 @@
 import glob
 import os
 import os.path
-import timeit
 from math import log10
 
 import bottleneck as bn
@@ -116,6 +115,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
         except OSError:
             pass
     return st_cft
+
 
 def quality_cft(trac):
     std_trac = bn.nanstd(abs(trac.data))
@@ -279,12 +279,14 @@ def reject_moutliers(data, m=1.):
         # print("inds ==", inds)
     return data[inds]
 
+
 def mad(dmad):
     # calculate daily median absolute deviation
-    ccm = dmad[dmad!= 0]
+    ccm = dmad[dmad != 0]
     med_val = bn.nanmedian(ccm)
     tstda = bn.nansum(abs(ccm - med_val)/len(ccm))
     return tstda
+
 
 # read 'parameters24' file to setup useful variables
 
@@ -513,10 +515,10 @@ for day in days:
 
         # define threshold as 9 times std  and quality index
         thresholdd = (factor_thre * tstda)
-        
+
         # Trace ccmad is stored in a Stream
         stcc = Stream(traces=[ccmad])
-        
+
         # Run coincidence trigger on a single CC trace
         # resulting from the CFTs stack
         # essential threshold parameters
@@ -552,12 +554,11 @@ for day in days:
         f1 = open(fout1, 'w+')
         fout2 = "%s.%s.stats.mag" % (str(itemp), day[0:6])
         f2 = open(fout2, 'w+')
-        
+
         tdifmin = min(tdif[0:])
         for itrig, trg in enumerate(triglist):
             # tdifmin is computed for contributing channels
             # within the stack function
-            # 
             if tdifmin == min_time_value:
                 tt[itrig] = trg['time'] + min_time_value
             elif tdifmin != min_time_value:
