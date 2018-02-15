@@ -103,7 +103,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
                              'location': '',
                              'channel': tc.stats.channel,
                              'starttime': tc.stats.starttime,
-                             'npts': len(tc.data),
+                             'npts': len(fct),
                              'sampling_rate': tc.stats.sampling_rate,
                              'mseed': {'dataquality': 'D'}}
                     trnew = Trace(data=fct, header=stats)
