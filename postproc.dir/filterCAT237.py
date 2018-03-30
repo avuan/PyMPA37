@@ -70,6 +70,8 @@ times = np.empty(num_lines)
 mt = np.empty(num_lines)
 cc_ave = np.empty(num_lines)
 cc_sum = np.empty(num_lines)
+cc_ave0 = np.empty(num_lines)
+cc_sum0 = np.empty(num_lines)
 nch = np.empty(num_lines)
 
 # read daily catalog as an output from running all templates on a
@@ -90,6 +92,8 @@ for ind, line in enumerate(f):
     if Flag_cc == 1:
         cc_ave[ind] = columns[3]
         cc_sum[ind] = columns[4]
+        cc_ave0[ind] = columns[5]
+        cc_sum0[ind] = columns[6]
     elif Flag_cc == 0:
         cc_ave[ind] = columns[5]
         cc_sum[ind] = columns[6]
@@ -118,9 +122,13 @@ for it, tt in enumerate(times):
     # within the same time window that shows the maximum CCMAD
 
     threshold = np.max(cc_sum[indeces])
-    # print("threshold == ", threshold)
     # get index of the sub array indeces
-    index = np.argmax(cc_sum[indeces])
+    ind_winners = np.argwhere(cc_sum[indeces] == np.max(cc_sum[indeces]))
+    if len(ind_winners) > 1:
+        index = np.argmax(cc_sum0[indeces])
+    else:
+        index = np.argmax(cc_sum[indeces])
+
 
     # store the event value (0-15390) in the variable det[it]
     # print("it, threshold, index,  == ", it, threshold, indeces[0][index],
