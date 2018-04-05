@@ -122,13 +122,24 @@ for it, tt in enumerate(times):
     # within the same time window that shows the maximum CCMAD
 
     threshold = np.max(cc_sum[indeces])
-    # get index of the sub array indeces
+    ave_th = np.max(cc_ave[indeces])
+
+    # if multiple detections with the same value for cc_sum are found
     ind_winners = np.argwhere(cc_sum[indeces] == np.max(cc_sum[indeces]))
-    if len(ind_winners) > 1:
-        index = np.argmax(cc_sum0[indeces])
+    nind = len(ind_winners)
+
+    if nind > 1 and ave_th == 1.0:
+        winner = 0
+
+        for iind in ind_winners.ravel():
+            iind1 = np.asarray(indeces).flatten()[iind]
+
+            if cc_sum0[iind1] > winner:
+                winner = cc_sum0[iind1]
+                index = iind
+
     else:
         index = np.argmax(cc_sum[indeces])
-
 
     # store the event value (0-15390) in the variable det[it]
     # print("it, threshold, index,  == ", it, threshold, indeces[0][index],
@@ -263,7 +274,7 @@ for iu, ti in enumerate(t_timr):
         # str(td) + " " + str(th) + " " + str(tminute) + " "
         # + str(tsecond) + "." + str(tmicro)
 
-        if (t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch):
+        if t_sumr[ie] > min_threshold and t_nchr[ie] >= min_nch:
 
             if FlagDateTime == 1:
                 lon = cat[int(t_numr[ie])].origins[0].longitude
