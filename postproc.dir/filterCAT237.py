@@ -128,9 +128,12 @@ for it, tt in enumerate(times):
     ind_winners = np.argwhere(cc_sum[indeces] == np.max(cc_sum[indeces]))
     nind = len(ind_winners)
 
+    # if multiple detections with cc_ave == 1.0
     if nind > 1 and ave_th == 1.0:
         winner = 0
 
+        # find index for which the cc_sum at sample tolerance 0 is
+        # maximum
         for iind in ind_winners.ravel():
             iind1 = np.asarray(indeces).flatten()[iind]
 
