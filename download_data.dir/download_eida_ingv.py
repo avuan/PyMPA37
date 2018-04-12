@@ -57,6 +57,7 @@ for sta in stations:
                     client.get_waveforms_bulk(bulk, filename=newfile)
                     time.sleep(2)
                 except Exception:
+                    time.sleep(1)
                     pass
 
         t1 = t1 + chuncklength
