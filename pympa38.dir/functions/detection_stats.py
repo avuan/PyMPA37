@@ -34,13 +34,15 @@ def read_detections_stats(infolder):
     
     filesfolder = os.listdir(infolder)
     
+    all_dets = []
+    
     for detfile in filesfolder:
+        
         if detfile.endswith('.stats'):
             with open(infolder+detfile) as detections_file:
                 detections = detections_file.read()
                 detections = detections.split(';')
-                
-                all_dets = []
+
                 
                 for detection in detections:
                     
@@ -92,5 +94,6 @@ def read_detections_stats(infolder):
                     det_tuple = (stachanstats, origin_data)
                     all_dets.append(det_tuple)
 
-                return(all_dets)
+    print(all_dets)
+    return(all_dets)
 
