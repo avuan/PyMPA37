@@ -1,6 +1,12 @@
-from functions import detection as ds
-infolder = 'Detections/'
-alldet = ds.read_detections_cat(infolder)
+from functions import detection_stats as ds
 
-for d in alldet:
-    print(d.orig_time)
+infolder = 'Detections/'
+alldets = ds.read_detections_stats(infolder)
+
+for info in alldets:
+    sta_chan_stats, origins = info
+    for sta_chan_stat in sta_chan_stats:
+        if sta_chan_stat.xcorr > 0.5:
+            print(sta_chan_stat.station)
+
+    print(origins.orig_time)

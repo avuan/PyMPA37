@@ -1,4 +1,4 @@
-def decluster(all_det, between_time):
+def decluster_cat(all_det, between_time):
     unique_detections = []
     for master in all_det:
         keep = True
@@ -11,7 +11,7 @@ def decluster(all_det, between_time):
             unique_detections.append(master)
     return unique_detections
 
-def mag_time_plot(detections):
+def mag_time_plot_cat(detections):
     from matplotlib import pyplot as plt
     mags = []
     times = []
@@ -25,7 +25,7 @@ def mag_time_plot(detections):
     plt.ylim(minmag-0.5, maxmag+0.5)
     plt.show()
 
-def high_cc(all_det, ccval):
+def high_cc_cat(all_det, ccval):
     high_cc_val = []
     for detection in all_det:
         if detection.avr_cc >= float(ccval):
@@ -34,7 +34,7 @@ def high_cc(all_det, ccval):
         pass
     return high_cc_val
 
-def extract_detections(detections, st_path, freqmin, freqmax):
+def extract_detections_cat(detections, st_path, freqmin, freqmax):
     from obspy import read
     for detection in detections:
         det_year = str(detection.orig_time.year)[2:]
@@ -62,5 +62,3 @@ def extract_detections(detections, st_path, freqmin, freqmax):
         st.normalize()
         st.plot(outfile=str(detection.orig_time)+'.png', format='PNG')
         print('Done with :', str(detection.orig_time))
-
-
