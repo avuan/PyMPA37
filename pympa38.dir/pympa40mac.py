@@ -338,7 +338,7 @@ fname = day_list
 # array of days is built deleting last line character (/newline)
 # ls -1 command include a newline character at the end
 with open(fname) as fl:
-    days = [line[:-1] for line in fl]
+    days = [line for line in fl]
     print(days)
 
 fl.close()
