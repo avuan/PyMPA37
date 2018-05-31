@@ -406,8 +406,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             print(tad, tad + ori)
             t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate,
                           tc.stats.delta)
-            axarray[count - 1].plot(t, tc.data, 'k', lw=1.0)
-            axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5)
+            axarray[count - 1].plot(t, tc.data, 'k', lw=1.0, zorder=5)
+            axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5, zorder=1)
             # axarray[count - 1].plot(t, tc.data, 'k', lw=1.0)
             axarray[count - 1].text(det_dur * 1.45, 0.45 * magg,
                                     smagd, fontsize=12)
