@@ -10,14 +10,12 @@ from obspy.core.utcdatetime import UTCDateTime
 client = Client("INGV")
 networks = ["IV"]
 #
-stations=["APEC", "NARO", "ATPI", "ATPC", "ATBU", "FRON", "ATVO", "ATFO",
-          "ATSC", "SSFR", "ATLO", "MURB", "FOSV", "ATCC", "PE3", "PARC",
-          "BADI"]
+stations=["APEC", "NARO"]
 
 channels = ["EH*", "HH*"]
 
 start = "2011-01-01T00:00:00.000"
-stop = "2012-01-01T00:00:00.000"
+stop = "2011-01-02T00:00:00.000"
 
 # 24h as seconds
 chuncklength = 86400
