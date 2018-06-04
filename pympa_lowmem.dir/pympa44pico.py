@@ -543,7 +543,6 @@ for day in days:
 
             # Trace ccmad is stored in a Stream
             stcc = Stream(traces=[ccmad])
-            ccmad.clear()
 
             # Run coincidence trigger on a single CC trace
             # resulting from the CFTs stack
@@ -672,6 +671,7 @@ for day in days:
                         str(cft_ave_trg[itrig]), str(crt_trg[itrig]),
                         str(int(nch[itrig])))
                     f.write(str1)
+                    del ccmad
                     stcc.clear()
     f1.close()
     f2.close()
