@@ -532,6 +532,7 @@ for day in days:
 
             # compute mean cross correlation from the stack of
             # CFTs (see stack function)
+
             ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown)
 
             # compute mean absolute deviation of abs(ccmad)
@@ -542,6 +543,7 @@ for day in days:
 
             # Trace ccmad is stored in a Stream
             stcc = Stream(traces=[ccmad])
+            ccmad.clear()
 
             # Run coincidence trigger on a single CC trace
             # resulting from the CFTs stack
@@ -670,6 +672,7 @@ for day in days:
                         str(cft_ave_trg[itrig]), str(crt_trg[itrig]),
                         str(int(nch[itrig])))
                     f.write(str1)
+                    stcc.clear()
     f1.close()
     f2.close()
     f.close()
