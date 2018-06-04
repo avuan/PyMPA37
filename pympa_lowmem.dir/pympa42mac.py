@@ -422,24 +422,6 @@ for day in days:
                     stream_df += Stream(traces=[tc])
                 except:
                     pass
-            
-            st = read(finpc1)
-            st.merge(method=1, fill_value=0)
-            tc = st[0]
-            stat = tc.stats.station
-            chan = tc.stats.channel
-            tc.detrend('constant')
-            # ensuring that 24h continuous trace starts at
-            # 00 hour 00 minut 00.0 seconds
-            trim_filloneday(tc, iiyear, iimonth, iiday, iihour, iimin, iisec)
-            tc.filter("bandpass", freqmin=bandpass[0],
-                  freqmax=bandpass[1], zerophase=True)
-            # store detrended and filtered continuous data in a Stream
-            # this is needed to evaluate a new detection magnitude
-            # if triggers are found
-            # before applying the convolution verify that template event exists
-            stream_df += Stream(traces=[tc])
-
 
         ntl = len(stt)
         amaxat = np.empty(ntl)
