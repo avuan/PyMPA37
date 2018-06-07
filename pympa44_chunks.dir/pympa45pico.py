@@ -116,7 +116,7 @@ def quality_cft(trac):
     return std_trac
 
 
-def stack(stall, df, tstart, npts, stdup, stddown, chan_max):
+def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
     std_trac = np.empty(len(stall))
     td = np.empty(len(stall))
     """
@@ -147,8 +147,8 @@ def stack(stall, df, tstart, npts, stdup, stddown, chan_max):
             # print(td[jtr])
     
     itr = len(stall)
-
-    if itr >= chan_max:
+    print("itr == ", itr)
+    if itr >= nch_min:
         tdifmin = min(td)
         tdat = np.nansum([tr.data for tr in stall], axis=0) / itr
         sta = "STACK"
@@ -161,7 +161,10 @@ def stack(stall, df, tstart, npts, stdup, stddown, chan_max):
 
     else:
         tdifmin = None
-        tt = Trace(data=None, header=None)
+        header = {'network': net, 'station': sta,
+                  'channel': cha, 'starttime': tstart,
+                  'sampling_rate': df, 'npts': npts}
+        tt = Trace(data=np.zeros(npts), header=header)
 
     return tt, tdifmin
 
@@ -428,6 +431,7 @@ for day in days:
             chunk_start += h24/nchunk
 
         for t1, t2 in chunks:
+            print(t1, t2)
             stream_df.clear()
             for tr in stt:
                 finpc1 = "%s%s.%s.%s" % (cont_dir, str(day), str(tr.stats.station), str(tr.stats.channel))
@@ -518,7 +522,7 @@ for day in days:
                 net = tc_cft.stats.network
                 delta = tc_cft.stats.delta
 
-                npts = h24 / delta
+                npts = (h24 / nchunk) / delta
                 s = "%s.%s.%s" % (net, sta, chan)
                 tdif[idx] = float(d[s])
 
@@ -527,7 +531,7 @@ for day in days:
                 tstart[idx] = tc_cft.stats.starttime + tdif[idx]
                 # waveforms should have the same number of npts
                 # and should be synchronized to the S-wave travel time
-                secs = h24 + 60
+                secs = (h24 / nchunk) + 60
                 tend[idx] = tstart[idx] + secs
                 check_npts = (tend[idx] - tstart[idx]) / tc_cft.stats.delta
                 ts = UTCDateTime(tstart[idx], precision=UTC_prec)
@@ -542,8 +546,8 @@ for day in days:
             # compute mean cross correlation from the stack of
             # CFTs (see stack function)
 
-            ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown, chan_max)
-
+            ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown, nch_min)
+            print("tdifmin == ", tdifmin)
             if tdifmin != None:
 
                 # compute mean absolute deviation of abs(ccmad)
