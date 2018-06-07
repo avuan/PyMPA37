@@ -73,8 +73,8 @@ script:
    - ./calcTT06.py
    - cd ../pympa38.dir
    - ./pympa40mac.py 
-   - cd ../pympa_lowmem.dir
-   - ./pympa42mac.py
+   - cd ../pympa44_chunks.dir
+   - ./pympa44mac.py
    - cd ../postproc.dir
    - ./postproc37.sh  
    - cd ../verify_detection.dir
