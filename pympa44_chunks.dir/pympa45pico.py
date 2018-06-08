@@ -444,18 +444,20 @@ for day in days:
 
                     try:
                         st = read(finpc1, starttime=t1, endtime=t2)
-                        st.merge(method=1, fill_value=0)
-                        tc = st[0]
-                        stat = tc.stats.station
-                        chan = tc.stats.channel
-                        tc.detrend('constant')
-                        # 24h continuous trace starts at 00 h 00 m 00.0s
-                        trim_fill(tc, t1, t2)
-                        tc.filter("bandpass", freqmin=bandpass[0],
-                                  freqmax=bandpass[1], zerophase=True)
-                        # store detrended and filtered continuous data
-                        # in a Stream
-                        stream_df += Stream(traces=[tc])
+
+                        if len(st) != 0:
+                            st.merge(method=1, fill_value=0)
+                            tc = st[0]
+                            stat = tc.stats.station
+                            chan = tc.stats.channel
+                            tc.detrend('constant')
+                            # 24h continuous trace starts at 00 h 00 m 00.0s
+                            trim_fill(tc, t1, t2)
+                            tc.filter("bandpass", freqmin=bandpass[0],
+                                      freqmax=bandpass[1], zerophase=True)
+                            # store detrended and filtered continuous data
+                            # in a Stream
+                            stream_df += Stream(traces=[tc])
 
                     except IOError:
                         pass
