@@ -462,81 +462,82 @@ for day in days:
                     except IOError:
                         pass
 
-            ntl = len(stt)
-            amaxat = np.empty(ntl)
-            # for each template event
-            # md=np.empty(ntl)
-            md = np.zeros(ntl)
-            damaxat = {}
-            # reference time to be used for retrieving time synchronization
-            reft = min([tr.stats.starttime for tr in stt])
+            if len(stream_df) != 0:
 
-            for il, tr in enumerate(stt):
-                amaxat[il] = max(abs(tr.data))
-                sta_t = tr.stats.station
-                cha_t = tr.stats.channel
-                tid_t = "%s.%s" % (sta_t, cha_t)
-                damaxat[tid_t] = float(amaxat[il])
-
-            # define travel time file for each template (travel time files
-            # for synchronizing CFTs are obtained running calcTT01.py
-            travel_file = "%s%s.ttimes" % (travel_dir, str(itemp))
-            # print("travel_file = ", travel_file)
-            # store ttimes info in a dictionary
-
-            with open(travel_file, "r") as ttim:
-                d = dict(x.rstrip().split(None, 1) for x in ttim)
-                ttim.close()
-
-            # print(d)
-            # find minimum time to recover origin time
-            time_values = [float(v) for v in d.values()]
-            min_time_value = min(time_values)
-            # print("min_time_value == ", min_time_value)
-            min_time_key = [k for k, v in d.items()
-                            if v == str(min_time_value)]
-            # print("key, mintime == ", min_time_key, min_time_value)
-
-            # clear global_variable
-            stream_cft.clear()
-            stcc = Stream()
-
-            for nn in networks:
-
-                for ss in stations:
-
-                    for ich in channels:
-                        stream_cft += process_input(itemp, nn, ss,
-                                                    ich, stream_df)
-
-            stall.clear()
-            stcc.clear()
-            stnew = Stream()
-            tr = Trace()
-
-            tc_cft = Trace()
-            tsnew = UTCDateTime()
-
-            # seconds in 24 hours
-
-            nfile = len(stream_cft)
-
-            if nfile != 0:
+                ntl = len(stt)
+                amaxat = np.empty(ntl)
+                # for each template event
+                # md=np.empty(ntl)
+                md = np.zeros(ntl)
+                damaxat = {}
+                # reference time to be used for retrieving time synchronization
+                reft = min([tr.stats.starttime for tr in stt])
+                
+                for il, tr in enumerate(stt):
+                    amaxat[il] = max(abs(tr.data))
+                    sta_t = tr.stats.station
+                    cha_t = tr.stats.channel
+                    tid_t = "%s.%s" % (sta_t, cha_t)
+                    damaxat[tid_t] = float(amaxat[il])
+                
+                # define travel time file for each template (travel time files
+                # for synchronizing CFTs are obtained running calcTT01.py
+                travel_file = "%s%s.ttimes" % (travel_dir, str(itemp))
+                # print("travel_file = ", travel_file)
+                # store ttimes info in a dictionary
+                
+                with open(travel_file, "r") as ttim:
+                    d = dict(x.rstrip().split(None, 1) for x in ttim)
+                    ttim.close()
+                
+                # print(d)
+                # find minimum time to recover origin time
+                time_values = [float(v) for v in d.values()]
+                min_time_value = min(time_values)
+                # print("min_time_value == ", min_time_value)
+                min_time_key = [k for k, v in d.items()
+                                if v == str(min_time_value)]
+                # print("key, mintime == ", min_time_key, min_time_value)
+                
+                # clear global_variable
+                stream_cft.clear()
+                stcc = Stream()
+                
+                for nn in networks:
+                
+                    for ss in stations:
+                
+                        for ich in channels:
+                            stream_cft += process_input(itemp, nn, ss,
+                                                        ich, stream_df)
+                
+                stall.clear()
+                stcc.clear()
+                stnew = Stream()
+                tr = Trace()
+                
+                tc_cft = Trace()
+                tsnew = UTCDateTime()
+                
+                # seconds in 24 hours
+                
+                nfile = len(stream_cft)
+                
                 tstart = np.empty(nfile)
                 tend = np.empty(nfile)
                 tdif = np.empty(nfile)
-
+                
                 for idx, tc_cft in enumerate(stream_cft):
                     # get station name from trace
                     sta = tc_cft.stats.station
                     chan = tc_cft.stats.channel
                     net = tc_cft.stats.network
                     delta = tc_cft.stats.delta
-
+                
                     npts = (h24 / nchunk) / delta
                     s = "%s.%s.%s" % (net, sta, chan)
                     tdif[idx] = float(d[s])
-
+                
                 for idx, tc_cft in enumerate(stream_cft):
                     # get stream starttime
                     tstart[idx] = tc_cft.stats.starttime + tdif[idx]
@@ -553,24 +554,24 @@ for day in days:
                 tstart = min([tr.stats.starttime for tr in stall])
                 df = stall[0].stats.sampling_rate
                 npts = stall[0].stats.npts
-
+                
                 # compute mean cross correlation from the stack of
                 # CFTs (see stack function)
-
+                
                 ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown,
                                        nch_min)
                 print("tdifmin == ", tdifmin)
-
+                
                 if tdifmin is not None:
                     # compute mean absolute deviation of abs(ccmad)
                     tstda = mad(ccmad.data)
-
+                
                     # define threshold as 9 times std  and quality index
                     thresholdd = (factor_thre * tstda)
-
+                
                     # Trace ccmad is stored in a Stream
                     stcc = Stream(traces=[ccmad])
-
+                
                     # Run coincidence trigger on a single CC trace
                     # resulting from the CFTs stack
                     # essential threshold parameters
@@ -588,7 +589,7 @@ for day in days:
                         delete_long_trigger=False,
                         trigger_off_extension=3.0, details=True)
                     ntrig = len(triglist)
-
+                
                     tt = np.empty(ntrig)
                     cs = np.empty(ntrig)
                     nch = np.empty(ntrig)
@@ -603,19 +604,19 @@ for day in days:
                     mm = np.empty(ntrig)
                     timex = UTCDateTime()
                     tdifmin = min(tdif[0:])
-
+                
                     for itrig, trg in enumerate(triglist):
                         # tdifmin is computed for contributing channels
                         # within the stack function
                         #
-
+                
                         if tdifmin == min_time_value:
                             tt[itrig] = trg['time'] + min_time_value
-
+                
                         elif tdifmin != min_time_value:
                             diff_time = min_time_value - tdifmin
                             tt[itrig] = trg['time'] + diff_time + min_time_value
-
+                
                         cs[itrig] = trg['coincidence_sum']
                         cft_ave[itrig] = trg['cft_peak_wmean']
                         crt[itrig] = trg['cft_peaks'][0] / tstda
@@ -633,30 +634,30 @@ for day in days:
                                                                       day,
                                                                       itemp,
                                                                       itrig, f1)
-
+                
                         if int(nch[itrig]) >= nch_min:
                             nn = len(stream_df)
                             # nn=len(stt)
                             amaxac = np.zeros(nn)
                             md = np.zeros(nn)
-
+                
                             # for each trigger, detrended, and filtered continuous
                             # data channels are trimmed and amplitude useful to
                             # estimate magnitude is measured.
                             damaxac = {}
                             mchan = {}
                             timex = UTCDateTime(tt[itrig])
-
+                
                             for il, tc in enumerate(stream_df):
                                 ss = tc.stats.station
                                 ich = tc.stats.channel
                                 netwk = tc.stats.network
-
+                
                                 if stt.select(station=ss, channel=ich).__nonzero__():
                                     ttt = stt.select(station=ss, channel=ich)[0]
                                     s = "%s.%s.%s" % (netwk, ss, ich)
                                     # print " s ==", s
-
+                
                                     if tdifmin < 0:
                                         timestart = timex + \
                                                     abs(tdifmin) + \
@@ -667,7 +668,7 @@ for day in days:
                                                     abs(tdifmin) + \
                                                     (UTCDateTime(ttt.stats.starttime).timestamp -
                                                      UTCDateTime(reft).timestamp)
-
+                
                                     timend = timestart + temp_length
                                     ta = Trace()
                                     ta = tc.copy()
@@ -676,7 +677,7 @@ for day in days:
                                     amaxac[il] = max(abs(ta.data))
                                     tid_c = "%s.%s" % (ss, ich)
                                     damaxac[tid_c] = float(amaxac[il])
-
+                
                                     if damaxac[tid_c] != 0 and damaxat[tid_c] != 0:
                                         # print("damaxat[tid_c], damaxac[tid_c] ==
                                         #      damaxat[tid_c], damaxac[tid_c])
@@ -685,7 +686,7 @@ for day in days:
                                         mchan[tid_c] = md[il]
                                         str00 = "%s %s\n" % (tid_c, mchan[tid_c])
                                         f2.write(str00)
-
+                
                             mdr = reject_moutliers(md, 1)
                             mm[itrig] = round(np.mean(mdr), 2)
                             cft_ave[itrig] = round(cft_ave[itrig], 3)
