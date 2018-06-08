@@ -673,8 +673,7 @@ for day in days:
                                 tid_c = "%s.%s" % (ss, ich)
                                 damaxac[tid_c] = float(amaxac[il])
 
-                                if damaxac[tid_c] != 0 and \
-                                    damaxat[tid_c] != 0:
+                                if damaxac[tid_c] != 0 and damaxat[tid_c] != 0:
                                     # print("damaxat[tid_c], damaxac[tid_c] ==
                                     #      damaxat[tid_c], damaxac[tid_c])
                                     md[il] = mag_detect(
@@ -707,7 +706,7 @@ for day in days:
                         f.write(str1)
                 else:
                     pass
-                
+
     f1.close()
     f2.close()
     f.close()
