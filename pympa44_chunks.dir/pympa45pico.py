@@ -29,7 +29,6 @@
 #
 # import useful libraries
 
-import glob
 import os
 import os.path
 import time
@@ -111,6 +110,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
             pass
     return st_cft
 
+
 def quality_cft(trac):
     std_trac = np.nanstd(abs(trac.data))
     return std_trac
@@ -145,7 +145,7 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
             s = "%s.%s.%s" % (net, sta, chan)
             td[jtr] = float(d[s])
             # print(td[jtr])
-    
+
     itr = len(stall)
     print("itr == ", itr)
     if itr >= nch_min:
@@ -155,12 +155,15 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
         cha = "BH"
         net = "XX"
         header = {'network': net, 'station': sta,
-                  'channel': cha, 'starttime': tstart,
+                  'channel': cha, 'starttime': tstart,
                   'sampling_rate': df, 'npts': npts}
         tt = Trace(data=tdat, header=header)
 
     else:
         tdifmin = None
+        sta = "STACK"
+        cha = "BH"
+        net = "XX"
         header = {'network': net, 'station': sta,
                   'channel': cha, 'starttime': tstart,
                   'sampling_rate': df, 'npts': npts}
@@ -285,10 +288,11 @@ def reject_moutliers(data, m=1.):
 
 def mad(dmad):
     # calculate daily median absolute deviation
-    ccm = dmad[dmad!= 0]
+    ccm = dmad[dmad != 0]
     med_val = np.nanmedian(ccm)
     tstda = np.nansum(abs(ccm - med_val)/len(ccm))
     return tstda
+
 
 start_time = time.clock()
 # read 'parameters24' file to setup useful variables
@@ -373,7 +377,6 @@ for day in days:
     iimin = 59
     iisec = 0
 
-
     for itemp in range(t_start, t_stop):
         stt.clear()
         fout = "%s.%s.cat" % (str(itemp), day[0:6])
@@ -389,8 +392,6 @@ for day in days:
         lon = cat[itemp].origins[0].longitude
         lat = cat[itemp].origins[0].latitude
         dep = cat[itemp].origins[0].depth
-        # amplitude info on templates important to detect magnitude
-        # of new events
 
         # read ttimes, select the num_ttimes (parameters, last line) channels, 
         # and read only these templates 
@@ -399,20 +400,21 @@ for day in days:
         with open(travel_file, "r") as ttim:
             d = dict(x.rstrip().split(None, 1) for x in ttim)
             ttim.close()
-            s=d.items()
-            v=sorted(s, key=lambda x: (float(x[1])))[0:chan_max]
+            s = d.items()
+            v = sorted(s, key=lambda x: (float(x[1])))[0:chan_max]
             
         
         vv=[x[0] for x in v]
 
         for vvc in vv:
-            n_net=vvc.split('.')[0]
-            n_sta=vvc.split('.')[1]
-            n_chn=vvc.split('.')[2]
-            filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(itemp), str(n_net), str(n_sta), str(n_chn))
+            n_net = vvc.split('.')[0]
+            n_sta = vvc.split('.')[1]
+            n_chn = vvc.split('.')[2]
+            filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(itemp),
+                                                 str(n_net), str(n_sta),
+                                                 str(n_chn))
+            print(filename)
             stt += read(filename)
-
-
 
         tc = Trace()
         bandpass = [lowpassf, highpassf]
@@ -434,7 +436,9 @@ for day in days:
             print(t1, t2)
             stream_df.clear()
             for tr in stt:
-                finpc1 = "%s%s.%s.%s" % (cont_dir, str(day), str(tr.stats.station), str(tr.stats.channel))
+                finpc1 = "%s%s.%s.%s" % (cont_dir, str(day),
+                                         str(tr.stats.station),
+                                         str(tr.stats.channel))
 
                 if os.path.exists(finpc1) and os.path.getsize(finpc1) > 0:
 
@@ -445,11 +449,12 @@ for day in days:
                         stat = tc.stats.station
                         chan = tc.stats.channel
                         tc.detrend('constant')
-                        # 24h continuous trace starts at  00 hour 00 minut 00.0 seconds
+                        # 24h continuous trace starts at 00 h 00 m 00.0s
                         trim_fill(tc, t1, t2)
                         tc.filter("bandpass", freqmin=bandpass[0],
                                   freqmax=bandpass[1], zerophase=True)
-                        # store detrended and filtered continuous data in a Stream
+                        # store detrended and filtered continuous data
+                        # in a Stream
                         stream_df += Stream(traces=[tc])
 
                     except:
@@ -546,10 +551,11 @@ for day in days:
             # compute mean cross correlation from the stack of
             # CFTs (see stack function)
 
-            ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown, nch_min)
+            ccmad, tdifmin = stack(stall, df, tstart, npts, stdup, stddown,
+                                   nch_min)
             print("tdifmin == ", tdifmin)
-            if tdifmin != None:
 
+            if tdifmin is not None:
                 # compute mean absolute deviation of abs(ccmad)
                 tstda = mad(ccmad.data)
 
@@ -609,10 +615,18 @@ for day in days:
                     crt[itrig] = trg['cft_peaks'][0] / tstda
                     # traceID = trg['trace_ids']
                     # check single channel CFT
-                    [nch[itrig], cft_ave[itrig], crt[itrig], cft_ave_trg[itrig],
-                     crt_trg[itrig], nch3[itrig], nch5[itrig], nch7[itrig],
-                     nch9[itrig]] = csc(stall, stcc, trg, tstda, sample_tol,
-                                        cc_threshold, nch_min, day, itemp, itrig, f1)
+                    [nch[itrig], cft_ave[itrig], crt[itrig],
+                     cft_ave_trg[itrig], crt_trg[itrig], nch3[itrig],
+                     nch5[itrig], nch7[itrig], nch9[itrig]] = csc(stall,
+                                                                  stcc,
+                                                                  trg,
+                                                                  tstda,
+                                                                  sample_tol,
+                                                                  cc_threshold,
+                                                                  nch_min,
+                                                                  day,
+                                                                  itemp,
+                                                                  itrig, f1)
 
                     if int(nch[itrig]) >= nch_min:
                         nn = len(stream_df)
@@ -621,8 +635,8 @@ for day in days:
                         md = np.zeros(nn)
 
                         # for each trigger, detrended, and filtered continuous
-                        # data channels are trimmed and amplitude useful to estimate
-                        # magnitude is measured.
+                        # data channels are trimmed and amplitude useful to
+                        # estimate magnitude is measured.
                         damaxac = {}
                         mchan = {}
                         timex = UTCDateTime(tt[itrig])
@@ -638,12 +652,16 @@ for day in days:
                                 # print " s ==", s
 
                                 if tdifmin < 0:
-                                    timestart = timex + abs(tdifmin) + (UTCDateTime(
-                                        ttt.stats.starttime).timestamp - UTCDateTime(
+                                    timestart = timex + abs(tdifmin) + \
+                                                (UTCDateTime(
+                                                    ttt.stats.starttime
+                                                ).timestamp - UTCDateTime(
                                         reft).timestamp)
                                 elif tdifmin > 0:
-                                    timestart = timex - abs(tdifmin) + (UTCDateTime(
-                                        ttt.stats.starttime).timestamp - UTCDateTime(
+                                    timestart = timex - abs(tdifmin) + \
+                                                (UTCDateTime(
+                                                    ttt.stats.starttime
+                                                ).timestamp - UTCDateTime(
                                         reft).timestamp)
 
                                 timend = timestart + temp_length
