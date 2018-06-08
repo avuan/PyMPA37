@@ -333,14 +333,14 @@ cat = read_events(ev_catalog, format="ZMAP")
 ncat = len(cat)
 
 # read template from standard input
-startTemplate = input("INPUT: Enter Starting template ")
-stopTemplate = input("INPUT: Enter Ending template ")
-print("OUTPUT: Running from template", startTemplate,  " to ", stopTemplate)
-# t_start = start_itemp
-# t_stop = stop_itemp
+#startTemplate = input("INPUT: Enter Starting template ")
+#stopTemplate = input("INPUT: Enter Ending template ")
+#print("OUTPUT: Running from template", startTemplate,  " to ", stopTemplate)
+t_start = start_itemp
+t_stop = stop_itemp
 
-t_start = int(startTemplate)
-t_stop = int(stopTemplate)
+#t_start = int(startTemplate)
+#t_stop = int(stopTemplate)
 
 fname = day_list
 
