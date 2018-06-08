@@ -656,13 +656,11 @@ for day in days:
                                 if tdifmin < 0:
                                     timestart = timex + abs(tdifmin) + \
                                                 (UTCDateTime(ttt.stats.starttime
-                                                ).timestamp - UTCDateTime(
-                                                reft).timestamp)
+                                                ).timestamp - UTCDateTime(reft).timestamp)
                                 elif tdifmin > 0:
                                     timestart = timex - abs(tdifmin) + \
                                                 (UTCDateTime(ttt.stats.starttime
-                                                ).timestamp - UTCDateTime(
-                                                reft).timestamp)
+                                                ).timestamp - UTCDateTime(reft).timestamp)
 
                                 timend = timestart + temp_length
                                 ta = Trace()
