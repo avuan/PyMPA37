@@ -393,8 +393,9 @@ for day in days:
         lat = cat[itemp].origins[0].latitude
         dep = cat[itemp].origins[0].depth
 
-        # read ttimes, select the num_ttimes (parameters, last line) channels, 
-        # and read only these templates 
+        # read ttimes, select the num_ttimes (parameters,
+        # last line) channels
+        # and read only these templates
         travel_file = "%s%s.ttimes" % (travel_dir, str(itemp))
 
         with open(travel_file, "r") as ttim:
@@ -402,9 +403,8 @@ for day in days:
             ttim.close()
             s = d.items()
             v = sorted(s, key=lambda x: (float(x[1])))[0:chan_max]
-            
-        
-        vv=[x[0] for x in v]
+
+        vv = [x[0] for x in v]
 
         for vvc in vv:
             n_net = vvc.split('.')[0]
@@ -491,7 +491,8 @@ for day in days:
             time_values = [float(v) for v in d.values()]
             min_time_value = min(time_values)
             # print("min_time_value == ", min_time_value)
-            min_time_key = [k for k, v in d.items() if v == str(min_time_value)]
+            min_time_key = [k for k, v in d.items()
+                            if v == str(min_time_value)]
             # print("key, mintime == ", min_time_key, min_time_value)
 
             # clear global_variable
@@ -503,7 +504,8 @@ for day in days:
                 for ss in stations:
 
                     for ich in channels:
-                        stream_cft += process_input(itemp, nn, ss, ich, stream_df)
+                        stream_cft += process_input(itemp, nn, ss,
+                                                    ich, stream_df)
 
             stall.clear()
             stcc.clear()
@@ -653,16 +655,14 @@ for day in days:
 
                                 if tdifmin < 0:
                                     timestart = timex + abs(tdifmin) + \
-                                                (UTCDateTime(
-                                                    ttt.stats.starttime
+                                                (UTCDateTime(ttt.stats.starttime
                                                 ).timestamp - UTCDateTime(
-                                        reft).timestamp)
+                                                reft).timestamp)
                                 elif tdifmin > 0:
                                     timestart = timex - abs(tdifmin) + \
-                                                (UTCDateTime(
-                                                    ttt.stats.starttime
+                                                (UTCDateTime(ttt.stats.starttime
                                                 ).timestamp - UTCDateTime(
-                                        reft).timestamp)
+                                                reft).timestamp)
 
                                 timend = timestart + temp_length
                                 ta = Trace()
@@ -673,8 +673,9 @@ for day in days:
                                 tid_c = "%s.%s" % (ss, ich)
                                 damaxac[tid_c] = float(amaxac[il])
 
-                                if damaxac[tid_c] != 0 and damaxat[tid_c] != 0:
-                                    # print("damaxat[tid_c], damaxac[tid_c] == ",
+                                if damaxac[tid_c] != 0 and \
+                                                damaxat[tid_c] != 0:
+                                    # print("damaxat[tid_c], damaxac[tid_c] ==
                                     #      damaxat[tid_c], damaxac[tid_c])
                                     md[il] = mag_detect(
                                         mt, damaxat[tid_c], damaxac[tid_c])
