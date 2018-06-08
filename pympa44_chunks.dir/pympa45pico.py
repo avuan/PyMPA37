@@ -654,13 +654,15 @@ for day in days:
                                 # print " s ==", s
 
                                 if tdifmin < 0:
-                                    timestart = timex + abs(tdifmin) + \
-                                                (UTCDateTime(ttt.stats.starttime
-                                                ).timestamp - UTCDateTime(reft).timestamp)
+                                    timestart = timex + \
+                                                abs(tdifmin) + \
+                                                (UTCDateTime(ttt.stats.starttime).timestamp -
+                                                 UTCDateTime(reft).timestamp)
                                 elif tdifmin > 0:
-                                    timestart = timex - abs(tdifmin) + \
-                                                (UTCDateTime(ttt.stats.starttime
-                                                ).timestamp - UTCDateTime(reft).timestamp)
+                                    timestart = timex - \
+                                                abs(tdifmin) + \
+                                                (UTCDateTime(ttt.stats.starttime).timestamp -
+                                                 UTCDateTime(reft).timestamp)
 
                                 timend = timestart + temp_length
                                 ta = Trace()
@@ -672,7 +674,7 @@ for day in days:
                                 damaxac[tid_c] = float(amaxac[il])
 
                                 if damaxac[tid_c] != 0 and \
-                                                damaxat[tid_c] != 0:
+                                    damaxat[tid_c] != 0:
                                     # print("damaxat[tid_c], damaxac[tid_c] ==
                                     #      damaxat[tid_c], damaxac[tid_c])
                                     md[il] = mag_detect(
