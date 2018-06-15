@@ -155,7 +155,7 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
         cha = "BH"
         net = "XX"
         header = {'network': net, 'station': sta,
-                  'channel': cha, 'starttime': tstart,
+                  'channel': cha, 'starttime': tstart,
                   'sampling_rate': df, 'npts': npts}
         tt = Trace(data=tdat, header=header)
 
