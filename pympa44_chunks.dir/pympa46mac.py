@@ -728,10 +728,11 @@ for day in days:
                                                  " num.  24h channels lower than nch_min")
                     f3.write(str_except1)
                     pass
-            else:
-                str_except0 = "%s %s %s %s %s\n" % (day[0:6], str(itemp), str(t1), str(t2),
+        else:
+            str_except0 = "%s %s %s %s %s\n" % (day[0:6], str(itemp), str(t1), str(t2),
                                              " num.  templates lower than nch_min")
-                f3.write(str_except0)
+            f3.write(str_except0)
+            pass
                 
     f1.close()
     f2.close()
