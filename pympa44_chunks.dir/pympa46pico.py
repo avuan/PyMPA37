@@ -198,12 +198,15 @@ def csc(stall, stcc, trg, tstda, sample_tol,
     nch = 0
 
     for icft, tsc in enumerate(stall):
-        # get cft amplitude value at corresponding trigger and store it in
+        # get cft amplitude value at corresponding trigger and store it in
         # check for possible 2 sample shift and eventually change
         # trg['cft_peaks']
         chan_sct[icft] = tsc.stats.network + "." + \
                          tsc.stats.station + " " + tsc.stats.channel
         tmp0 = trigger_sample - sample_tolerance
+
+        if tmp0 < 0:
+            tmp0 = 0
         tmp1 = trigger_sample + sample_tolerance + 1
         max_sct[icft] = max(tsc.data[tmp0:tmp1])
         max_ind[icft] = np.nanargmax(tsc.data[tmp0:tmp1])
@@ -725,12 +728,12 @@ for day in days:
                         pass
                 else:
                     str_except1 = "%s %s %s %s %s\n" % (day[0:6], str(itemp), str(t1), str(t2),
-                                                 " num.  24h channels lower than nch_min")
+                                                        " num.  24h channels lower than nch_min")
                     f3.write(str_except1)
                     pass
         else:
-            str_except0 = "%s %s %s %s %s\n" % (day[0:6], str(itemp), str(t1), str(t2),
-                                             " num.  templates lower than nch_min")
+            str_except0 = "%s %s %s\n" % (day[0:6], str(itemp),
+                                          " num.  templates lower than nch_min")
             f3.write(str_except0)
             pass
                 
