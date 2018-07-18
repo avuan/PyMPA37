@@ -198,7 +198,7 @@ def csc(stall, stcc, trg, tstda, sample_tol,
     nch = 0
 
     for icft, tsc in enumerate(stall):
-        # get cft amplitude value at corresponding trigger and store it in
+        # get cft amplitude value at corresponding trigger and store it in
         # check for possible 2 sample shift and eventually change
         # trg['cft_peaks']
         chan_sct[icft] = tsc.stats.network + "." + \
