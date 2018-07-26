@@ -61,13 +61,18 @@ def read_input_par(filepar):
 def read_sta_inv(invfile, sta):
     inv = read_inventory(invfile)
     nt0 = inv[0].select(station=sta)
-    lat = nt0[0].latitude
-    lon = nt0[0].longitude
-    elev = nt0[0].elevation
+    if nt0:
+        lat = nt0[0].latitude
+        lon = nt0[0].longitude
+        elev = nt0[0].elevation
+        print(sta, lat, lon, elev)
+    else:
+        lat = 999
+        lon = 999
+        elev = 999
     return lat, lon, elev
 
 
-invfile = './inv.ingv.iv'
 filepar = './times.par'
 
 [stations, channels, networks, lowpassf, highpassf, tlen_bef,
@@ -125,8 +130,20 @@ for iev in range(start_itemp, stop_itemp):
             dep = dep / 1000
             print("time, mag, lon, lat, dep", ot, m, lon, lat, dep)
             eve_coord = [lat, lon, dep]
-            #
-            slat, slon, selev = read_sta_inv(invfile, ref_sta)
+
+            for network in networks:
+                invfile = './inv.' + network
+                slat, slon, selev = read_sta_inv(invfile, ista)
+                print(ista, slat, slon, selev)
+
+                if slat != 999:
+                    print("Station ", ista, " found in inventory ", invfile)
+                    break
+                else:
+                    print("Warning no data found in ", invfile, " for station", ista)
+                    continue
+
+
             eve_lat = eve_coord[0]
             eve_lon = eve_coord[1]
             eve_dep = eve_coord[2]
