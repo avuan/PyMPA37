@@ -33,37 +33,44 @@ def read_input_par(trimfile):
     with open(trimfile) as tf:
         data = tf.read().splitlines()
 
-    stations = data[16].split(" ")
-    channels = data[17].split(" ")
-    networks = data[18].split(" ")
-    lowpassf = float(data[19])
-    highpassf = float(data[20])
-    tlen_bef = float(data[21])
-    tlen_aft = float(data[22])
-    UTC_prec = int(data[23])
-    cont_dir = "./" + data[24] + "/"
-    temp_dir = "./" + data[25] + "/"
-    day_list = str(data[26])
-    ev_catalog = str(data[27])
-    start_itemp = int(data[28])
-    stop_itemp = int(data[29])
-    taup_model = str(data[30])
-    invfiles = data[16].split(" ")
+    stations = data[15].split(" ")
+    channels = data[16].split(" ")
+    networks = data[17].split(" ")
+    lowpassf = float(data[18])
+    highpassf = float(data[19])
+    tlen_bef = float(data[20])
+    tlen_aft = float(data[21])
+    UTC_prec = int(data[22])
+    cont_dir = "./" + data[23] + "/"
+    temp_dir = "./" + data[24] + "/"
+    day_list = str(data[25])
+    ev_catalog = str(data[26])
+    start_itemp = int(data[27])
+    stop_itemp = int(data[28])
+    taup_model = str(data[29])
+
     return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
         tlen_aft, UTC_prec, cont_dir, temp_dir, day_list, ev_catalog, \
-        start_itemp, stop_itemp, taup_model, invfiles
+        start_itemp, stop_itemp, taup_model
 
 
 def read_sta_inv(invfile, sta):
     inv = read_inventory(invfile)
-    nt0 = inv.select(station=sta)
-    lat = nt0[0].station[0].latitude
-    lon = nt0[0].station[0].longitude
-    elev = nt0[0].station[0].elevation
+    nt0 = inv[0].select(station=sta)
+    if nt0:
+        lat = nt0[0].latitude
+        lon = nt0[0].longitude
+        elev = nt0[0].elevation
+        print(sta, lat, lon, elev)
+    else:
+        lat = 999
+        lon = 999
+        elev = 999
     return lat, lon, elev
 
 
 trimfile = './trim.par'
+
 
 # lat, lon, elev = read_sta_inv(invfile, station)
 # print(lat, lon, elev)
@@ -153,14 +160,18 @@ for ista in stations:
 
             print("ista", ista)
 
-            for invfile in invfiles:
-                try:
-                    slat, slon, selev = read_sta_inv(invfile, ista)
-                    print(ista, slat, slon, selev)
-                except:
-                    pass
+            for network in networks:
+                invfile = './inv.' + network
+                slat, slon, selev = read_sta_inv(invfile, ista)
+                print(ista, slat, slon, selev)
 
-            print("Station not found in inventories")
+                if slat != 999:
+                    print("Station ", ista, " found in inventory ", invfile)
+                    break
+                else:
+                    print("Warning no data found in ", invfile, " for station", ista)
+                    continue
+
             eve_lat = eve_coord[0]
             eve_lon = eve_coord[1]
             eve_dep = eve_coord[2]
