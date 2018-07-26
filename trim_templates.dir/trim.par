@@ -13,7 +13,6 @@
 #Line 13 -- Starting template
 #Line 14 -- Stopping template
 #Line 15 -- Taup Model
-#Line 16 -- Inventory Files
 AQU CAMP CERT FAGN FIAM GUAR INTR MNS NRCA TERO
 BHE BHN BHZ
 IV MN
@@ -29,4 +28,3 @@ templates.zmap
 26
 27
 aquila_kato
-inv.ingv.iv inv.ingv.mn inv.ingv.mn
