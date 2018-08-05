@@ -635,7 +635,7 @@ for day in days:
                             elif tdifmin != min_time_value:
                                 diff_time = min_time_value - tdifmin
                                 tt[itrig] = trg['time'] + diff_time + \
-                                            min_time_value
+                                    min_time_value
 
                             cs[itrig] = trg['coincidence_sum']
                             cft_ave[itrig] = trg['cft_peak_wmean']
