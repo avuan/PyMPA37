@@ -635,7 +635,7 @@ for day in days:
                             elif tdifmin != min_time_value:
                                 diff_time = min_time_value - tdifmin
                                 tt[itrig] = trg['time'] + diff_time + \
-                                            min_time_value
+                                    min_time_value
 
                             cs[itrig] = trg['coincidence_sum']
                             cft_ave[itrig] = trg['cft_peak_wmean']
@@ -700,23 +700,23 @@ for day in days:
                                         dct = damaxac[tid_c]
                                         dtt = damaxat[tid_c]
                                         if dct != 0 and dtt != 0:
-                                           md[il] = mag_detect(
+                                            md[il] = mag_detect(
                                                 mt, damaxat[tid_c],
-                                               damaxac[tid_c])
+                                                damaxac[tid_c])
                                             mchan[tid_c] = md[il]
                                             str00 = "%s %s\n" % (tid_c,
-                                                                 mchan[tid_c])
+                                                mchan[tid_c])
                                             f2.write(str00)
 
                                 mdr = reject_moutliers(md, 1)
-                                mm[itrig] = round(np.mean(mdr),2)
+                                mm[itrig] = round(np.mean(mdr), 2)
                                 cft_ave[itrig] = round(cft_ave[itrig], 3)
                                 crt[itrig] = round(crt[itrig], 3)
                                 cft_ave_trg[itrig] = round(
                                     cft_ave_trg[itrig], 3)
                                 crt_trg[itrig] = round(crt_trg[itrig], 3)
                                 str33 = "%s %s %s %s %s %s %s %s %s " \
-                                        "%s %s %s %s %s %s %s\n" % (
+                                    "%s %s %s %s %s %s %s\n" % (
                                     day[0:6], str(itemp), str(itrig),
                                     str(UTCDateTime(tt[itrig])),
                                     str(mm[itrig]), str(mt),
