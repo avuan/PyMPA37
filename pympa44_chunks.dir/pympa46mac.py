@@ -717,22 +717,30 @@ for day in days:
                                 crt_trg[itrig] = round(crt_trg[itrig], 3)
                                 str33 = "%s %s %s %s %s %s %s %s %s " \
                                         "%s %s %s %s %s %s %s\n" % (
-                                            day[0:6], str(itemp), str(itrig),
+                                            day[0:6],
+                                            str(itemp),
+                                            str(itrig),
                                             str(UTCDateTime(tt[itrig])),
-                                            str(mm[itrig]), str(mt),
+                                            str(mm[itrig]),
+                                            str(mt),
                                             str(nch[itrig]),
-                                            str(tstda), str(cft_ave[itrig]),
+                                            str(tstda),
+                                            str(cft_ave[itrig]),
                                             str(crt[itrig]),
                                             str(cft_ave_trg[itrig]),
-                                            str(crt_trg[itrig]), str(nch3[itrig]),
-                                            str(nch5[itrig]), str(nch7[itrig]),
+                                            str(crt_trg[itrig]),
+                                            str(nch3[itrig]),
+                                            str(nch5[itrig]),
+                                            str(nch7[itrig]),
                                             str(nch9[itrig]))
                                 f1.write(str33)
                                 f2.write(str33)
                                 str1 = "%s %s %s %s %s %s %s %s\n" % (
-                                    str(itemp), str(UTCDateTime(tt[itrig])),
+                                    str(itemp),
+                                    str(UTCDateTime(tt[itrig])),
                                     str(mm[itrig]),
-                                    str(cft_ave[itrig]), str(crt[itrig]),
+                                    str(cft_ave[itrig]),
+                                    str(crt[itrig]),
                                     str(cft_ave_trg[itrig]),
                                     str(crt_trg[itrig]),
                                     str(int(nch[itrig])))
