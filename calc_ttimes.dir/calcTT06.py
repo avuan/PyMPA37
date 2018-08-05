@@ -133,14 +133,14 @@ for iev in range(start_itemp, stop_itemp):
 
             for network in networks:
                 invfile = './inv.' + network
-                slat, slon, selev = read_sta_inv(invfile, ista)
-                print(ista, slat, slon, selev)
+                slat, slon, selev = read_sta_inv(invfile, ref_sta)
+                print(ref_sta, slat, slon, selev)
 
                 if slat != 999:
-                    print("Station ", ista, " found in inventory ", invfile)
+                    print("Station ", ref_sta, " found in inventory ", invfile)
                     break
                 else:
-                    print("Warning no data found in ", invfile, " for station", ista)
+                    print("Warning no data found in ", invfile, " for station", ref_sta)
                     continue
 
 
