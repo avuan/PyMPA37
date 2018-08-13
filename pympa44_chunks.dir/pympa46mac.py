@@ -759,8 +759,7 @@ for day in days:
                     pass
         else:
             str_except0 = "%s %s %s\n" % (
-                day[0:6], str(itemp), str(t1),
-                str(t2), " num.  templates lower than nch_min")
+                day[0:6], str(itemp), " num.  templates lower than nch_min")
             f3.write(str_except0)
             pass
 
