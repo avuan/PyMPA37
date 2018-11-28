@@ -716,7 +716,7 @@ for day in days:
                                     cft_ave_trg[itrig], 3)
                                 crt_trg[itrig] = round(crt_trg[itrig], 3)
                                 str33 = "%s %s %s %s %s %s %s %s %s " \
-                                        "%s %s %s %s %s %s %s\n" % (
+                                        "%s %s %s %s %s %s %s;\n" % (
                                             day[0:6],
                                             str(itemp),
                                             str(itrig),
