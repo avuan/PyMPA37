@@ -48,6 +48,7 @@ def read_input_par(trimfile):
     start_itemp = int(data[27])
     stop_itemp = int(data[28])
     taup_model = str(data[29])
+
     return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
         tlen_aft, UTC_prec, cont_dir, temp_dir, day_list, ev_catalog, \
         start_itemp, stop_itemp, taup_model
@@ -56,14 +57,20 @@ def read_input_par(trimfile):
 def read_sta_inv(invfile, sta):
     inv = read_inventory(invfile)
     nt0 = inv[0].select(station=sta)
-    lat = nt0[0].latitude
-    lon = nt0[0].longitude
-    elev = nt0[0].elevation
+    if nt0:
+        lat = nt0[0].latitude
+        lon = nt0[0].longitude
+        elev = nt0[0].elevation
+        print(sta, lat, lon, elev)
+    else:
+        lat = 999
+        lon = 999
+        elev = 999
     return lat, lon, elev
 
 
 trimfile = './trim.par'
-invfile = './inv.ingv.iv'
+
 
 # lat, lon, elev = read_sta_inv(invfile, station)
 # print(lat, lon, elev)
@@ -83,6 +90,8 @@ tmplt_dur = tlen_bef
 cat = read_events(ev_catalog, format="ZMAP")
 ncat = len(cat)
 
+# ---- The following lines are needed because the input zmap has no decimal year
+# ---- in the corresponding column, but fractions of seconds are in the seconds field
 aa = np.loadtxt(ev_catalog)
 aa1 = aa[:, 9]
 aa2 = aa1 - np.floor(aa1)
@@ -150,7 +159,19 @@ for ista in stations:
                 eve_coord = [lat, lon, dep]
 
             print("ista", ista)
-            slat, slon, selev = read_sta_inv(invfile, ista)
+
+            for network in networks:
+                invfile = './inv.' + network
+                slat, slon, selev = read_sta_inv(invfile, ista)
+                print(ista, slat, slon, selev)
+
+                if slat != 999:
+                    print("Station ", ista, " found in inventory ", invfile)
+                    break
+                else:
+                    print("Warning no data found in ", invfile, " for station", ista)
+                    continue
+
             eve_lat = eve_coord[0]
             eve_lon = eve_coord[1]
             eve_dep = eve_coord[2]

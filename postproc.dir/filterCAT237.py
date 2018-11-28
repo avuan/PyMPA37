@@ -264,7 +264,8 @@ for iu, ti in enumerate(t_timr):
         th = UTCDateTime(t_timr[ie]).hour
         tminute = UTCDateTime(t_timr[ie]).minute
         tsecond = UTCDateTime(t_timr[ie]).second
-        precision = 10 ** UTCDateTime.DEFAULT_PRECISION
+        # precision = 10 ** UTCDateTime.DEFAULT_PRECISION
+        precision = 10 ** UTC_prec
         tmicro = UTCDateTime(t_timr[ie]).microsecond / precision
         tmicro = UTCDateTime(t_timr[ie]).microsecond
         print("tsecond, tmicro == ", tsecond, tmicro,

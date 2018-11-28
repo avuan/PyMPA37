@@ -7,19 +7,15 @@ import os
 from obspy.clients.fdsn import Client
 from obspy.core.utcdatetime import UTCDateTime
 
-
 client = Client("INGV")
-networks = ["MN", "IV"]
+networks = ["IV"]
 #
-# stations=["AQU", "ARRO", "CAMP", "FEMA", "FDMO", "GIGS",
-# "LNSS", "MMO1", "NRCA", "RM33", "TERO", "T1243", "AQT1", "SMA1",
-# "OFFI", "GUMA", "CESI", "MOMA", "CESX"]
+stations=["APEC", "NARO"]
 
-stations = ["AQU"]
-channels = ["EHZ", "EHN", "EHE", "HHZ", "HHN", "HHE", "HNZ", "HNN", "HNE"]
+channels = ["EH*", "HH*"]
 
-start = "2016-01-01T00:00:00.000"
-stop = "2016-01-02T00:00:00.000"
+start = "2011-01-01T00:00:00.000"
+stop = "2011-01-02T00:00:00.000"
 
 # 24h as seconds
 chuncklength = 86400

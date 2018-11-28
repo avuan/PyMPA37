@@ -12,7 +12,7 @@
 #Line 12 -- Zmap catalog
 #Line 13 -- Starting template
 #Line 14 -- Stopping template
-#Line 15 -- Taup Model 
+#Line 15 -- Taup Model
 AQU CAMP CERT FAGN FIAM GUAR INTR MNS NRCA TERO
 BHE BHN BHZ
 IV MN

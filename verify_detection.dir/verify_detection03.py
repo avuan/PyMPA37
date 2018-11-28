@@ -129,6 +129,7 @@ def read_stats(stats_dir, template_num, yymmdd,
     print("1 linestart, linestop == ", linestart, linestop)
     stat.close()
     stat = open(filestats, 'r')
+    ifound = 0
 
     for ichan, lstat1 in enumerate(stat):
         lstat1 = lstat1.strip()
@@ -138,11 +139,18 @@ def read_stats(stats_dir, template_num, yymmdd,
             ch_string = ch_name + ' ' + ch_cmp
 
             if ch_string in lstat1:
+                ifound = 1
                 cols = lstat1.split()
                 channel_name = cols[0]
                 channel_cmp = cols[1]
                 channel_ccros = cols[3]
                 channel_nsample = cols[4]
+
+        if ifound == 0:
+            channel_name = "None"
+            channel_cmp = "None"
+            channel_ccros = "None"
+            channel_nsample = "None"
 
     return channel_name, channel_cmp, channel_ccros, channel_nsample
 
@@ -335,11 +343,14 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
                 ch_name, ch_cmp)
             # print("ch_ccros, ch_nsamp == ", ch_ccros, ch_nsamp)
             # print("tt.stats.delta = ", tt.stats.delta)
-            time_shift = float(ch_nsamp) * tt.stats.delta
+
+            if ch_id != "None":
+                time_shift = float(ch_nsamp) * tt.stats.delta
+
         ori = calc_timeshift(eve_lat, eve_lon, eve_dep, slat, slon, tlen_bef)
         # print("ori == ", ori)
 
-        if Flag_Read_Stats == 1:
+        if Flag_Read_Stats == 1 and ch_id != "None":
             ori = ori - time_shift
 
         # get channel id
@@ -395,12 +406,12 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             print(tad, tad + ori)
             t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate,
                           tc.stats.delta)
-            axarray[count - 1].plot(t, tc.data, 'k', lw=1.0)
-            axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5)
+            axarray[count - 1].plot(t, tc.data, 'k', lw=1.0, zorder=5)
+            axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5, zorder=1)
             # axarray[count - 1].plot(t, tc.data, 'k', lw=1.0)
             axarray[count - 1].text(det_dur * 1.45, 0.45 * magg,
                                     smagd, fontsize=12)
-            if Flag_Read_Stats == 1:
+            if Flag_Read_Stats == 1 and ch_ccros != "None":
                 axarray[count - 1].text(det_dur * 1.85, 0.45 * magg,
                                         'ch_cc = ' + ch_ccros[0:5],
                                         fontsize=12)

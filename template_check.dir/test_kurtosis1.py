@@ -7,7 +7,7 @@ import numpy as np
 from obspy.signal.filter import envelope
 
 # FlagPrint==0 no printout, FlagPrint==1 check waveforms 
-FlagPrint=0
+FlagPrint=1
 
 st = Stream()
 tr = Trace()
