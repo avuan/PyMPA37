@@ -69,6 +69,7 @@ install:
 
 before_script:
   - chmod +x ./*.dir/*.py
+  - flake8 ./*.dir/*.py  --count --exit-zero --statistics
 
 script:
    - cd ./download_data.dir
