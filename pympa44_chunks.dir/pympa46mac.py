@@ -40,6 +40,7 @@ from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
 from obspy.signal.trigger import coincidence_trigger
+#from obspy.signal.cross_correlation import correlate_template 
 
 
 # LIST OF USEFUL FUNCTIONS
@@ -90,7 +91,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
                 if sc.__nonzero__():
                     tc = sc[0]
                     fct = xcorr(tc.data, tt.data)
-
+                    #fct = correlate_template(tc.data, tt.data, mode='valid', normalize='full')
                     stats = {'network': tc.stats.network,
                              'station': tc.stats.station,
                              'location': '',
