@@ -45,7 +45,7 @@ def calc_timeshift(eve_lat, eve_lon, eve_dep, sta_lat, sta_lon, tlen_bef):
     arrivals = model.get_travel_times(
         source_depth_in_km=eve_dep, distance_in_degree=deg,
         phase_list=["s", "S"])
-    #print(arrivals)
+    # print(arrivals)
     arrS = arrivals[0]
     # correction to be used to evaluate the start time for the template
     origin_time_shift = arrS.time - tlen_bef
@@ -59,13 +59,13 @@ def mag_detect(magt, amaxt, amaxd):
     the template/detection amplitude trace ratio
     and the magnitude of the template event
     """
-    #print("magt == ", magt)
+    # print("magt == ", magt)
     # print "amaxt == ", amaxt
     # print "amaxd == ", amaxd
     amaxr = amaxt / amaxd
     # print "amaxr == ", amaxr
     magd = magt - log10(amaxr)
-    #print("magd == ", magd)
+    # print("magd == ", magd)
     return magd
 
 
@@ -149,7 +149,7 @@ def read_stats(stats_dir, template_num, yymmdd,
             ndt += 1
     
         
-    #print(linestop)
+    # print(linestop)
   
     for ii, iline in enumerate(linestop):
         tdetection = UTCDateTime(str(det_ot)).timestamp
@@ -157,13 +157,13 @@ def read_stats(stats_dir, template_num, yymmdd,
             
         # check difference between detection time in cat and stats files
         tdiff = abs(tdetection - tdetection_in_stats) 
-        #print("tdiff == ", tdiff)
+        # print("tdiff == ", tdiff)
 
         if tdiff < stat_tol:
             lstop = iline
             if ii > 0:
                 lstart = linestop[ii-1] + 1 
-    #print("1 lstart, lstop == ", lstart, lstop)
+    # print("1 lstart, lstop == ", lstart, lstop)
 
     # read detection lines found between 
     # linestart and linestop
@@ -175,7 +175,7 @@ def read_stats(stats_dir, template_num, yymmdd,
         lstat1 = lstat1.strip()
 
         if ichan >= lstart and ichan < lstop:
-            #print("lstat1 == ", lstat1)
+            # print("lstat1 == ", lstat1)
             ch_string = ch_name + ' ' + ch_cmp
 
             if ch_string in lstat1:
@@ -216,9 +216,9 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
         filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(template_num),
                                                  str(n_net), str(n_sta),
                                                  str(n_chn))
-        #print(filename)
+        # print(filename)
         st_new += read(filename)
-    #print(st_new)
+    # print(st_new)
 
     return st_new 
 
@@ -244,7 +244,7 @@ aa = np.loadtxt(ev_catalog)
 aa1 = aa[:, 9]
 aa2 = aa1 - np.floor(aa1)
 aa3 = aa2 * 1000000
-#print("aa1, aa2, aa3 == ", aa1, aa2, aa3)
+# print("aa1, aa2, aa3 == ", aa1, aa2, aa3)
 
 # read Catalog as output from Phase Match Filtering
 dc = np.loadtxt("./outcat")
@@ -416,8 +416,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             [ch_id, ch_cmp, ch_ccros, ch_nsamp] = read_stats(
                 stats_dir, str(template_num), sday, detection_otime,
                 ch_name, ch_cmp, stat_tol)
-            #print("ch_ccros, ch_nsamp == ", ch_ccros, ch_nsamp)
-            #print("tt.stats.delta = ", tt.stats.delta)
+            # print("ch_ccros, ch_nsamp == ", ch_ccros, ch_nsamp)
+            # print("tt.stats.delta = ", tt.stats.delta)
 
             if ch_id != "None":
                 time_shift = float(ch_nsamp) * tt.stats.delta
@@ -481,10 +481,10 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             # plot tc and tt data
             tad = np.arange(0, (tt.stats.npts / tt.stats.sampling_rate),
                             tt.stats.delta)
-            #print(tad, tad + ori)
+            # print(tad, tad + ori)
             t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate,
                           tc.stats.delta)
-            #axarray[count - 1].plot(t, tc.data, 'k', lw=0.8, zorder=5)
+            # axarray[count - 1].plot(t, tc.data, 'k', lw=0.8, zorder=5)
             axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5)
             axarray[count - 1].plot(t, tc.data, 'k', lw=1.0)
             axarray[count - 1].text(det_dur * 1.25, 0.45 * magg,
@@ -505,12 +505,12 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             axarray[count - 1].text(det_dur * -0.05, 0.45 * magg,
                                     tc.stats.station + '.' +
                                     tc.stats.channel, fontsize=13, color='k')
-            #print("det_dur, magg == ", det_dur, magg)
+            # print("det_dur, magg == ", det_dur, magg)
 
             # uncomment 2 lines below to display template and detection time
-            #axarray[count-1].text(det_dur, -0.9*magg, 'template_time=' +
+            # axarray[count-1].text(det_dur, -0.9*magg, 'template_time=' +
             #    str(tt.stats.starttime-ori), fontsize=11)
-            #axarray[count-1].text(det_dur*0.05, -0.9*magg,
+            # axarray[count-1].text(det_dur*0.05, -0.9*magg,
             #    'detection_time=' + str(detection_otime), fontsize=11)
 
             on_of = ori + tlen_bef
@@ -524,7 +524,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
                                         str(detection_otime) +
                                         ' av_ch_cc/MAD = ' + str(thre)[0:4],
                                         fontsize=14, color='k')
-             #   print("det_dur, magg == ", det_dur, magg)
+             # print("det_dur, magg == ", det_dur, magg)
 
             plt.xlabel('Time [s]')
 
