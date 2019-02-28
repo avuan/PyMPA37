@@ -118,21 +118,15 @@ def read_cat(stats_dir, template_num, yymmdd):
 
 def read_stats(stats_dir, template_num, yymmdd,
                det_ot, ch_name, ch_cmp, stat_tol):
-    
     # open input file related to detection
-
     filestats = "%s%s.%s.stats" % (stats_dir, str(int(template_num)), yymmdd)
     with open(filestats) as file:
         lines = [i.strip() for i in file]
-    nlines = len(lines) 
-    
     # initialise some variables
-
     lstart = 0
     lstop = 0
     ncat = read_cat(stats_dir, template_num, yymmdd)
     linestop = np.empty(ncat, dtype=int)
-    istop = 0
     ndt = 0
 
     # loop on lines in file stats to find the detection with some
@@ -140,17 +134,12 @@ def read_stats(stats_dir, template_num, yymmdd,
     # always coincident with the file in stats
 
     # find lines corresponding to detections
-   
     for ist, line in enumerate(lines):
-        
         # compute number of columns in lstat string
         line_len = len(line.split(" "))
-
         if line_len >= 7:
             linestop[ndt] = ist
             ndt += 1
-    
-        
     # print(linestop)
   
     for ii, iline in enumerate(linestop):
@@ -166,10 +155,8 @@ def read_stats(stats_dir, template_num, yymmdd,
             if ii > 0:
                 lstart = linestop[ii-1] + 1 
     # print("1 lstart, lstop == ", lstart, lstop)
-
     # read detection lines found between 
     # linestart and linestop
- 
     stat = open(filestats, 'r')
     ifound = 0
 
