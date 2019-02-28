@@ -3,6 +3,7 @@ PyMPA
 
 **a software package for phase match filtering**
 
+![Screenshot](screenshot.png)
 
 ### Abstract
 
