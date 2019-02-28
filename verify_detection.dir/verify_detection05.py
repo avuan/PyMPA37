@@ -128,10 +128,12 @@ def read_stats(stats_dir, template_num, yymmdd,
     ncat = read_cat(stats_dir, template_num, yymmdd)
     linestop = np.empty(ncat, dtype=int)
     ndt = 0
+    
     # loop on lines in file stats to find the detection with some
     # tolerance(stat_tol) because the origin time in file cat is not 
     # always coincident with the file in stats
     # find lines corresponding to detections
+    
     for ist, line in enumerate(lines):
         # compute number of columns in lstat string
         line_len = len(line.split(" "))
@@ -142,18 +144,18 @@ def read_stats(stats_dir, template_num, yymmdd,
   
     for ii, iline in enumerate(linestop):
         tdetection = UTCDateTime(str(det_ot)).timestamp
-        tdetection_in_stats = UTCDateTime(lines[int(iline)].split(" ")[3]).timestamp       
+        tdetection_in_stats = UTCDateTime(lines[int(iline)].split(" ")[3]).timestamp
             
         # check difference between detection time in cat and stats files
-        tdiff = abs(tdetection - tdetection_in_stats) 
+        tdiff = abs(tdetection - tdetection_in_stats)
         # print("tdiff == ", tdiff)
 
         if tdiff < stat_tol:
             lstop = iline
             if ii > 0:
-                lstart = linestop[ii-1] + 1 
+                lstart = linestop[ii-1] + 1
     # print("1 lstart, lstop == ", lstart, lstop)
-    # read detection lines found between 
+    # read detection lines found between
     # linestart and linestop
     stat = open(filestats, 'r')
     ifound = 0
@@ -202,12 +204,10 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
         n_sta = vvc.split('.')[1]
         n_chn = vvc.split('.')[2]
         filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(template_num),
-                                                 str(n_net), str(n_sta),
-                                                 str(n_chn))
+            str(n_net), str(n_sta), str(n_chn))
         # print(filename)
         st_new += read(filename)
     # print(st_new)
-
     return st_new 
 
 
@@ -260,7 +260,6 @@ dcchan = dc[:, 13]
 
 
 ndet = len(dc[:, 0])
-
 # start loop on detections
 for jf, detection_num in enumerate(range(start_det, stop_det)):
     print("Detection num. == ", jf)
@@ -276,10 +275,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     mmn = int(dcmin[detection_num])
     ss = dcss[detection_num]
     # print("ss ==", ss)
-
     # read UTCDateTime and other detection parameters
     detection_otime = UTCDateTime(yy, mm, dd, hh, mmn, ss)
-   
     # compute the shift in seconds from the midnight 
     detection_daily_otime = detection_otime.timestamp -\
         UTCDateTime(yy, mm, dd, 0, 0, 0, 0).timestamp
@@ -309,9 +306,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     microsect = int(msect)
     # print("aa3[template_num], microsect", aa3[template_num], microsect)
     magt = cat[template_num].magnitudes[0].mag
-
     # compute the shift in seconds from midnight of the template
-    
     template_otime = UTCDateTime(yyt, mmt, ddt, hht, mint, sst, microsect)
     template_daily_otime = template_otime.timestamp -\
         UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
@@ -382,9 +377,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
     plt.rcParams["figure.figsize"] = [9, 16]
     jf, axarray = plt.subplots(npanels, sharex=True)
-
     count = 0
-    
     st_temp_new = sort_stream_for_distance(st_temp, ttimes_dir, temp_dir, template_num)
 
     for it, tt in enumerate(st_temp_new):
