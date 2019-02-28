@@ -107,13 +107,15 @@ def read_sta_inv(invfiles, sta):
             elev = nt0[0].elevation
             return lat, lon, elev
 
+
 def read_cat(stats_dir, template_num, yymmdd):
     # open input file related to detection
 
     filecat = "%s%s.%s.cat" % (stats_dir, str(int(template_num)), yymmdd)
     ncat = sum(1 for line in open(filecat))
     return ncat
-    
+
+
 def read_stats(stats_dir, template_num, yymmdd,
                det_ot, ch_name, ch_cmp, stat_tol):
     
@@ -193,6 +195,7 @@ def read_stats(stats_dir, template_num, yymmdd,
             channel_nsample = "None"
 
     return channel_name, channel_cmp, channel_ccros, channel_nsample
+
 
 def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
     st_new = Stream()
@@ -287,7 +290,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     hh = int(dchh[detection_num])
     mmn = int(dcmin[detection_num])
     ss = dcss[detection_num]
-#    print("ss ==", ss)
+    # print("ss ==", ss)
 
     # read UTCDateTime and other detection parameters
     detection_otime = UTCDateTime(yy, mm, dd, hh, mmn, ss)
@@ -306,7 +309,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     eve_lat = cat[template_num].origins[0].latitude
     eve_lon = cat[template_num].origins[0].longitude
     eve_dep = cat[template_num].origins[0].depth / 1000
-#    print("eve_lat, eve_lon == ", eve_lat, eve_lon)
+    # print("eve_lat, eve_lon == ", eve_lat, eve_lon)
 
     # read time and parameters of template event
     ot = cat[template_num].origins[0].time.datetime
@@ -319,7 +322,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     sst = ot1.second
     msect = aa3[template_num]
     microsect = int(msect)
-#    print("aa3[template_num], microsect", aa3[template_num], microsect)
+    # print("aa3[template_num], microsect", aa3[template_num], microsect)
     magt = cat[template_num].magnitudes[0].mag
 
     # compute the shift in seconds from midnight of the template
@@ -327,10 +330,10 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     template_otime = UTCDateTime(yyt, mmt, ddt, hht, mint, sst, microsect)
     template_daily_otime = template_otime.timestamp -\
         UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
-#    print("yyt, mmt, ddt, hht, mint, sst, microsect == ", yyt, mmt,
-#          ddt, hht, mint, sst, microsect)
-#    print("detection_daily_otime, template_daily_otime == ",
-#          detection_daily_otime, template_daily_otime)
+    # print("yyt, mmt, ddt, hht, mint, sst, microsect == ", yyt, mmt,
+    #       ddt, hht, mint, sst, microsect)
+    # print("detection_daily_otime, template_daily_otime == ",
+    #       detection_daily_otime, template_daily_otime)
 
     # define useful parameters for the stream of continuous data
     # string name
@@ -340,7 +343,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
     # define string of template related waveforms
     stemp_num = str(template_num)
- #   print("template_num == ", stemp_num)
+    # print("template_num == ", stemp_num)
 
     # load ttimes
     travel_file = "%s%s.ttimes" % (ttimes_dir, template_num)
@@ -359,7 +362,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             for channel in channels:
                 file = temp_dir + stemp_num + '.' + network + '.' + station +\
                     '..' + channel + '.mseed'
-  #              print('file :' + file)
+                # print('file :' + file)
 
                 if os.path.isfile(file):
                     st_temp += read(file)
@@ -369,7 +372,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         station = tt.stats.station
         channel = tt.stats.channel
         file1 = cont_dir + sday + '.' + station + '.' + channel
-   #     print(" file1 ===", file1)
+        # print(" file1 ===", file1)
         if os.path.isfile(file1):
             st_cont += read(file1)
         else:
@@ -406,7 +409,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
         # get coordinates from the inventory
         slat, slon, selev = read_sta_inv(invfiles, sstat)
-    #    print("sta_lat, sta_lon === ", eve_lat, eve_lon, eve_dep, slat, slon)
+        # print("sta_lat, sta_lon === ", eve_lat, eve_lon, eve_dep, slat, slon)
 
         if Flag_Read_Stats == 1:
             # compute shift from the origin time
@@ -423,7 +426,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
                 time_shift = float(ch_nsamp) * tt.stats.delta
 
         [ori, dist] = calc_timeshift(eve_lat, eve_lon, eve_dep, slat, slon, tlen_bef)
-     #   print("ori == ", ori)
+        # print("ori == ", ori)
 
         if Flag_Read_Stats == 1 and ch_id != "None":
             ori = ori - time_shift
@@ -433,19 +436,19 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         netwk = tt.stats.network
         idchan = netwk + "." + sstat + ".." + chan
         idchan_dic = netwk + "." + sstat + "." + chan
-        #print("idchan_dic == ", idchan_dic)
+        # print("idchan_dic == ", idchan_dic)
 
         if st_cont.select(id=idchan).__nonzero__():
             st1_cont = st_cont.select(id=idchan)
             st1_cont.merge()
-      #      print(st1_cont.__str__(extended=True))
+            # print(st1_cont.__str__(extended=True))
             tc = st1_cont[0]
-       #     print("Trace Id.i= ", st1_cont[0])
+            # print("Trace Id.i= ", st1_cont[0])
             tc.trim(starttime=UTCDateTime(detection_otime),
                     endtime=UTCDateTime(detection_otime) + 2 * det_dur,
                     pad=True, nearest_sample=True, fill_value=0)
-        #    print("tc.stats.starttime == ", tc.stats.starttime)
-         #   print("detection_otime == ", UTCDateTime(detection_otime))
+            # print("tc.stats.starttime == ", tc.stats.starttime)
+            # print("detection_otime == ", UTCDateTime(detection_otime))
 
             # compute maximum amplitude in the continuous waveforms
             # for magnitude estimation
@@ -469,9 +472,9 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
                 amaxad = amaxat
 
             # compute magnitude
-          #  print("amaxat, amaxad == ", amaxat, amaxad)
+            # print("amaxat, amaxad == ", amaxat, amaxad)
             amaxmul = amaxad / amaxat
-           # print("amaxmul == ", amaxmul)
+            # print("amaxmul == ", amaxmul)
             magd = mag_detect(magt, amaxat, amaxad)
             smagd = str("%4.2f" % magd)
             smagd = "Md=" + smagd + " Mt=" + str(magt)
@@ -524,7 +527,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
                                         str(detection_otime) +
                                         ' av_ch_cc/MAD = ' + str(thre)[0:4],
                                         fontsize=14, color='k')
-             # print("det_dur, magg == ", det_dur, magg)
+            # print("det_dur, magg == ", det_dur, magg)
 
             plt.xlabel('Time [s]')
 
