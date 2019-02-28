@@ -130,7 +130,7 @@ def read_stats(stats_dir, template_num, yymmdd,
     ndt = 0
 
     # loop on lines in file stats to find the detection with some
-    # tolerance(stat_tol) because the origin time in file cat is not 
+    # tolerance(stat_tol) because the origin time in file cat is not
     # always coincident with the file in stats
     # find lines corresponding to detections
     for ist, line in enumerate(lines):
@@ -202,7 +202,8 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
         n_sta = vvc.split('.')[1]
         n_chn = vvc.split('.')[2]
         filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(template_num),
-                    str(n_net), str(n_sta), str(n_chn))
+                                             str(n_net), str(n_sta),
+                                             str(n_chn))
         # print(filename)
         st_new += read(filename)
     # print(st_new)
