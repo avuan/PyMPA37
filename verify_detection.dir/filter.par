@@ -1,0 +1,14 @@
+# - Line 1 - FlagDateTime (Enter 1 for timestamp format (2009-03-30T21:59:43.616111Z) or Enter 0 for having seconds in a day (for plotting)) 
+# - Line 2 - Flag_cc (1 to have returned the best results in terms of average cross-corr using the sample tolerance, 0 results at sample tolerance 0)
+# - Line 3 - Input file
+# - Line 4 - UTC precison used in time 
+# - Line 5 - window_length (half time window for searching unique events)
+# - Line 6 - min_threshold (threshold used in parameters24 for detecting events,  threshold * MAD)
+# - Line 7 - min_nch (minimum number of channels to overcome the setup cc value in parameters24 e.g. 0.6)
+1 
+1 
+./dcat
+6 
+3.5 
+9.0 
+9 

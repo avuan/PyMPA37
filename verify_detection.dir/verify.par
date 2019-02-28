@@ -16,10 +16,11 @@
 # Line 16 -- Taup Model 
 # Line 17 -- Flag_Save_Fig (0 = show, 1 = save figure)
 # Line 18 -- Flag_Read_Stats (0 = no stats, 1 = read stats) 
-MMN CUC SALB SIRI SCHR 
-EHE EHN EHZ HHE HHN HHZ HNE HNN HNZ
+# Line 19 -- Tolerance in time between outcat origin time and stats
+ATBU ATFO ATLO ATMI ATPC ATPI ATSC ATVO BADI CDCA MURB
+EHE EHN EHZ HHE HHN HHZ
 IV MN
-2.0
+3.0
 8.0
 2.5
 2.5
@@ -29,8 +30,9 @@ template
 ttimes
 templates.zmap
 0
-2
-15.0
-pollino_guerra
+5
+10
+ato
 1
 1
+0.05
