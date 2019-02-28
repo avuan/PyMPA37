@@ -128,24 +128,22 @@ def read_stats(stats_dir, template_num, yymmdd,
     ncat = read_cat(stats_dir, template_num, yymmdd)
     linestop = np.empty(ncat, dtype=int)
     ndt = 0
-    
+
     # loop on lines in file stats to find the detection with some
     # tolerance(stat_tol) because the origin time in file cat is not 
     # always coincident with the file in stats
     # find lines corresponding to detections
-    
     for ist, line in enumerate(lines):
         # compute number of columns in lstat string
         line_len = len(line.split(" "))
         if line_len >= 7:
             linestop[ndt] = ist
             ndt += 1
+
     # print(linestop)
-  
     for ii, iline in enumerate(linestop):
         tdetection = UTCDateTime(str(det_ot)).timestamp
         tdetection_in_stats = UTCDateTime(lines[int(iline)].split(" ")[3]).timestamp
-            
         # check difference between detection time in cat and stats files
         tdiff = abs(tdetection - tdetection_in_stats)
         # print("tdiff == ", tdiff)
@@ -204,11 +202,11 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
         n_sta = vvc.split('.')[1]
         n_chn = vvc.split('.')[2]
         filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(template_num),
-            str(n_net), str(n_sta), str(n_chn))
+                    str(n_net), str(n_sta), str(n_chn))
         # print(filename)
         st_new += read(filename)
     # print(st_new)
-    return st_new 
+    return st_new
 
 
 # read input parameters
@@ -277,7 +275,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     # print("ss ==", ss)
     # read UTCDateTime and other detection parameters
     detection_otime = UTCDateTime(yy, mm, dd, hh, mmn, ss)
-    # compute the shift in seconds from the midnight 
+    # compute the shift in seconds from the midnight
     detection_daily_otime = detection_otime.timestamp -\
         UTCDateTime(yy, mm, dd, 0, 0, 0, 0).timestamp
     magd = dcmag[detection_num]
