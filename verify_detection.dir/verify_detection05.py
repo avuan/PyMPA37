@@ -128,11 +128,9 @@ def read_stats(stats_dir, template_num, yymmdd,
     ncat = read_cat(stats_dir, template_num, yymmdd)
     linestop = np.empty(ncat, dtype=int)
     ndt = 0
-
     # loop on lines in file stats to find the detection with some
     # tolerance(stat_tol) because the origin time in file cat is not 
     # always coincident with the file in stats
-
     # find lines corresponding to detections
     for ist, line in enumerate(lines):
         # compute number of columns in lstat string
