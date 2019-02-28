@@ -340,8 +340,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
             for channel in channels:
                 file = temp_dir + stemp_num + '.' + network + '.' + station +\
-                    '..' + channel + '.mseed'
-                # print('file :' + file)
+            '..' + channel + '.mseed'
 
                 if os.path.isfile(file):
                     st_temp += read(file)
