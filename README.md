@@ -5,11 +5,11 @@ PyMPA
 
 ### Abstract
 
-The software package PyMPA is an open source seismological software. It consists of some separate utilities for data preparation, the main program pympa38.mac.py, and post-processing tools to obtain a catalog and verify events. PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
+The software package PyMPA is an open source seismological software. It consists of some separate utilities for data preparation, the main program, and post-processing tools to obtain a catalog and verify events. PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
 
 ### Motivation and significance
 
-The software was developed in the framework of a bilateral project between Italy and Japan 2013-2015 "Detection of slow slip events and space-time cluster analysis of low magnitude tremors preceding the 2009 L'Aquila earthquake and the 2012 Emilia seismic sequence in Italy", and was co-funded by Ministero Affari Esteri (Italy) - Scientific and Technological Collaboration Executive Program. Further improvements to the code are planned within Project H2020 - SERA 2017-2019 http://www.sera-eu.org/. 
+The software was developed in the framework of a 2013-2015 bilateral project between Italy and Japan "Detection of slow slip events and space-time cluster analysis of low magnitude tremors preceding the 2009 L'Aquila earthquake and the 2012 Emilia seismic sequence in Italy", and was co-funded by Ministero Affari Esteri (Italy) - Scientific and Technological Collaboration Executive Program. Further improvements to the code are planned within Project H2020 - SERA 2017-2019 http://www.sera-eu.org/. We benefit 
 
 
 ### System requirements
