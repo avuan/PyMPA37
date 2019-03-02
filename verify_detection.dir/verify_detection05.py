@@ -143,7 +143,8 @@ def read_stats(stats_dir, template_num, yymmdd,
     # print(linestop)
     for ii, iline in enumerate(linestop):
         tdetection = UTCDateTime(str(det_ot)).timestamp
-        tdetection_in_stats = UTCDateTime(lines[int(iline)].split(" ")[3]).timestamp
+        tdetection_in_stats = UTCDateTime(lines[
+                                int(iline)].split(" ")[3]).timestamp
         # check difference between detection time in cat and stats files
         tdiff = abs(tdetection - tdetection_in_stats)
         # print("tdiff == ", tdiff)
@@ -215,7 +216,8 @@ vfile = 'verify.par'
 [stations, channels, networks, lowpassf, highpassf,
     tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir,
     ttimes_dir, ev_catalog, start_det, stop_det, det_dur,
-    taup_model, Flag_Save_Figure, Flag_Read_Stats, stat_tol] = read_input_par(vfile)
+    taup_model, Flag_Save_Figure, Flag_Read_Stats, stat_tol] = \
+    read_input_par(vfile)
 
 # generate model for travel times
 gen_model = taup_model + '.tvel'
@@ -376,7 +378,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     plt.rcParams["figure.figsize"] = [9, 16]
     jf, axarray = plt.subplots(npanels, sharex=True)
     count = 0
-    st_temp_new = sort_stream_for_distance(st_temp, ttimes_dir, temp_dir, template_num)
+    st_temp_new = sort_stream_for_distance(st_temp, ttimes_dir, temp_dir,
+                                           template_num)
 
     for it, tt in enumerate(st_temp_new):
         count = count + 1
@@ -401,7 +404,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             if ch_id != "None":
                 time_shift = float(ch_nsamp) * tt.stats.delta
 
-        [ori, dist] = calc_timeshift(eve_lat, eve_lon, eve_dep, slat, slon, tlen_bef)
+        [ori, dist] = calc_timeshift(eve_lat, eve_lon, eve_dep, slat,
+                                     slon, tlen_bef)
         # print("ori == ", ori)
 
         if Flag_Read_Stats == 1 and ch_id != "None":
