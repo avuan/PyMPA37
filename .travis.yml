@@ -85,7 +85,7 @@ script:
    - ./pympa46mac.py
    - cd ../output.process_detections.dir
    - ./postproc37.sh  
-   - cd ../output.verify_detections.dir
+   - cd ../output.verify_detection.dir
    - ./verify_detection05.py
    
 after_success:
