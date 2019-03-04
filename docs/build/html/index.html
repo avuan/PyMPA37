@@ -1,0 +1,136 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Python Matching Phase Algorithm &#8212; PyMPA 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo.png" class="align-left" src="_images/pympa_logo.png" style="width: 600px;" /></a>
+<p>PyMPA</p>
+<div class="section" id="python-matching-phase-algorithm">
+<h1>Python Matching Phase Algorithm<a class="headerlink" href="#python-matching-phase-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>A Python package for the detection of seismicity based on templates.
+PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
+The software package PyMPA is an open source seismological software. It consists of some separate utilities for data preparation, the main program, and post-processing tools to obtain a catalog and verify events. PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.</p>
+<p><span class="xref std std-doc">input_preparation</span> <span class="xref std std-doc">detection</span>
+<span class="xref std std-doc">postprocessing</span>, and verification <span class="xref std std-doc">verify</span>.</p>
+<p>The code is stored on <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7releases and uses <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a> for reading and writing seismic data, and for handling most
+of the event metadata. Matched-filter correlations are calculated using <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a>.</p>
+<p>Also within this package are:</p>
+<ul class="simple">
+<li><span class="xref std std-doc">Clustering routines for seismic data</span>;</li>
+<li><span class="xref std std-doc">Peak finding algorithm (basic)</span>;</li>
+<li><span class="xref std std-doc">Automatic amplitude picker for local magnitude scale</span>;</li>
+<li><span class="xref std std-doc">Stacking routines</span> including phase-weighted stacking based on Thurber at al. (2014);</li>
+<li><span class="xref std std-doc">Brightness based template creation</span> based on the work of Frank et al. (2014)</li>
+</ul>
+<p>This package is written by the PyMPA developers, and is
+distributed under the LGPL GNU Licence, Copyright PyMPA
+developers 2017.</p>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>If you use this package in your work, please cite the following paper:</p>
+<p>Vuan A., Sugan M., Amati G., Kato A., 2017 - Improving the Detection of Low-Magnitude Seismicity Preceding the Mw 6.3 L’Aquila Earthquake: Development of a Scalable Code Based on the Cross-Correlation of Template Earthquakes, BSSA <a class="reference external" href="https://pubs.geoscienceworld.org/ssa/bssa/article-abstract/525813/improving-the-detection-of-low-magnitude?redirectedFrom=fulltext">https://pubs.geoscienceworld.org/ssa/bssa/article-abstract/525813/improving-the-detection-of-low-magnitude?redirectedFrom=fulltext</a></p>
+<p>Vuan A., Sugan M., Chiaraluce L., Di Stefano R., 2017 - Loading rate variations along a mid-crustal shear zone preceding the MW6.0 earthquake of the 24th of August 2016 in Central Italy, Geophysical Research Letters <a class="reference external" href="http://onlinelibrary.wiley.com/doi/10.1002/2017GL076223/full">http://onlinelibrary.wiley.com/doi/10.1002/2017GL076223/full</a></p>
+<p>Sugan, M., Vuan, A., Kato, A., Massa, M., &amp; Amati, G. (2019). Seismic evidence of an early afterslip during the 2012 sequence in Emilia (Italy). Geophysical Research Letters, 46, 625–635. <a class="reference external" href="https://doi.org/10.1029/2018GL079617">https://doi.org/10.1029/2018GL079617</a></p>
+</div>
+<div class="section" id="contents">
+<h2>Contents:<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">PyMPA</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Alessandro Vuan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

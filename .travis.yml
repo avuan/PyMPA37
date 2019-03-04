@@ -72,20 +72,20 @@ before_script:
   - flake8 ./*.dir/*.py  --count --exit-zero --statistics
 
 script:
-   - cd ./download_data.dir
+   - cd ./input.download_data.dir
    - ./download_eida_ingv.py
    - ./download_inventory_ingv.py
-   - cd ../trim_templates.dir
+   - cd ../input.create_templates.dir
    - ./trim_templates4.1.py
-   - cd ../calc_ttimes.dir
+   - cd ../input.calculate_ttimes.dir
    - ./calcTT06.py
-   - cd ../pympa38.dir
+   - cd ../core.pympa.dir
    - ./pympa40mac.py 
-   - cd ../pympa44_chunks.dir
+   - cd ../core.pympa_chunks_channel_limit.dir
    - ./pympa46mac.py
-   - cd ../postproc.dir
+   - cd ../output.process_detections.dir
    - ./postproc37.sh  
-   - cd ../verify_detection.dir
+   - cd ../output.verify_detections.dir
    - ./verify_detection05.py
    
 after_success:
