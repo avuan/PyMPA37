@@ -79,9 +79,9 @@ script:
    - ./trim_templates4.1.py
    - cd ../input.calculate_ttimes.dir
    - ./calcTT06.py
-   - cd ../core.pympa.dir
+   - cd ../main.pympa.dir
    - ./pympa40mac.py 
-   - cd ../core.pympa_chunks_channel_limit.dir
+   - cd ../main.pympa_chunks_channel_limit.dir
    - ./pympa46mac.py
    - cd ../output.process_detections.dir
    - ./postproc37.sh  
