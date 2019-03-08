@@ -1,0 +1,20 @@
+.. image:: pympa_logo1.png
+    :width: 100px
+    :align: left
+    :alt: pympa_logo1.png
+    :target: https://github.com/avuan/PyMPA37/releases
+
+
+
+Preprocessing Input 
+===================
+
+This package contains utilities for:
+
+* :doc:`Routines for downloading data from eida servers <input.download_data>`;
+* :doc:`Routines for creating and trimming templates <input.create_templates>`;
+* :doc:`Routines for calculating moveout time for synchronization <input.calculate_ttimes>`;
+* :doc:`Kurtosis based template verification <input.template_check>`;
+
+
+These utilities are written by the PyMPA developers, and are distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.

@@ -1,24 +1,25 @@
-.. image:: pympa_logo.png
-    :width: 600px
+.. image:: pympa_logo1.png
+    :width: 100px
     :align: left
-    :alt: pympa_logo.png
+    :alt: pympa_logo1.png
     :target: https://github.com/avuan/PyMPA37/releases
 
-PyMPA 
 
-Python Matching Phase Algorithm
-==========
+
+Python Matching Phase Algorithm 
+===============================
 
 A Python package for the detection of seismicity based on templates.
 PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
-The software package PyMPA is an open source seismological software. It consists of some separate utilities for data preparation, the main program, and post-processing tools to obtain a catalog and verify events. PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
+The software package PyMPA is an open source seismological software. It consists of some separate utilities for input preparation, 
+the main program, and output post-processing tools to obtain a catalog and verify events. 
+PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
 
-
-:doc:`input_preparation </submodules/core.input_preparation>` :doc:`detection </submodules/core.detection>`
-:doc:`postprocessing </submodules/core.postprocessing>`, and verification :doc:`verify </submodules/core.verify>`.  
-
-The code is stored on |github|, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7releases and uses |ObsPy_link| for reading and writing seismic data, and for handling most
-of the event metadata. Matched-filter correlations are calculated using |correlate_template|.
+The code is stored on |github|, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
+releases and uses |ObsPy_link| for reading and writing seismic data, and for handling most
+of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 |correlate_template| released on March
+2019. 
+Important: we recommend to use an updated version of ObsPy.
  
 .. |github| raw:: html
 
@@ -32,16 +33,40 @@ of the event metadata. Matched-filter correlations are calculated using |correla
 
   <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a>
 
+.. image:: pympa_logo.png
+    :width: 300px
+    :align: left
+    :alt: pympa_logo.png
+    :target: https://github.com/avuan/PyMPA37/releases
+
 This package contains:
 
-* :doc:`Routines for seismic data preparation </submodules/utils.preparation>`;
-* :doc:`Kurtosis based template verification </submodules/utils.kurtosis>`;
-* :doc:`Postprocessing routines </submodules/utils.postprocessing>`;
-* :doc:`Detection visual verification </submodules/utils.verification>`;
+* :doc:`Routines for downloading data from eida servers <./sub/input.download_data>`;
+* :doc:`Routines for creating and trimming templates <./sub/input.create_templates>`;
+* :doc:`Routines for calculating moveout time for synchronization <./sub/input.calculate_ttimes>`;
+* :doc:`Kurtosis based template verification <./sub/input.template_check>`;
+* :doc:`Template matching by using daily estimation of MAD and all the available channels <./sub/main.pympa>`;
+* :doc:`Template matching by using daily estimation of MAD and a limited number of channels <./sub/main.pympa_channel_limit>`;
+* :doc:`Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels <./sub/main.pympa_chunks_channel_limit>`;
+* :doc:`Postprocessing routines <./sub/output.process_detections>`;
+* :doc:`Visual verification of detections <./sub/output.verify_detection>`;
 
-This package is written by the PyMPA developers, and is 
-distributed under the LGPL GNU Licence, Copyright PyMPA
-developers 2019.
+This package is written by the PyMPA developers, and is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.
+
+Acknowledgements
+----------------
+The software development was partially funded by a joint research project within the
+executive program of scientific and technological cooperation between Italy
+and Japan for the period 2013–2015. Additional funds for software development
+come from the project “Seismology and Earthquake Engineering
+Research Infrastructure Alliance for Europe” (SERA), responding to the priorities
+identified in the call INFRAIA-01-2016-2017 Research Infrastructure
+for Earthquake Hazard. We thank Monica Sugan for the extensive testing of the codes and Aitaro Kato 
+at the Earthquake Research Institute (ERI) in Tokyo for fruitful
+discussions.
+The authors also wish to thank the ObsPy community for the continuous
+support and constant development of related libraries.
+
 
 Citation
 --------
@@ -55,14 +80,12 @@ Sugan, M., Vuan, A., Kato, A., Massa, M., & Amati, G. (2019). Seismic evidence o
 
 Contents:
 ---------
-
 .. toctree::
-   :numbered:
-   :maxdepth: 2
+   :maxdepth: 2 
 
    intro
    installation
-   updates
    tutorial
-   core
-   utils
+   input
+   main
+   output
