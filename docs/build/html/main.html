@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>9. Main Program &#8212; PyMPA 1.0.0 documentation</title>
+    <title>5. Main Program &#8212; PyMPA 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="10. Running PyMPA" href="main.pympa.html" />
-    <link rel="prev" title="8. Calculate Travel Times" href="input.calculate_ttimes.html" />
+    <link rel="next" title="6. Creting an output catalog and verify detections" href="output.html" />
+    <link rel="prev" title="4.1.4. Template Kurtosis-based Waveform Check" href="sub/input.template_check.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -35,7 +35,7 @@
             
   <a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo1.png" class="align-left" src="_images/pympa_logo1.png" style="width: 100px;" /></a>
 <div class="section" id="main-program">
-<h1>9. Main Program<a class="headerlink" href="#main-program" title="Permalink to this headline">¶</a></h1>
+<h1>5. Main Program<a class="headerlink" href="#main-program" title="Permalink to this headline">¶</a></h1>
 <p>PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
 The code is stored on <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
 releases and uses <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a> for reading and writing seismic data, and for handling most
@@ -44,9 +44,9 @@ of the event metadata. Matched-filter correlations are calculated using ObsPy v.
 Important: we recommend to use an updated version of ObsPy.</p>
 <p>Main packages contains:</p>
 <ul class="simple">
-<li><a class="reference internal" href="main.pympa.html"><span class="doc">Template matching by using daily estimation of MAD and all the available channels</span></a>;</li>
-<li><a class="reference internal" href="main.pympa_channel_limit.html"><span class="doc">Template matching by using daily estimation of MAD and a limited number of channels</span></a>;</li>
-<li><a class="reference internal" href="main.pympa_chunks_channel_limit.html"><span class="doc">Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels</span></a>;</li>
+<li><span class="xref std std-doc">Template matching by using daily estimation of MAD and all the available channels</span>;</li>
+<li><span class="xref std std-doc">Template matching by using daily estimation of MAD and a limited number of channels</span>;</li>
+<li><span class="xref std std-doc">Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels</span>;</li>
 </ul>
 <p>This package is written by the PyMPA developers, and is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.</p>
 </div>
@@ -73,25 +73,16 @@ Important: we recommend to use an updated version of ObsPy.</p>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. PyMPA installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">4. Preprocessing Input</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input.download_data.html">5. Download data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input.create_templates.html">6. Create templates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input.template_check.html">7. Template Kurtosis-based Waveform Check</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input.calculate_ttimes.html">8. Calculate Travel Times</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">9. Main Program</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.pympa.html">10. Running PyMPA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.pympa_channel_limit.html">11. Running PyMPA using a number of limited channels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.pympa_chunks_channel_limit.html">12. Running PyMPA using daily chunks and a limited number of channels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="output.html">13. Creting an output catalog and verify detections</a></li>
-<li class="toctree-l1"><a class="reference internal" href="output.process_detections.html">14. Process PyMPA Output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="output.verify_detection.html">15. Visual verification of detections</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Main Program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">6. Creting an output catalog and verify detections</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="input.calculate_ttimes.html" title="previous chapter">8. Calculate Travel Times</a></li>
-      <li>Next: <a href="main.pympa.html" title="next chapter">10. Running PyMPA</a></li>
+      <li>Previous: <a href="sub/input.template_check.html" title="previous chapter">4.1.4. Template Kurtosis-based Waveform Check</a></li>
+      <li>Next: <a href="output.html" title="next chapter">6. Creting an output catalog and verify detections</a></li>
   </ul></li>
 </ul>
 </div>
