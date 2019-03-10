@@ -2,7 +2,7 @@
     :width: 100px
     :align: left
     :alt: pympa_logo1.png
-    :target: https://github.com/avuan/PyMPA37/releases
+    :target: https://github.com/avuan/PyMPA37/docs
 
 
 
@@ -37,7 +37,7 @@ Important: we recommend to use an updated version of ObsPy.
     :width: 300px
     :align: left
     :alt: pympa_logo.png
-    :target: https://github.com/avuan/PyMPA37/releases
+    :target: https://github.com/avuan/PyMPA37/docs
 
 This package contains:
 

@@ -6,7 +6,7 @@
 
 
 
-Creting an output catalog and verify detections 
+Creating an output catalog and verify detections
 ===============================================
 It consists of some separate utilities in |github|, 
 post-processing tools to obtain a catalog and verify events. 
