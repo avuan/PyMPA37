@@ -31,9 +31,18 @@ Important: we recommend to use an updated version of ObsPy.
 
 Main packages contains:
 
-* :doc:`Template matching by using daily estimation of MAD and all the available channels <main.pympa>`;
-* :doc:`Template matching by using daily estimation of MAD and a limited number of channels <main.pympa_channel_limit>`;
-* :doc:`Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels <main.pympa_chunks_channel_limit>`;
-
+* :doc:`Template matching by using daily estimation of MAD and all the available channels <./sub/main.pympa>`;
+* :doc:`Template matching by using daily estimation of MAD and a limited number of channels <./sub/main.pympa_channel_limit>`;
+* :doc:`Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels <./sub/main.pympa_chunks_channel_limit>`;
 
 This package is written by the PyMPA developers, and is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.
+
+
+Contents:
+---------
+.. toctree::
+   :maxdepth: 2
+
+   main.pympa <./sub/main.pympa>
+   main.pympa_channel_limit <./sub/main.pympa_channel_limit>
+   main.pympa_chunks_channel_limit <./sub/main.pympa_chunks_channel_limit>

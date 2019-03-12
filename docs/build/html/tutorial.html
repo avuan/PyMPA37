@@ -53,105 +53,735 @@ is able to manage most of the seismological data formats (MSEED, SAC, SEISAN, SE
 An inventory data file including station information needs to be created by modifying an existing
 StationXML file and read that with ObsPy to perform the rest.</p>
 <p>PyMPA does not use databases and prefers to store single channel daily continuous data in archieves.</p>
-<p>(<span class="xref std std-doc">download_data</span>) download data</p>
+<p>(<a class="reference internal" href="sub/input.download_data.html"><span class="doc">download_data</span></a>) download data</p>
 </div>
 <div class="section" id="create-templates">
 <h2>3.2. Create Templates<a class="headerlink" href="#create-templates" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">create_template</span>) create templates</p>
-<p>Needed files
-1. Events in a catalog: e.g. templates.zmap (quakeml or zmap formats) see ObsPy for admitted formats</p>
-<blockquote>
-<div>cat templates.zmap</div></blockquote>
-<ol class="arabic simple" start="2">
-<li>Days to process: one column file including days to process e.g. lista1
-cat lista1
-120103
-120104</li>
-<li>Set parameters: e.g. trim.par
-cat trim.par
-#Line 1 – list of stations
-#Line 2 – list of channels
-#Line 3 – list of networks
-#Line 4 – Lowpass frequency
-#Line 5 – Highpass frequency
-#Line 6 – Trimmed Time before S-wave
-#Line 7 – Trimmed Time after S-wave
-#Line 8 – UTC precision
-#Line 9 – Continuous data dir
-#Line 10 – Template data dir
-#Line 11 – Processing days list
-#Line 12 – Zmap catalog
-#Line 13 – Starting template
-#Line 14 – Stopping template
-#Line 15 – Taup Model
-AQU CAMP CERT FAGN FIAM GUAR INTR MNS NRCA TERO
-BHE BHN BHZ
-IV MN
-2.0
-8.0
-2.5
-2.5
-6
-24h
-template
-lista1
-templates.zmap
-26
-27
-aquila_kato</li>
-</ol>
+<p>(<a class="reference internal" href="sub/input.create_templates.html"><span class="doc">create_template</span></a>) create templates</p>
+<p>A Python script create_templates.py is used to trim templates from continuous data
+stored in an archive. Generally, we use S-wave travel times to cut events before and after arrivals.
+Take care that a high sampling rate could result in memory consumption
+and prolonged times of execution. Input data should be decimated a priori accordingly with your needs.
+Check example for running create_templates.py at <a class="reference external" href="https://github.com/avuan/PyMPA37/tree/master/input.create_templates.dir">https://github.com/avuan/PyMPA37/tree/master/input.create_templates.dir</a></p>
+<p>Needed files:</p>
+<ul class="simple">
+<li>Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format</li>
+</ul>
+<pre class="literal-block">
+13.38347        42.38842        2009    03      30      1.3     11.180  14      04      34.50
+13.38981        42.33004        2009    03      30      1.5     9.170   14      15      4.32
+13.39447        42.32878        2009    03      30      1.6     9.610   14      16      6.35
+13.40577        42.31941        2009    03      30      1.4     5.370   14      17      1.74
+13.36791        42.59639        2009    03      30      1.3     5.710   14      35      16.74
+13.45651        42.25600        2009    03      30      1.3     5.620   14      42      23.29
+13.38686        42.31381        2009    03      30      1.2     6.270   15      10      34.73
+13.49527        42.30006        2009    03      30      0.9     6.810   15      21      2.28
+13.32714        42.33182        2009    03      30      1.4     6.210   15      40      5.62
+13.29606        42.27235        2009    03      30      1.2     8.690   15      53      5.35
+13.39056        42.31176        2009    03      30      1.0     6.630   15      57      21.38
+13.33732        42.32800        2009    03      30      1.6     11.580  16      06      59.81
+13.37035        42.31771        2009    03      30      1.4     10.570  16      28      12.31
+13.39649        42.31908        2009    03      30      1.4     8.140   17      04      31.64
+13.33823        42.33349        2009    03      30      1.3     7.820   17      15      58.33
+13.41437        42.34201        2009    03      30      1.5     7.120   17      47      19.88
+13.38869        42.30452        2009    03      30      1.0     7.820   18      08      28.49
+13.39272        42.32332        2009    03      30      1.3     8.670   19      27      21.43
+13.44121        42.32962        2009    03      30      1.2     2.700   19      52      48.49
+13.39902        42.34200        2009    03      30      1.2     9.790   20      23      36.86
+13.37897        42.33234        2009    03      30      1.0     8.200   21      35      55.98
+13.42597        42.46570        2009    03      30      1.3     19.820  21      37      24.47
+13.38473        42.31577        2009    03      30      1.2     6.540   22      08      12.70
+13.38779        42.30452        2009    03      30      1.1     6.690   22      18      38.95
+13.38168        42.31454        2009    03      30      1.0     7.290   22      52      12.88
+13.25361        42.27312        2009    03      30      1.0     14.930  23      21      59.35
+13.38767        42.30401        2009    03      30      1.1     6.470   23      55      40.01
+
+</pre>
+<ul class="simple">
+<li>Suitable velocity model for computing travel times</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aquila</span> <span class="o">+</span> <span class="n">ak135</span>
+<span class="n">depth</span> <span class="n">P</span> <span class="n">vel</span><span class="o">.</span> <span class="n">S</span> <span class="n">vel</span><span class="o">.</span> <span class="n">density</span> <span class="n">older</span> <span class="n">density</span>
+     <span class="mf">0.000</span>      <span class="mf">3.7500</span>      <span class="mf">2.1650</span>      <span class="mf">2.4500</span> 
+     <span class="mf">1.500</span>      <span class="mf">3.7500</span>      <span class="mf">2.1710</span>      <span class="mf">2.4500</span>
+     <span class="mf">1.510</span>      <span class="mf">4.9400</span>      <span class="mf">2.8520</span>      <span class="mf">2.7800</span>
+     <span class="mf">4.510</span>      <span class="mf">4.9400</span>      <span class="mf">2.8580</span>      <span class="mf">2.7800</span>
+     <span class="mf">4.520</span>      <span class="mf">6.0100</span>      <span class="mf">3.2790</span>      <span class="mf">2.7600</span>
+    <span class="mf">14.520</span>      <span class="mf">6.0100</span>      <span class="mf">3.2850</span>      <span class="mf">2.7600</span>
+    <span class="mf">14.530</span>      <span class="mf">5.5500</span>      <span class="mf">3.3950</span>      <span class="mf">2.9100</span>
+    <span class="mf">29.530</span>      <span class="mf">5.5500</span>      <span class="mf">3.4010</span>      <span class="mf">2.9100</span>
+    <span class="mf">29.540</span>      <span class="mf">5.8800</span>      <span class="mf">4.0990</span>      <span class="mf">3.1000</span>
+    <span class="mf">43.540</span>      <span class="mf">5.8800</span>      <span class="mf">4.1050</span>      <span class="mf">3.1000</span>
+    <span class="mf">43.550</span>      <span class="mf">5.8800</span>      <span class="mf">4.5610</span>      <span class="mf">3.1000</span>
+    <span class="mf">57.500</span>      <span class="mf">5.8800</span>      <span class="mf">3.3600</span>      <span class="mf">3.1000</span>
+    <span class="mf">57.500</span>      <span class="mf">7.1100</span>      <span class="mf">4.0100</span>      <span class="mf">3.2300</span>
+    <span class="mf">93.000</span>      <span class="mf">7.1100</span>      <span class="mf">4.0100</span>      <span class="mf">3.2300</span>
+    <span class="mf">93.000</span>      <span class="mf">7.1000</span>      <span class="mf">3.9900</span>      <span class="mf">3.3000</span>
+   <span class="mf">136.500</span>      <span class="mf">7.1000</span>      <span class="mf">3.9900</span>      <span class="mf">3.3000</span> 
+   <span class="mf">165.000</span>      <span class="mf">8.1750</span>      <span class="mf">4.5090</span>      <span class="mf">3.3487</span> 
+   <span class="mf">210.000</span>      <span class="mf">8.3000</span>      <span class="mf">4.5180</span>      <span class="mf">3.3960</span>
+   <span class="mf">210.000</span>      <span class="mf">8.3000</span>      <span class="mf">4.5230</span>      <span class="mf">3.3960</span>
+   <span class="mf">260.000</span>      <span class="mf">8.4825</span>      <span class="mf">4.6090</span>      <span class="mf">3.4652</span> 
+   <span class="mf">310.000</span>      <span class="mf">8.6650</span>      <span class="mf">4.6960</span>      <span class="mf">3.5343</span>
+   <span class="mf">360.000</span>      <span class="mf">8.8475</span>      <span class="mf">4.7830</span>      <span class="mf">3.6034</span>
+   <span class="mf">410.000</span>      <span class="mf">9.0300</span>      <span class="mf">4.8700</span>      <span class="mf">3.6726</span>
+   <span class="mf">410.000</span>      <span class="mf">9.3600</span>      <span class="mf">5.0800</span>      <span class="mf">3.7976</span>
+   <span class="mf">460.000</span>      <span class="mf">9.5280</span>      <span class="mf">5.1860</span>      <span class="mf">3.8612</span>
+   <span class="mf">510.000</span>      <span class="mf">9.6960</span>      <span class="mf">5.2920</span>      <span class="mf">3.9248</span>
+   <span class="mf">560.000</span>      <span class="mf">9.8640</span>      <span class="mf">5.3980</span>      <span class="mf">3.9885</span>
+   <span class="mf">610.000</span>     <span class="mf">10.0320</span>      <span class="mf">5.5040</span>      <span class="mf">4.0521</span>
+   <span class="mf">660.000</span>     <span class="mf">10.2000</span>      <span class="mf">5.6100</span>      <span class="mf">4.1158</span>
+   <span class="mf">660.000</span>     <span class="mf">10.7900</span>      <span class="mf">5.9600</span>      <span class="mf">4.3393</span>
+   <span class="mf">710.000</span>     <span class="mf">10.9229</span>      <span class="mf">6.0897</span>      <span class="mf">4.3896</span>
+   <span class="mf">760.000</span>     <span class="mf">11.0558</span>      <span class="mf">6.2095</span>      <span class="mf">4.4399</span>
+   <span class="mf">809.500</span>     <span class="mf">11.1353</span>      <span class="mf">6.2426</span>      <span class="mf">4.4701</span>
+   <span class="mf">859.000</span>     <span class="mf">11.2221</span>      <span class="mf">6.2798</span>      <span class="mf">4.5029</span>
+   <span class="mf">908.500</span>     <span class="mf">11.3068</span>      <span class="mf">6.3160</span>      <span class="mf">4.5350</span>
+   <span class="mf">958.000</span>     <span class="mf">11.3896</span>      <span class="mf">6.3512</span>      <span class="mf">4.5664</span>
+  <span class="mf">1007.500</span>     <span class="mf">11.4705</span>      <span class="mf">6.3854</span>      <span class="mf">4.5970</span>
+  <span class="mf">1057.000</span>     <span class="mf">11.5495</span>      <span class="mf">6.4187</span>      <span class="mf">4.6270</span>
+  <span class="mf">1106.500</span>     <span class="mf">11.6269</span>      <span class="mf">6.4510</span>      <span class="mf">4.6563</span>
+  <span class="mf">1156.000</span>     <span class="mf">11.7026</span>      <span class="mf">6.4828</span>      <span class="mf">4.6849</span>
+  <span class="mf">1205.500</span>     <span class="mf">11.7766</span>      <span class="mf">6.5138</span>      <span class="mf">4.7130</span>
+  <span class="mf">1255.000</span>     <span class="mf">11.8491</span>      <span class="mf">6.5439</span>      <span class="mf">4.7404</span>
+  <span class="mf">1304.500</span>     <span class="mf">11.9200</span>      <span class="mf">6.5727</span>      <span class="mf">4.7673</span>
+  <span class="mf">1354.000</span>     <span class="mf">11.9895</span>      <span class="mf">6.6008</span>      <span class="mf">4.7936</span>
+  <span class="mf">1403.500</span>     <span class="mf">12.0577</span>      <span class="mf">6.6285</span>      <span class="mf">4.8195</span>
+  <span class="mf">1453.000</span>     <span class="mf">12.1245</span>      <span class="mf">6.6555</span>      <span class="mf">4.8448</span>
+  <span class="mf">1502.500</span>     <span class="mf">12.1912</span>      <span class="mf">6.6815</span>      <span class="mf">4.8700</span>
+  <span class="mf">1552.000</span>     <span class="mf">12.2550</span>      <span class="mf">6.7073</span>      <span class="mf">4.8942</span>
+  <span class="mf">1601.500</span>     <span class="mf">12.3185</span>      <span class="mf">6.7326</span>      <span class="mf">4.9182</span>
+  <span class="mf">1651.000</span>     <span class="mf">12.3819</span>      <span class="mf">6.7573</span>      <span class="mf">4.9423</span>
+  <span class="mf">1700.500</span>     <span class="mf">12.4426</span>      <span class="mf">6.7815</span>      <span class="mf">4.9653</span>
+  <span class="mf">1750.000</span>     <span class="mf">12.5031</span>      <span class="mf">6.8052</span>      <span class="mf">4.9882</span>
+  <span class="mf">1799.500</span>     <span class="mf">12.5631</span>      <span class="mf">6.8286</span>      <span class="mf">5.0109</span>
+  <span class="mf">1849.000</span>     <span class="mf">12.6221</span>      <span class="mf">6.8515</span>      <span class="mf">5.0333</span>
+  <span class="mf">1898.500</span>     <span class="mf">12.6804</span>      <span class="mf">6.8742</span>      <span class="mf">5.0553</span>
+  <span class="mf">1948.000</span>     <span class="mf">12.7382</span>      <span class="mf">6.8972</span>      <span class="mf">5.0772</span>
+  <span class="mf">1997.500</span>     <span class="mf">12.7956</span>      <span class="mf">6.9194</span>      <span class="mf">5.0990</span>
+  <span class="mf">2047.000</span>     <span class="mf">12.8526</span>      <span class="mf">6.9418</span>      <span class="mf">5.1206</span>
+  <span class="mf">2096.500</span>     <span class="mf">12.9096</span>      <span class="mf">6.9627</span>      <span class="mf">5.1422</span>
+  <span class="mf">2146.000</span>     <span class="mf">12.9668</span>      <span class="mf">6.9855</span>      <span class="mf">5.1638</span>
+  <span class="mf">2195.500</span>     <span class="mf">13.0222</span>      <span class="mf">7.0063</span>      <span class="mf">5.1848</span>
+  <span class="mf">2245.000</span>     <span class="mf">13.0783</span>      <span class="mf">7.0281</span>      <span class="mf">5.2061</span>
+  <span class="mf">2294.500</span>     <span class="mf">13.1336</span>      <span class="mf">7.0500</span>      <span class="mf">5.2270</span>
+  <span class="mf">2344.000</span>     <span class="mf">13.1894</span>      <span class="mf">7.0720</span>      <span class="mf">5.2481</span>
+  <span class="mf">2393.500</span>     <span class="mf">13.2465</span>      <span class="mf">7.0931</span>      <span class="mf">5.2698</span>
+  <span class="mf">2443.000</span>     <span class="mf">13.3018</span>      <span class="mf">7.1144</span>      <span class="mf">5.2907</span>
+  <span class="mf">2492.500</span>     <span class="mf">13.3585</span>      <span class="mf">7.1369</span>      <span class="mf">5.3122</span>
+  <span class="mf">2542.000</span>     <span class="mf">13.4156</span>      <span class="mf">7.1586</span>      <span class="mf">5.3338</span>
+  <span class="mf">2591.500</span>     <span class="mf">13.4741</span>      <span class="mf">7.1807</span>      <span class="mf">5.3560</span>
+  <span class="mf">2640.000</span>     <span class="mf">13.5312</span>      <span class="mf">7.2031</span>      <span class="mf">5.3776</span>
+  <span class="mf">2690.000</span>     <span class="mf">13.5900</span>      <span class="mf">7.2258</span>      <span class="mf">5.3999</span>
+  <span class="mf">2740.000</span>     <span class="mf">13.6494</span>      <span class="mf">7.2490</span>      <span class="mf">5.4224</span>
+  <span class="mf">2740.000</span>     <span class="mf">13.6494</span>      <span class="mf">7.2490</span>      <span class="mf">5.4224</span>
+  <span class="mf">2789.670</span>     <span class="mf">13.6530</span>      <span class="mf">7.2597</span>      <span class="mf">5.4238</span>
+  <span class="mf">2839.330</span>     <span class="mf">13.6566</span>      <span class="mf">7.2704</span>      <span class="mf">5.4250</span>
+  <span class="mf">2891.500</span>     <span class="mf">13.6602</span>      <span class="mf">7.2811</span>      <span class="mf">5.4265</span>
+  <span class="mf">2891.500</span>      <span class="mf">8.0000</span>      <span class="mf">0.0000</span>      <span class="mf">9.9145</span>
+  <span class="mf">2939.330</span>      <span class="mf">8.0382</span>      <span class="mf">0.0000</span>      <span class="mf">9.9942</span>
+  <span class="mf">2989.660</span>      <span class="mf">8.1283</span>      <span class="mf">0.0000</span>     <span class="mf">10.0722</span>
+  <span class="mf">3039.990</span>      <span class="mf">8.2213</span>      <span class="mf">0.0000</span>     <span class="mf">10.1485</span>
+  <span class="mf">3090.320</span>      <span class="mf">8.3122</span>      <span class="mf">0.0000</span>     <span class="mf">10.2233</span>
+  <span class="mf">3140.660</span>      <span class="mf">8.4001</span>      <span class="mf">0.0000</span>     <span class="mf">10.2964</span>
+  <span class="mf">3190.990</span>      <span class="mf">8.4861</span>      <span class="mf">0.0000</span>     <span class="mf">10.3679</span>
+  <span class="mf">3241.320</span>      <span class="mf">8.5692</span>      <span class="mf">0.0000</span>     <span class="mf">10.4378</span>
+  <span class="mf">3291.650</span>      <span class="mf">8.6496</span>      <span class="mf">0.0000</span>     <span class="mf">10.5062</span>
+  <span class="mf">3341.980</span>      <span class="mf">8.7283</span>      <span class="mf">0.0000</span>     <span class="mf">10.5731</span>
+  <span class="mf">3392.310</span>      <span class="mf">8.8036</span>      <span class="mf">0.0000</span>     <span class="mf">10.6385</span>
+  <span class="mf">3442.640</span>      <span class="mf">8.8761</span>      <span class="mf">0.0000</span>     <span class="mf">10.7023</span>
+  <span class="mf">3492.970</span>      <span class="mf">8.9461</span>      <span class="mf">0.0000</span>     <span class="mf">10.7647</span>
+  <span class="mf">3543.300</span>      <span class="mf">9.0138</span>      <span class="mf">0.0000</span>     <span class="mf">10.8257</span>
+  <span class="mf">3593.640</span>      <span class="mf">9.0792</span>      <span class="mf">0.0000</span>     <span class="mf">10.8852</span>
+  <span class="mf">3643.970</span>      <span class="mf">9.1426</span>      <span class="mf">0.0000</span>     <span class="mf">10.9434</span>
+  <span class="mf">3694.300</span>      <span class="mf">9.2042</span>      <span class="mf">0.0000</span>     <span class="mf">11.0001</span>
+  <span class="mf">3744.630</span>      <span class="mf">9.2634</span>      <span class="mf">0.0000</span>     <span class="mf">11.0555</span>
+  <span class="mf">3794.960</span>      <span class="mf">9.3205</span>      <span class="mf">0.0000</span>     <span class="mf">11.1095</span>
+  <span class="mf">3845.290</span>      <span class="mf">9.3760</span>      <span class="mf">0.0000</span>     <span class="mf">11.1623</span>
+  <span class="mf">3895.620</span>      <span class="mf">9.4297</span>      <span class="mf">0.0000</span>     <span class="mf">11.2137</span>
+  <span class="mf">3945.950</span>      <span class="mf">9.4814</span>      <span class="mf">0.0000</span>     <span class="mf">11.2639</span>
+  <span class="mf">3996.280</span>      <span class="mf">9.5306</span>      <span class="mf">0.0000</span>     <span class="mf">11.3127</span>
+  <span class="mf">4046.620</span>      <span class="mf">9.5777</span>      <span class="mf">0.0000</span>     <span class="mf">11.3604</span>
+  <span class="mf">4096.950</span>      <span class="mf">9.6232</span>      <span class="mf">0.0000</span>     <span class="mf">11.4069</span>
+  <span class="mf">4147.280</span>      <span class="mf">9.6673</span>      <span class="mf">0.0000</span>     <span class="mf">11.4521</span>
+  <span class="mf">4197.610</span>      <span class="mf">9.7100</span>      <span class="mf">0.0000</span>     <span class="mf">11.4962</span>
+  <span class="mf">4247.940</span>      <span class="mf">9.7513</span>      <span class="mf">0.0000</span>     <span class="mf">11.5391</span>
+  <span class="mf">4298.270</span>      <span class="mf">9.7914</span>      <span class="mf">0.0000</span>     <span class="mf">11.5809</span>
+  <span class="mf">4348.600</span>      <span class="mf">9.8304</span>      <span class="mf">0.0000</span>     <span class="mf">11.6216</span>
+  <span class="mf">4398.930</span>      <span class="mf">9.8682</span>      <span class="mf">0.0000</span>     <span class="mf">11.6612</span>
+  <span class="mf">4449.260</span>      <span class="mf">9.9051</span>      <span class="mf">0.0000</span>     <span class="mf">11.6998</span>
+  <span class="mf">4499.600</span>      <span class="mf">9.9410</span>      <span class="mf">0.0000</span>     <span class="mf">11.7373</span>
+  <span class="mf">4549.930</span>      <span class="mf">9.9761</span>      <span class="mf">0.0000</span>     <span class="mf">11.7737</span>
+  <span class="mf">4600.260</span>     <span class="mf">10.0103</span>      <span class="mf">0.0000</span>     <span class="mf">11.8092</span>
+  <span class="mf">4650.590</span>     <span class="mf">10.0439</span>      <span class="mf">0.0000</span>     <span class="mf">11.8437</span>
+  <span class="mf">4700.920</span>     <span class="mf">10.0768</span>      <span class="mf">0.0000</span>     <span class="mf">11.8772</span>
+  <span class="mf">4801.580</span>     <span class="mf">10.1415</span>      <span class="mf">0.0000</span>     <span class="mf">11.9414</span>
+  <span class="mf">4851.910</span>     <span class="mf">10.1739</span>      <span class="mf">0.0000</span>     <span class="mf">11.9722</span>
+  <span class="mf">4902.240</span>     <span class="mf">10.2049</span>      <span class="mf">0.0000</span>     <span class="mf">12.0001</span>
+  <span class="mf">4952.580</span>     <span class="mf">10.2329</span>      <span class="mf">0.0000</span>     <span class="mf">12.0311</span>
+  <span class="mf">5002.910</span>     <span class="mf">10.2565</span>      <span class="mf">0.0000</span>     <span class="mf">12.0593</span>
+  <span class="mf">5053.240</span>     <span class="mf">10.2745</span>      <span class="mf">0.0000</span>     <span class="mf">12.0867</span>
+  <span class="mf">5103.570</span>     <span class="mf">10.2854</span>      <span class="mf">0.0000</span>     <span class="mf">12.1133</span>
+  <span class="mf">5153.500</span>     <span class="mf">10.2890</span>      <span class="mf">0.0000</span>     <span class="mf">12.1391</span>
+  <span class="mf">5153.500</span>     <span class="mf">11.0427</span>      <span class="mf">3.5043</span>     <span class="mf">12.7037</span>
+  <span class="mf">5204.610</span>     <span class="mf">11.0585</span>      <span class="mf">3.5187</span>     <span class="mf">12.7289</span>
+  <span class="mf">5255.320</span>     <span class="mf">11.0718</span>      <span class="mf">3.5314</span>     <span class="mf">12.7530</span>
+  <span class="mf">5306.040</span>     <span class="mf">11.0850</span>      <span class="mf">3.5435</span>     <span class="mf">12.7760</span>
+  <span class="mf">5356.750</span>     <span class="mf">11.0983</span>      <span class="mf">3.5551</span>     <span class="mf">12.7980</span>
+  <span class="mf">5407.460</span>     <span class="mf">11.1166</span>      <span class="mf">3.5661</span>     <span class="mf">12.8188</span>
+  <span class="mf">5458.170</span>     <span class="mf">11.1316</span>      <span class="mf">3.5765</span>     <span class="mf">12.8387</span>
+  <span class="mf">5508.890</span>     <span class="mf">11.1457</span>      <span class="mf">3.5864</span>     <span class="mf">12.8574</span>
+  <span class="mf">5559.600</span>     <span class="mf">11.1590</span>      <span class="mf">3.5957</span>     <span class="mf">12.8751</span>
+  <span class="mf">5610.310</span>     <span class="mf">11.1715</span>      <span class="mf">3.6044</span>     <span class="mf">12.8917</span>
+  <span class="mf">5661.020</span>     <span class="mf">11.1832</span>      <span class="mf">3.6126</span>     <span class="mf">12.9072</span>
+  <span class="mf">5711.740</span>     <span class="mf">11.1941</span>      <span class="mf">3.6202</span>     <span class="mf">12.9217</span>
+  <span class="mf">5813.160</span>     <span class="mf">11.2134</span>      <span class="mf">3.6337</span>     <span class="mf">12.9474</span>
+  <span class="mf">5863.870</span>     <span class="mf">11.2219</span>      <span class="mf">3.6396</span>     <span class="mf">12.9586</span>
+  <span class="mf">5914.590</span>     <span class="mf">11.2295</span>      <span class="mf">3.6450</span>     <span class="mf">12.9688</span>
+  <span class="mf">5965.300</span>     <span class="mf">11.2364</span>      <span class="mf">3.6498</span>     <span class="mf">12.9779</span>
+  <span class="mf">6016.010</span>     <span class="mf">11.2424</span>      <span class="mf">3.6540</span>     <span class="mf">12.9859</span>
+  <span class="mf">6066.720</span>     <span class="mf">11.2477</span>      <span class="mf">3.6577</span>     <span class="mf">12.9929</span>
+  <span class="mf">6117.440</span>     <span class="mf">11.2521</span>      <span class="mf">3.6608</span>     <span class="mf">12.9988</span>
+  <span class="mf">6168.150</span>     <span class="mf">11.2557</span>      <span class="mf">3.6633</span>     <span class="mf">13.0036</span>
+  <span class="mf">6218.860</span>     <span class="mf">11.2586</span>      <span class="mf">3.6653</span>     <span class="mf">13.0074</span>
+  <span class="mf">6269.570</span>     <span class="mf">11.2606</span>      <span class="mf">3.6667</span>     <span class="mf">13.0100</span>
+  <span class="mf">6320.290</span>     <span class="mf">11.2618</span>      <span class="mf">3.6675</span>     <span class="mf">13.0117</span>
+  <span class="mf">6371.000</span>     <span class="mf">11.2622</span>      <span class="mf">3.6678</span>     <span class="mf">13.0122</span>
+</pre></div>
 </div>
-<div class="section" id="directories">
-<h2>3.3. Directories<a class="headerlink" href="#directories" title="Permalink to this headline">¶</a></h2>
-<p>./24h = include daily continuous time series
-./template = output trimmed templates</p>
+<ul class="simple">
+<li>Station inventory (format consistent with ObsPy read_inventory routine see <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html">https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html</a>)</li>
+<li>Days to process: one column file including days to process e.g. lista1</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">090330</span>
+</pre></div>
 </div>
-<div class="section" id="velocity-model-use-to-compute-travel-times">
-<h2>3.4. Velocity Model use to compute travel times<a class="headerlink" href="#velocity-model-use-to-compute-travel-times" title="Permalink to this headline">¶</a></h2>
-<p>cat aquila_kato.tvel
-aquila
-depth P vel. S vel. density older density</p>
-<blockquote>
-<div><blockquote>
-<div>0.000      3.7500      2.1650      2.4500
-1.500      3.7500      2.1710      2.4500
-1.510      4.9400      2.8520      2.7800
-4.510      4.9400      2.8580      2.7800
-4.520      6.0100      3.2790      2.7600</div></blockquote>
-<p>14.520      6.0100      3.2850      2.7600
-14.530      5.5500      3.3950      2.9100
-29.530      5.5500      3.4010      2.9100
-29.540      5.8800      4.0990      3.1000
-43.540      5.8800      4.1050      3.1000
-43.550      5.8800      4.5610      3.1000
-57.500      5.8800      3.3600      3.1000
-57.500      7.1100      4.0100      3.2300
-93.000      7.1100      4.0100      3.2300
-93.000      7.1000      3.9900      3.3000</p>
-</div></blockquote>
+<ul class="simple">
+<li>Set parameters: e.g. trim.par</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Line 1 -- list of stations</span>
+<span class="c1">#Line 2 -- list of channels</span>
+<span class="c1">#Line 3 -- list of networks</span>
+<span class="c1">#Line 4 -- Lowpass frequency</span>
+<span class="c1">#Line 5 -- Highpass frequency</span>
+<span class="c1">#Line 6 -- Trimmed Time before S-wave</span>
+<span class="c1">#Line 7 -- Trimmed Time after S-wave</span>
+<span class="c1">#Line 8 -- UTC precision</span>
+<span class="c1">#Line 9 -- Continuous data dir</span>
+<span class="c1">#Line 10 -- Template data dir</span>
+<span class="c1">#Line 11 -- Processing days list </span>
+<span class="c1">#Line 12 -- Zmap catalog</span>
+<span class="c1">#Line 13 -- Starting template</span>
+<span class="c1">#Line 14 -- Stopping template</span>
+<span class="c1">#Line 15 -- Taup Model</span>
+<span class="n">AQU</span> <span class="n">CAMP</span> <span class="n">CERT</span> <span class="n">FAGN</span> <span class="n">FIAM</span> <span class="n">GUAR</span> <span class="n">INTR</span> <span class="n">MNS</span> <span class="n">NRCA</span> <span class="n">TERO</span>
+<span class="n">BHE</span> <span class="n">BHN</span> <span class="n">BHZ</span>
+<span class="n">IV</span> <span class="n">MN</span>
+<span class="mf">2.0</span>
+<span class="mf">8.0</span>
+<span class="mf">2.5</span>
+<span class="mf">2.5</span>
+<span class="mi">6</span>
+<span class="mi">24</span><span class="n">h</span>
+<span class="n">template</span>
+<span class="n">lista1</span>
+<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
+<span class="mi">26</span>
+<span class="mi">27</span>
+<span class="n">aquila_kato</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Directory i.e. ./24h where 24h continuous data are stored</li>
+<li>Output dir i.e. ./template (find trimmed time series)</li>
+</ul>
+<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.</p>
 </div>
 <div class="section" id="check-template-quality">
-<h2>3.5. Check Template Quality<a class="headerlink" href="#check-template-quality" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">template_check</span>) select good templates</p>
+<h2>3.3. Check Template Quality<a class="headerlink" href="#check-template-quality" title="Permalink to this headline">¶</a></h2>
+<p>(<a class="reference internal" href="sub/input.template_check.html"><span class="doc">template_check</span></a>) select good templates</p>
+<p>Evaluating template quality allows to input only a good signal to noise ratio avoiding artifacts resulting in unwanted detections. The selection is based on Kurtosis method (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html</a>) supposing that the waveform is simmetrically trimmed at the first S-wave arrival. Kurtosis evaluates if the time distrbution of amplitudes is simmetric or not excluding data having a low signal to noise ratio.</p>
+<p>Check example running test_kurtosis1.py at <a class="reference external" href="https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir">https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir</a>
+After running kurtosis based selection, templates are separated in two subdirectories “bad”(red waveforms see figure below) and “good” (black waveforms see figure below)</p>
+<a class="reference internal image-reference" href="_images/bad.png"><img alt="_images/bad.png" class="align-center" src="_images/bad.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/bad4.png"><img alt="_images/bad4.png" class="align-center" src="_images/bad4.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/bad7.png"><img alt="_images/bad7.png" class="align-center" src="_images/bad7.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/good.png"><img alt="_images/good.png" class="align-center" src="_images/good.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/good1.png"><img alt="_images/good1.png" class="align-center" src="_images/good1.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/good3.png"><img alt="_images/good3.png" class="align-center" src="_images/good3.png" style="width: 400px;" /></a>
 </div>
 <div class="section" id="calculate-travel-times">
-<h2>3.6. Calculate Travel Times<a class="headerlink" href="#calculate-travel-times" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">calculate_ttimes</span>) calculate travel times</p>
+<h2>3.4. Calculate Travel Times<a class="headerlink" href="#calculate-travel-times" title="Permalink to this headline">¶</a></h2>
+<p>(<a class="reference internal" href="sub/input.calculate_ttimes.html"><span class="doc">calculate_ttimes</span></a>) calculate travel times</p>
+<p>Travel time calculation is based on Java TauP Toolkit as implemented in ObsPy (<a class="reference external" href="https://docs.obspy.org/packages/obspy.taup.html">https://docs.obspy.org/packages/obspy.taup.html</a>)</p>
+<p>Needed files:</p>
+<ul class="simple">
+<li>Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format</li>
+<li>Suitable velocity model for computing travel times</li>
+<li>Station inventory (format consistent with ObsPy read_inventory routine see <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html">https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html</a>)</li>
+<li>Days to process: one column file including days to process e.g. lista1</li>
+<li>Set parameters: e.g. times.par</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Line 1 -- list of stations</span>
+<span class="c1">#Line 2 -- list of channels</span>
+<span class="c1">#Line 3 -- list of networks</span>
+<span class="c1">#Line 4 -- Lowpass frequency</span>
+<span class="c1">#Line 5 -- Highpass frequency</span>
+<span class="c1">#Line 6 -- Trimmed Time before S-wave</span>
+<span class="c1">#Line 7 -- Trimmed Time after S-wave</span>
+<span class="c1">#Line 8 -- UTC precision</span>
+<span class="c1">#Line 9 -- Continuous data dir</span>
+<span class="c1">#Line 10 -- Template data dir</span>
+<span class="c1">#Line 11 -- Processing days list </span>
+<span class="c1">#Line 12 -- Zmap catalog</span>
+<span class="c1">#Line 13 -- Starting template</span>
+<span class="c1">#Line 14 -- Stopping template</span>
+<span class="c1">#Line 15 -- Taup Model </span>
+<span class="n">AQU</span> <span class="n">CAMP</span> <span class="n">CERT</span> <span class="n">FAGN</span> <span class="n">FIAM</span> <span class="n">GUAR</span> <span class="n">INTR</span> <span class="n">MNS</span> <span class="n">NRCA</span> <span class="n">TERO</span>
+<span class="n">BHE</span> <span class="n">BHN</span> <span class="n">BHZ</span>
+<span class="n">IV</span> <span class="n">MN</span>
+<span class="mf">2.0</span>
+<span class="mf">8.0</span>
+<span class="mf">2.5</span>
+<span class="mf">2.5</span>
+<span class="mi">6</span>
+<span class="n">template</span>
+<span class="n">ttimes1</span>
+<span class="n">lista1</span>
+<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
+<span class="mi">26</span>
+<span class="mi">27</span>
+<span class="n">aquila_kato</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Input directory i.e. ./template where trimmed templates are found</li>
+<li>Output dir i.e. ./ttimes (find moveout times from different channels used to synchronize cross-correlation functions)</li>
+</ul>
+<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.</p>
 </div>
 <div class="section" id="running-pympa">
-<h2>3.7. Running PyMPA<a class="headerlink" href="#running-pympa" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">main.pympa_chunks_channel_limit</span>) run pympa</p>
+<h2>3.5. Running PyMPA<a class="headerlink" href="#running-pympa" title="Permalink to this headline">¶</a></h2>
+<p>(<a class="reference internal" href="sub/main.pympa_chunks_channel_limit.html"><span class="doc">main.pympa_chunks_channel_limit</span></a>) run pympa</p>
+<p>Template matching code, using cross-correlation based on well located eventsr. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task.
+Three different versions of the matching code are provdided:</p>
+<ol class="arabic simple">
+<li>main.pympa.py (working on chunks of 24 hours and using all the available channels). This version costs a lot in terms of memory usage and time.</li>
+<li>main.pympa_channel_limit.py (working on a limited number of channels close to the template epicenter). It saves computation time reducing also the memory consumption.</li>
+<li>main.pympa_chunks_channel_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.</li>
+</ol>
+<p>The input files are the same by using the different versions. The only input file that changes is the parameters24 input file that in the case of version 2 and 3 has added respectively 1 or 2 input lines.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig version 40</span>
+<span class="c1"># line1 = stations available, </span>
+<span class="c1"># line2 = channels available, </span>
+<span class="c1"># line3 = networks available, </span>
+<span class="c1"># line4 = low bandpass filter frequency, </span>
+<span class="c1"># line5 = high bandpass filter frequency, </span>
+<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel, </span>
+<span class="c1"># line7 = cross-correlation threshold to be overcome by cft, </span>
+<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold, </span>
+<span class="c1"># line9 = template duration(s), </span>
+<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds), </span>
+<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms, </span>
+<span class="c1"># line12 = string variable for templates&#39; directory, </span>
+<span class="c1"># line13 = string variable for travel times directory, </span>
+<span class="c1"># line14 = filename for day list to process, </span>
+<span class="c1"># line15 = filename for zmap catalog, </span>
+<span class="c1"># line16 = template start number, </span>
+<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed, </span>
+<span class="c1"># line18, 19, 20  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20) </span>
+<span class="n">RAVA</span> <span class="n">T0812</span> <span class="n">T0813</span> <span class="n">T0822</span>
+<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span> <span class="n">HNE</span> <span class="n">HNN</span> <span class="n">HNZ</span>
+<span class="n">IV</span> <span class="n">TV</span>
+<span class="mf">2.0</span>
+<span class="mf">8.0</span>
+<span class="mi">6</span>
+<span class="mf">0.3</span>
+<span class="mi">9</span>
+<span class="mi">5</span>
+<span class="mi">6</span>
+<span class="mi">24</span><span class="n">hb</span>
+<span class="n">template618</span>
+<span class="n">ttimes618</span>
+<span class="n">lista1</span>
+<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
+<span class="mi">618</span>
+<span class="mi">619</span>
+<span class="mi">8</span>
+<span class="mf">1.5</span>
+<span class="mf">0.25</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig 27 version</span>
+<span class="c1"># line1 = stations available,</span>
+<span class="c1"># line2 = channels available,</span>
+<span class="c1"># line3 = networks available,</span>
+<span class="c1"># line4 = low bandpass filter frequency,</span>
+<span class="c1"># line5 = high bandpass filter frequency,</span>
+<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel,</span>
+<span class="c1"># line7 = cross-correlation threshold to be overcome by cft,</span>
+<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold,</span>
+<span class="c1"># line9 = template duration(s),</span>
+<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds),</span>
+<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms,</span>
+<span class="c1"># line12 = string variable for templates&#39; directory,</span>
+<span class="c1"># line13 = string variable for travel times directory,</span>
+<span class="c1"># line14 = filename for day list to process,</span>
+<span class="c1"># line15 = filename for zmap catalog,</span>
+<span class="c1"># line16 = template start number,</span>
+<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed,</span>
+<span class="c1"># line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)</span>
+<span class="c1"># line 21 = maximum number of templates to be used in template matching </span>
+<span class="n">APEC</span> <span class="n">ATBU</span> <span class="n">ATCA</span> <span class="n">ATCC</span> <span class="n">ATFO</span> <span class="n">ATLO</span> <span class="n">ATPC</span> <span class="n">ATPI</span> <span class="n">ATSC</span> <span class="n">ATVO</span> <span class="n">BADI</span> <span class="n">FOSV</span> <span class="n">FRON</span> <span class="n">MURB</span> <span class="n">NARO</span> <span class="n">PARC</span> <span class="n">PIEI</span> <span class="n">PE3</span> <span class="n">SSFR</span>
+<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span>
+<span class="n">IV</span>
+<span class="mf">3.0</span>
+<span class="mf">8.0</span>
+<span class="mi">4</span>
+<span class="mf">0.3</span>
+<span class="mi">6</span>
+<span class="mi">5</span>
+<span class="mi">6</span>
+<span class="mi">24</span><span class="n">h</span>
+<span class="n">template</span>
+<span class="n">ttimes</span>
+<span class="n">lista1</span>
+<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
+<span class="mi">200</span> 
+<span class="mi">204</span>
+<span class="mi">8</span>
+<span class="mf">1.5</span>
+<span class="mf">0.25</span>
+<span class="mi">12</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig 27 version</span>
+<span class="c1"># line1 = stations available,</span>
+<span class="c1"># line2 = channels available,</span>
+<span class="c1"># line3 = networks available,</span>
+<span class="c1"># line4 = low bandpass filter frequency,</span>
+<span class="c1"># line5 = high bandpass filter frequency,</span>
+<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel,</span>
+<span class="c1"># line7 = cross-correlation threshold to be overcome by cft,</span>
+<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold,</span>
+<span class="c1"># line9 = template duration(s),</span>
+<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds),</span>
+<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms,</span>
+<span class="c1"># line12 = string variable for templates&#39; directory,</span>
+<span class="c1"># line13 = string variable for travel times directory,</span>
+<span class="c1"># line14 = filename for day list to process,</span>
+<span class="c1"># line15 = filename for zmap catalog,</span>
+<span class="c1"># line16 = template start number,</span>
+<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed,</span>
+<span class="c1"># line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)</span>
+<span class="c1"># line 21, 22 = maximum number of templates to be used in template matching, number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc...) </span>
+<span class="n">APEC</span> <span class="n">ATBU</span> <span class="n">ATCA</span> <span class="n">ATCC</span> <span class="n">ATFO</span> <span class="n">ATLO</span> <span class="n">ATPC</span> <span class="n">ATPI</span> <span class="n">ATSC</span> <span class="n">ATVO</span> <span class="n">BADI</span> <span class="n">FOSV</span> <span class="n">FRON</span> <span class="n">MURB</span> <span class="n">NARO</span> <span class="n">PARC</span> <span class="n">PIEI</span> <span class="n">PE3</span> <span class="n">SSFR</span>
+<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span>
+<span class="n">IV</span>
+<span class="mf">3.0</span>
+<span class="mf">8.0</span>
+<span class="mi">6</span>
+<span class="mf">0.35</span>
+<span class="mi">6</span>
+<span class="mi">5</span>
+<span class="mi">6</span>
+<span class="mi">24</span><span class="n">h</span>
+<span class="n">template</span>
+<span class="n">ttimes</span>
+<span class="n">lista1</span>
+<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
+<span class="mi">200</span>
+<span class="mi">203</span>
+<span class="mi">8</span>
+<span class="mf">1.5</span>
+<span class="mf">0.25</span>
+<span class="mi">12</span>
+<span class="mi">6</span>
+</pre></div>
+</div>
+<p>Needed input files in common between versions 1, 2, 3:</p>
+<ul class="simple">
+<li>Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format</li>
+<li>Suitable velocity model for computing travel times</li>
+<li>Station inventory (format consistent with ObsPy read_inventory routine see <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html">https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html</a>)</li>
+<li>Days to process: one column file including days to process e.g. lista1</li>
+<li>Set parameters: e.g. parameters24.par</li>
+<li>Input directory ./template where trimmed templates are found</li>
+<li>Input directory ./24h where 24 hours continuous waveforms are stores</li>
+<li>Input directory /ttimes (find moveout times from different channels used to synchronize cross-correlation functions)</li>
+</ul>
+<p>Output:</p>
+<ul class="simple">
+<li>Output files .cat, .stats, .stats.mag, .except (details on the output )</li>
+</ul>
+<p>Detections (.cat)</p>
+<p>Detections are listed in a .cat file (e.g. 200.100723.cat)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T02</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">29.833321</span><span class="n">Z</span> <span class="mf">0.18</span> <span class="mf">0.624</span> <span class="mf">19.077</span> <span class="mf">0.388</span> <span class="mf">11.855</span> <span class="mi">11</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T06</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mf">08.273321</span><span class="n">Z</span> <span class="mf">0.4</span> <span class="mf">0.565</span> <span class="mf">16.951</span> <span class="mf">0.289</span> <span class="mf">8.667</span> <span class="mi">10</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T06</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mf">09.553321</span><span class="n">Z</span> <span class="mf">0.55</span> <span class="mf">0.652</span> <span class="mf">19.56</span> <span class="mf">0.351</span> <span class="mf">10.526</span> <span class="mi">11</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">57.553321</span><span class="n">Z</span> <span class="mf">1.88</span> <span class="mf">1.0</span> <span class="mf">28.431</span> <span class="mf">0.361</span> <span class="mf">10.273</span> <span class="mi">12</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">10.713321</span><span class="n">Z</span> <span class="o">-</span><span class="mf">0.35</span> <span class="mf">0.499</span> <span class="mf">14.198</span> <span class="mf">0.318</span> <span class="mf">9.04</span> <span class="mi">10</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">42</span><span class="p">:</span><span class="mf">34.113321</span><span class="n">Z</span> <span class="o">-</span><span class="mf">0.02</span> <span class="mf">0.555</span> <span class="mf">15.773</span> <span class="mf">0.292</span> <span class="mf">8.302</span> <span class="mi">11</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mf">24.393321</span><span class="n">Z</span> <span class="mf">0.72</span> <span class="mf">0.642</span> <span class="mf">18.254</span> <span class="mf">0.282</span> <span class="mf">8.012</span> <span class="mi">12</span>
+<span class="mi">200</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T23</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">24.953321</span><span class="n">Z</span> <span class="mf">1.77</span> <span class="mf">0.675</span> <span class="mf">19.178</span> <span class="mf">0.407</span> <span class="mf">11.568</span> <span class="mi">12</span>
+</pre></div>
+</div>
+<p>Columns in 200.100723.cat file are:</p>
+<ul class="simple">
+<li>Template number corresponding to the python line index in file templates.zmap (event catalog)</li>
+<li>UTC Date and Time (2010-07-23T02:20:29.833321Z) Time precision selection is possible in parameters24 input file</li>
+<li>Magnitude estimated as in Peng and Zhao (2009). The magnitude of the detected event is calculated as the median value of the maximum amplitude ratios for all channels between the template and detected event, assuming that a 10-fold increase in amplitude corresponds to a one-unit increase in magnitude.</li>
+<li>Average cross-correlation estimated from the channels that concurred to the detection. This value is estimated using a time shift between the channels that optimized the stacked CFT.</li>
+<li>Threshold value (ratio between the amplitude of the CFT stacking and the daily MAD Median Absolute Deviation). The higher the threshold the most probable the detection. This value is estimated using a time shift between the channels that optimized the stacked CFT.</li>
+<li>Average cross-correlation estimated from the channels that concurred to the detection at no time shift.</li>
+<li>Threshold value (ratio between the amplitude of the CFT stacking and the daily MAD Median Absolute Deviation). No time shift of the signal cross-correlation functions is allowed.</li>
+<li>Number of channels for which the cross-correlation is over a certain lower bound (e.g. 0.35)</li>
+</ul>
+<p>Single Channel Statistics is listed in a .stats file (e.g. 200.100723.stats)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="o">-</span><span class="mf">0.010616075281</span> <span class="mf">0.721025616044</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.283285750909</span> <span class="mf">0.66306439801</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.777449171081</span> <span class="mf">0.777449171081</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="o">-</span><span class="mf">0.0852349513925</span> <span class="mf">0.650466054757</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.322139846713</span> <span class="mf">0.366398836428</span> <span class="o">-</span><span class="mf">4.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.537447491069</span> <span class="mf">0.650271304516</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.435372478132</span> <span class="mf">0.435372478132</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.573539172544</span> <span class="mf">0.573539172544</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.133907687217</span> <span class="mf">0.346238209304</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="mf">0.435748932184</span> <span class="mf">0.792480883079</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="mf">0.452987060234</span> <span class="mf">0.713344389699</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="mf">0.794985414714</span> <span class="mf">0.794985414714</span> <span class="mf">0.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">0</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T02</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">29.833321</span><span class="n">Z</span> <span class="mf">0.18</span> <span class="mf">1.88</span> <span class="mf">11.0</span> <span class="mf">0.0326947876687</span> <span class="mf">0.624</span> <span class="mf">19.077</span> <span class="mf">0.388</span> <span class="mf">11.855</span> <span class="mf">12.0</span> <span class="mf">9.0</span> <span class="mf">5.0</span> <span class="mf">0.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.044988233346</span> <span class="mf">0.231377904481</span> <span class="o">-</span><span class="mf">5.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.149551602865</span> <span class="mf">0.420184950211</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.224489982653</span> <span class="mf">0.664636238755</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="mf">0.631160567096</span> <span class="mf">0.631160567096</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.033085860272</span> <span class="mf">0.262689503234</span> <span class="o">-</span><span class="mf">3.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.0362705954363</span> <span class="mf">0.610553204714</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.297118217589</span> <span class="mf">0.525933024914</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.36078302459</span> <span class="mf">0.403840027808</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.482921869799</span> <span class="mf">0.482921869799</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="mf">0.0567199403744</span> <span class="mf">0.857500320272</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="mf">0.287008419281</span> <span class="mf">0.828772698562</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="mf">0.864438991339</span> <span class="mf">0.864438991339</span> <span class="mf">0.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">0</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T06</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mf">08.273321</span><span class="n">Z</span> <span class="mf">0.4</span> <span class="mf">1.88</span> <span class="mf">10.0</span> <span class="mf">0.0333501008197</span> <span class="mf">0.565</span> <span class="mf">16.951</span> <span class="mf">0.289</span> <span class="mf">8.667</span> <span class="mf">10.0</span> <span class="mf">7.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.493563159844</span> <span class="mf">0.732363635003</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.502878983763</span> <span class="mf">0.601417302353</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.854286992577</span> <span class="mf">0.854286992577</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="mf">0.7996230999</span> <span class="mf">0.7996230999</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.299188562677</span> <span class="mf">0.324593761331</span> <span class="o">-</span><span class="mf">3.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.398638163197</span> <span class="mf">0.777572264208</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.375558339812</span> <span class="mf">0.664585222306</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.231316704565</span> <span class="mf">0.610737885036</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.26865915923</span> <span class="mf">0.599567887303</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="o">-</span><span class="mf">0.283092335391</span> <span class="mf">0.607940349505</span> <span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="o">-</span><span class="mf">0.193080895955</span> <span class="mf">0.584272892006</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="mf">0.464909097985</span> <span class="mf">0.671106175089</span> <span class="mf">5.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">1</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T06</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mf">09.553321</span><span class="n">Z</span> <span class="mf">0.55</span> <span class="mf">1.88</span> <span class="mf">11.0</span> <span class="mf">0.0333501008197</span> <span class="mf">0.652</span> <span class="mf">19.56</span> <span class="mf">0.351</span> <span class="mf">10.526</span> <span class="mf">12.0</span> <span class="mf">11.0</span> <span class="mf">4.0</span> <span class="mf">0.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.322210986536</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.253951355525</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.278841350001</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="mf">0.354879813216</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.076424274257</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.205024190008</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.230482228036</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.266001050745</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.232455628227</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="mf">1.0</span> <span class="mf">1.0</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="mf">1.0</span> <span class="mf">1.0</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="mf">0.115532925487</span> <span class="mf">1.0</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">0</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">57.553321</span><span class="n">Z</span> <span class="mf">1.88</span> <span class="mf">1.88</span> <span class="mf">12.0</span> <span class="mf">0.0351725931634</span> <span class="mf">1.0</span> <span class="mf">28.431</span> <span class="mf">0.361</span> <span class="mf">10.273</span> <span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">12.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.27835785495</span> <span class="mf">0.27835785495</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.464215345119</span> <span class="mf">0.464215345119</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="o">-</span><span class="mf">0.553807627447</span> <span class="mf">0.639548344368</span> <span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="mf">0.595817241945</span> <span class="mf">0.682934804256</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.124458920838</span> <span class="mf">0.414792472665</span> <span class="o">-</span><span class="mf">6.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.490181937608</span> <span class="mf">0.542870771368</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.159972199467</span> <span class="mf">0.543073938124</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.569331631238</span> <span class="mf">0.581437149146</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.303750325466</span> <span class="mf">0.303750325466</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="mf">0.435371126677</span> <span class="mf">0.435371126677</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="mf">0.364290089669</span> <span class="mf">0.522644091355</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="mf">0.583644009364</span> <span class="mf">0.583644009364</span> <span class="mf">0.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">1</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">10.713321</span><span class="n">Z</span> <span class="o">-</span><span class="mf">0.35</span> <span class="mf">1.88</span> <span class="mf">10.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.499</span> <span class="mf">14.198</span> <span class="mf">0.318</span> <span class="mf">9.04</span> <span class="mf">11.0</span> <span class="mf">7.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.315717260245</span> <span class="mf">0.316496580088</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.18226247941</span> <span class="mf">0.538348076552</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.76548108478</span> <span class="mf">0.76548108478</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="o">-</span><span class="mf">0.30651106846</span> <span class="mf">0.71107343083</span> <span class="o">-</span><span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.175140751874</span> <span class="mf">0.395886313878</span> <span class="o">-</span><span class="mf">5.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.550221988963</span> <span class="mf">0.550221988963</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.667125057705</span> <span class="mf">0.667125057705</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.465986754229</span> <span class="mf">0.701811155038</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.150874830603</span> <span class="mf">0.528232273116</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="mf">0.336709159822</span> <span class="mf">0.582443814666</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="mf">0.407275625222</span> <span class="mf">0.407275625222</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="o">-</span><span class="mf">0.206333673397</span> <span class="mf">0.493003146855</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">2</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">42</span><span class="p">:</span><span class="mf">34.113321</span><span class="n">Z</span> <span class="o">-</span><span class="mf">0.02</span> <span class="mf">1.88</span> <span class="mf">11.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.555</span> <span class="mf">15.773</span> <span class="mf">0.292</span> <span class="mf">8.302</span> <span class="mf">12.0</span> <span class="mf">8.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.597024006837</span> <span class="mf">0.666212214776</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.576151427278</span> <span class="mf">0.605192504123</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.802523422374</span> <span class="mf">0.802523422374</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="mf">0.794246622277</span> <span class="mf">0.794246622277</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.261713290462</span> <span class="mf">0.54321668075</span> <span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.225795605873</span> <span class="mf">0.768023549282</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.237369132309</span> <span class="mf">0.610432245585</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.0826140210104</span> <span class="mf">0.54340758269</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.0765783808929</span> <span class="mf">0.544169591212</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="o">-</span><span class="mf">0.298544446625</span> <span class="mf">0.535326480215</span> <span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="o">-</span><span class="mf">0.262083078275</span> <span class="mf">0.608894184398</span> <span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="mf">0.288271942621</span> <span class="mf">0.682827589334</span> <span class="mf">1.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">3</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mf">24.393321</span><span class="n">Z</span> <span class="mf">0.72</span> <span class="mf">1.88</span> <span class="mf">12.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.642</span> <span class="mf">18.254</span> <span class="mf">0.282</span> <span class="mf">8.012</span> <span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span>
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHE</span> <span class="mf">0.865690619679</span> <span class="mf">0.865690619679</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATFO</span> <span class="n">HHZ</span> <span class="mf">0.82915443645</span> <span class="mf">0.82915443645</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHE</span> <span class="mf">0.675994128404</span> <span class="mf">0.675994128404</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHN</span> <span class="mf">0.878930788701</span> <span class="mf">0.878930788701</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATLO</span> <span class="n">EHZ</span> <span class="mf">0.52260713279</span> <span class="mf">0.52260713279</span> <span class="mf">0.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATPI</span> <span class="n">EHE</span> <span class="mf">0.436441880161</span> <span class="mf">0.819360579542</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHE</span> <span class="mf">0.354424434214</span> <span class="mf">0.756587935097</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHN</span> <span class="mf">0.348394023107</span> <span class="mf">0.744906831956</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">ATVO</span> <span class="n">HHZ</span> <span class="mf">0.467055038428</span> <span class="mf">0.59961848772</span> <span class="o">-</span><span class="mf">1.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHE</span> <span class="o">-</span><span class="mf">0.142054506386</span> <span class="mf">0.361216622713</span> <span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHN</span> <span class="o">-</span><span class="mf">0.230821891517</span> <span class="mf">0.538608343873</span> <span class="mf">2.0</span> 
+<span class="n">IV</span><span class="o">.</span><span class="n">MURB</span> <span class="n">HHZ</span> <span class="o">-</span><span class="mf">0.123187495339</span> <span class="mf">0.501711512207</span> <span class="mf">1.0</span> 
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">4</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T23</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">24.953321</span><span class="n">Z</span> <span class="mf">1.77</span> <span class="mf">1.88</span> <span class="mf">12.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.675</span> <span class="mf">19.178</span> <span class="mf">0.407</span> <span class="mf">11.568</span> <span class="mf">12.0</span> <span class="mf">11.0</span> <span class="mf">6.0</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Columns in 200.100723.stats file are:</p>
+<ul class="simple">
+<li>Network.Station</li>
+<li>Channel</li>
+<li>Cross-correlation value at no time shift</li>
+<li>Cross-correlation value with time shift (nsamples) as in column 5</li>
+<li>Time shift in nsamples (e.g. -1.0 means that the shift is equal to 0.05 at 20Hz sampling rate)</li>
+</ul>
+<p>At the end of each trace id you find other parameters related to the detection in part repeating the detection parameters
+in .cat file and in part related to the cross-correlations values over some limits (0.3 - 0.5 - 0.7 - 0.9).</p>
+<ul class="simple">
+<li>date, template_num, detection_num, date&amp;time, template_magnitude, detection_magnitude, threshold_fixed, MAD, ave_crosscc, threshold_record, ave_crosscc_0, threshold_record_0, num_channels_gt0.3, num_channels_gt0.5, num_channels_gt0.7, num_channels_gt0.9</li>
+<li>100723 201 0 2010-07-23T22:20:57.712239Z 1.51 0.07 9.0 0.0342230009997 0.486 14.193 0.301 8.796 11.0 5.0 2.0 0.0</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">0.596105028863</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.170393549956</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="mf">0.373070244109</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.329951522763</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.42550877913</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.0483225655661</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.191841464532</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.0947942692072</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.171838180932</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.250359739024</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.145329568414</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.201548385896</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">0</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T02</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">29.833321</span><span class="n">Z</span> <span class="mf">0.18</span> <span class="mf">1.88</span> <span class="mf">11.0</span> <span class="mf">0.0326947876687</span> <span class="mf">0.624</span> <span class="mf">19.077</span> <span class="mf">0.388</span> <span class="mf">11.855</span> <span class="mf">12.0</span> <span class="mf">9.0</span> <span class="mf">5.0</span> <span class="mf">0.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">0.388076513533</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.292051072606</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="mf">0.495577417282</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.351604524548</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.379804503709</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.144512967971</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.495658912113</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.331121201612</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.497348207422</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.151842475707</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.36823188478</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="o">-</span><span class="mf">0.00476247218528</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">0</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T06</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mf">08.273321</span><span class="n">Z</span> <span class="mf">0.4</span> <span class="mf">1.88</span> <span class="mf">10.0</span> <span class="mf">0.0333501008197</span> <span class="mf">0.565</span> <span class="mf">16.951</span> <span class="mf">0.289</span> <span class="mf">8.667</span> <span class="mf">10.0</span> <span class="mf">7.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">0.576184745362</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.679097346202</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="mf">0.546824188445</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.476992588924</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.634929765059</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.345685333249</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.618940291946</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.349556189062</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.53763608087</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.411736225028</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.539730631169</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.490461193276</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">1</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T06</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mf">09.553321</span><span class="n">Z</span> <span class="mf">0.55</span> <span class="mf">1.88</span> <span class="mf">11.0</span> <span class="mf">0.0333501008197</span> <span class="mf">0.652</span> <span class="mf">19.56</span> <span class="mf">0.351</span> <span class="mf">10.526</span> <span class="mf">12.0</span> <span class="mf">11.0</span> <span class="mf">4.0</span> <span class="mf">0.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">1.88</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">1.88</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="mf">1.88</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">1.88</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">1.88</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">1.88</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">1.88</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">1.88</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">1.88</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">1.88</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">1.88</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">1.88</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">0</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mf">57.553321</span><span class="n">Z</span> <span class="mf">1.88</span> <span class="mf">1.88</span> <span class="mf">12.0</span> <span class="mf">0.0351725931634</span> <span class="mf">1.0</span> <span class="mf">28.431</span> <span class="mf">0.361</span> <span class="mf">10.273</span> <span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">12.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">0.00504472888794</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="o">-</span><span class="mf">0.123587952907</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="o">-</span><span class="mf">0.219563912481</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="o">-</span><span class="mf">0.52594517306</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="o">-</span><span class="mf">0.291161883007</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="o">-</span><span class="mf">0.341123672838</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="o">-</span><span class="mf">0.645272339198</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="o">-</span><span class="mf">0.617399606897</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="o">-</span><span class="mf">0.702125882823</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="o">-</span><span class="mf">0.492439858968</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="o">-</span><span class="mf">0.221244903401</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="o">-</span><span class="mf">0.0530834564922</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">1</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">10.713321</span><span class="n">Z</span> <span class="o">-</span><span class="mf">0.35</span> <span class="mf">1.88</span> <span class="mf">10.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.499</span> <span class="mf">14.198</span> <span class="mf">0.318</span> <span class="mf">9.04</span> <span class="mf">11.0</span> <span class="mf">7.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">0.413064678236</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.232081767138</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="o">-</span><span class="mf">0.0433873767435</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.0144100500685</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.28271537475</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="o">-</span><span class="mf">0.0540216138896</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="o">-</span><span class="mf">0.12470249651</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="o">-</span><span class="mf">0.263968423814</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="o">-</span><span class="mf">0.380872281083</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.111693437768</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.00414520780979</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="o">-</span><span class="mf">0.0528771192165</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">2</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">42</span><span class="p">:</span><span class="mf">34.113321</span><span class="n">Z</span> <span class="o">-</span><span class="mf">0.02</span> <span class="mf">1.88</span> <span class="mf">11.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.555</span> <span class="mf">15.773</span> <span class="mf">0.292</span> <span class="mf">8.302</span> <span class="mf">12.0</span> <span class="mf">8.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">0.803093035554</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.615888381013</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="mf">0.748348463219</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.695137600201</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.960014109901</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.731588902278</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.981265250687</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.615341321839</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">0.825145491738</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">0.656415513667</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">0.834391164831</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">0.682137125844</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">3</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T22</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mf">24.393321</span><span class="n">Z</span> <span class="mf">0.72</span> <span class="mf">1.88</span> <span class="mf">12.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.642</span> <span class="mf">18.254</span> <span class="mf">0.282</span> <span class="mf">8.012</span> <span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">3.0</span> <span class="mf">0.0</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHZ</span> <span class="mf">1.67348690528</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">1.27352216828</span>
+<span class="n">ATLO</span><span class="o">.</span><span class="n">EHN</span> <span class="mf">1.76932866181</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">1.81632078689</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">1.85243210825</span>
+<span class="n">ATVO</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">1.63997793344</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">1.74803392605</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">1.54245846659</span>
+<span class="n">MURB</span><span class="o">.</span><span class="n">HHN</span> <span class="mf">1.71741408018</span>
+<span class="n">ATPI</span><span class="o">.</span><span class="n">EHE</span> <span class="mf">1.75089086943</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHZ</span> <span class="mf">1.89092026561</span>
+<span class="n">ATFO</span><span class="o">.</span><span class="n">HHE</span> <span class="mf">1.88418067696</span>
+<span class="mi">100723</span> <span class="mi">200</span> <span class="mi">4</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">23</span><span class="n">T23</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mf">24.953321</span><span class="n">Z</span> <span class="mf">1.77</span> <span class="mf">1.88</span> <span class="mf">12.0</span> <span class="mf">0.0351725931634</span> <span class="mf">0.675</span> <span class="mf">19.178</span> <span class="mf">0.407</span> <span class="mf">11.568</span> <span class="mf">12.0</span> <span class="mf">11.0</span> <span class="mf">6.0</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Columns in 200.100723.stats.mag file are:</p>
+<ul class="simple">
+<li>Station.Channel Mag.</li>
+<li>date, template_num, detection_num, date&amp;time, template_magnitude, detection_magnitude, threshold_fixed, MAD, ave_crosscc, threshold_record, ave_crosscc_0, threshold_record_0, num_channels_gt0.3, num_channels_gt0.5, num_channels_gt0.7, num_channels_gt0.9</li>
+<li>100723 201 0 2010-07-23T22:20:57.712239Z 1.51 0.07 9.0 0.0342230009997 0.486 14.193 0.301 8.796 11.0 5.0 2.0 0.0</li>
+</ul>
+<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.</p>
 </div>
 <div class="section" id="output-processing">
-<h2>3.8. Output Processing<a class="headerlink" href="#output-processing" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">output.process_detections</span>) controls multiple detections in short time windows</p>
+<h2>3.6. Output Processing<a class="headerlink" href="#output-processing" title="Permalink to this headline">¶</a></h2>
+<p>(<a class="reference internal" href="sub/output.process_detections.html"><span class="doc">output.process_detections</span></a>) controls multiple detections in short time windows</p>
 </div>
 <div class="section" id="verify-detections">
-<h2>3.9. Verify Detections<a class="headerlink" href="#verify-detections" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">output.verify_detection</span>) visual verification of events</p>
+<h2>3.7. Verify Detections<a class="headerlink" href="#verify-detections" title="Permalink to this headline">¶</a></h2>
+<p>(<a class="reference internal" href="sub/output.verify_detection.html"><span class="doc">output.verify_detection</span></a>) visual verification of events</p>
 </div>
 <div class="section" id="references">
-<h2>3.10. References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>3.8. References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p>Shelly, D. R., G. C. Beroza, and S. Ide (2007). Non-volcanic tremor and low
 frequency earthquake swarms, Nature 446, 305–307.</p>
 <p>Peng, Z., and P. Zhao (2009). Migration of early aftershocks following the
@@ -194,14 +824,12 @@ doi: 10.1088/1749-4699/8/1/014003.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-seismological-data">3.1. Downloading Seismological Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-templates">3.2. Create Templates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#directories">3.3. Directories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#velocity-model-use-to-compute-travel-times">3.4. Velocity Model use to compute travel times</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#check-template-quality">3.5. Check Template Quality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#calculate-travel-times">3.6. Calculate Travel Times</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-pympa">3.7. Running PyMPA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#output-processing">3.8. Output Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#verify-detections">3.9. Verify Detections</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#references">3.10. References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-template-quality">3.3. Check Template Quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculate-travel-times">3.4. Calculate Travel Times</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-pympa">3.5. Running PyMPA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-processing">3.6. Output Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verify-detections">3.7. Verify Detections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">3.8. References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="input.html">4. Preprocessing Input</a></li>

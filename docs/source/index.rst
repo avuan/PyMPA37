@@ -34,24 +34,25 @@ Important: we recommend to use an updated version of ObsPy.
   <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a>
 
 .. image:: pympa_logo.png
-    :width: 300px
-    :align: left
+    :width: 600px
+    :align: center
     :alt: pympa_logo.png
     :target: https://github.com/avuan/PyMPA37/docs
 
 This package contains:
 
-* :doc:`Routines for downloading data from eida servers <./sub/input.download_data>`;
-* :doc:`Routines for creating and trimming templates <./sub/input.create_templates>`;
-* :doc:`Routines for calculating moveout time for synchronization <./sub/input.calculate_ttimes>`;
-* :doc:`Kurtosis based template verification <./sub/input.template_check>`;
-* :doc:`Template matching by using daily estimation of MAD and all the available channels <./sub/main.pympa>`;
-* :doc:`Template matching by using daily estimation of MAD and a limited number of channels <./sub/main.pympa_channel_limit>`;
-* :doc:`Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels <./sub/main.pympa_chunks_channel_limit>`;
-* :doc:`Postprocessing routines <./sub/output.process_detections>`;
-* :doc:`Visual verification of detections <./sub/output.verify_detection>`;
+- :doc:`Routines for downloading data from eida servers <./sub/input.download_data>`;
+- :doc:`Routines for creating and trimming templates <./sub/input.create_templates>`;
+- :doc:`Routines for calculating moveout time for synchronization <./sub/input.calculate_ttimes>`;
+- :doc:`Kurtosis based template verification <./sub/input.template_check>`;
+- :doc:`Template matching by using daily estimation of MAD and all the available channels <./sub/main.pympa>`;
+- :doc:`Template matching by using daily estimation of MAD and a limited number of channels <./sub/main.pympa_channel_limit>`;
+- :doc:`Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels <./sub/main.pympa_chunks_channel_limit>`;
+- :doc:`Postprocessing routines <./sub/output.process_detections>`;
+- :doc:`Visual verification of detections <./sub/output.verify_detection>`;
 
 This package is written by the PyMPA developers, and is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.
+
 
 Acknowledgements
 ----------------

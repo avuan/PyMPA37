@@ -63,13 +63,13 @@ Functionality
 -------------
 
 Within :doc:`input </input>` you will find the routines to generate templates,
-(:doc:`create_template </submodules/input.create_template>`) select good templates
-(:doc:`template_check </submodules/input.template_check>`), calculate travel times
-(:doc:`calculate_ttimes </submodules/input.calculate_ttimes>`),
+(:doc:`create_template </sub/input.create_templates>`) select good templates
+(:doc:`template_check </sub/input.template_check>`), calculate travel times
+(:doc:`calculate_ttimes </sub/input.calculate_ttimes>`),
 compute cross-channel correlations from these templates
-(:doc:`pympa </submodules/main.pympa>`), process_detections 
-(:doc:`process_detections </submodules/output.process_detections>`), a visual verification
-(:doc:`verify_detection </submodules/output.verify_detection>`)
+(:doc:`pympa </sub/main.pympa>`), process_detections 
+(:doc:`process_detections </sub/output.process_detections>`), a visual verification
+(:doc:`verify_detection </sub/output.verify_detection>`)
 
 
 Running tests

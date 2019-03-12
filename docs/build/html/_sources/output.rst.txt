@@ -24,9 +24,17 @@ Important: we recommend to use an updated version of |ObsPy_Link|.
 
 These utilities contains:
 
-* :doc:`Postprocessing routines <output.process_detections>`;
-* :doc:`Visual verification of detections <output.verify_detection>`;
+* :doc:`Postprocessing routines <./sub/output.process_detections>`;
+* :doc:`Visual verification of detections <./sub/output.verify_detection>`;
 
 
 This package is written by the PyMPA developers, and is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.
 
+Contents:
+---------
+.. toctree::
+   :maxdepth: 2
+
+   output.process_detections <./sub/output.process_detections>
+   output.verify_detection <./sub/output.verify_detection>
+~
