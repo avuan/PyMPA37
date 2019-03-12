@@ -3,6 +3,8 @@ PyMPA
 **a software package for phase match filtering**
 ![Screenshot](screenshot.png)
 
+[![TravisCI Status](https://travis-ci.org/avuan/PyMPA37.svg?branch=master)](https://travis-ci.org/avuan/PyMPA37)
+
 ### Abstract
 
 The software package PyMPA is an open source seismological software. It consists of some separate utilities for data preparation, the main program, and post-processing tools to obtain a catalog and verify events. PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
