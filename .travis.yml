@@ -12,16 +12,16 @@ matrix:
       env: PYTHON_VERSION=3.7
 
 
-    - osx_image: xcode8.3
+    - osx_image: xcode10.1
       env:
         - PYTHON_VERSION=2.7
-    - osx_image: xcode8.3
+    - osx_image: xcode10.1
       env:
         - PYTHON_VERSION=3.5
-    - osx_image: xcode8.3
+    - osx_image: xcode10.1
       env:
         - PYTHON_VERSION=3.6
-    - osx_image: xcode8.3
+    - osx_image: xcode10.1
       env:
         - PYTHON_VERSION=3.7
 
@@ -73,20 +73,20 @@ before_script:
 
 script:
    - cd ./input.download_data.dir
-   - ./download_eida_ingv.py
-   - ./download_inventory_ingv.py
+   - ./download_data.py
+   - ./download_inventory.py
    - cd ../input.create_templates.dir
-   - ./trim_templates4.1.py
+   - ./create_templates.py
    - cd ../input.calculate_ttimes.dir
-   - ./calcTT06.py
+   - ./calculate_ttimes.py
    - cd ../main.pympa.dir
-   - ./pympa40mac.py 
+   - ./pympa.py 
    - cd ../main.pympa_chunks_channel_limit.dir
-   - ./pympa46mac.py
+   - ./pympa_chunks_channel_limit.py
    - cd ../output.process_detections.dir
    - ./postproc37.sh  
    - cd ../output.verify_detection.dir
-   - ./verify_detection05.py
+   - ./verify_detection.py
    
 after_success:
   # Check how much code is actually tested and send this report to codecov
