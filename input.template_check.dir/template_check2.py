@@ -1,7 +1,10 @@
 from obspy import *
 from scipy.stats import kurtosis
 from subprocess import call
-import matplotlib.pyplot as plt 
+#import matplotlib
+#matplotlib.use("TkAgg")
+from matplotlib import pyplot as plt
+
 import os.path
 import numpy as np
 from obspy.signal.filter import envelope
