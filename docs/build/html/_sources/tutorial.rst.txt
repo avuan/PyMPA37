@@ -29,47 +29,37 @@ StationXML file and read that with ObsPy to perform the rest.
 
 PyMPA does not use databases and prefers to store single channel daily continuous data in archieves.
 
+Executable files:
+
+- download_data.py (https://github.com/avuan/PyMPA37/tree/master/input.download_data.dir/download_data.py)
+- download_inventory.py (https://github.com/avuan/PyMPA37/tree/master/input.download_data.dir/download_inventory.py)
+
 (:doc:`download_data </sub/input.download_data>`) download data
 
 Create Templates
 ----------------
 (:doc:`create_template </sub/input.create_templates>`) create templates
 
-A Python script create_templates.py is used to trim templates from continuous data
+A Python script create_templates.py is used to trim templates from continuous data and inventories
 stored in an archive. Generally, we use S-wave travel times to cut events before and after arrivals.
+Thus, a reference 1D velocity model is needed. Trimmed waveforms have to be carefully checked to evaluate 
+the effectiveness of S-wave travel time calculations. 
 Take care that a high sampling rate could result in memory consumption
-and prolonged times of execution. Input data should be decimated a priori accordingly with your needs.
-Check example for running create_templates.py at https://github.com/avuan/PyMPA37/tree/master/input.create_templates.dir 
+and prolonged times of execution. 
+Input data should be decimated a priori accordingly with your needs and availability of cores.
+Check the example for running create_templates.py at https://github.com/avuan/PyMPA37/tree/master/input.create_templates.dir 
 
-Needed files:
+Executable file:
 
-- Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format
+- create_templates.py (https://github.com/avuan/PyMPA37/tree/master/input.create_templates.dir/create_templates.py)
 
-.. include:: ../../input.create_templates.dir/templates.zmap
+Input parameters:
+
+.. include:: ../../input.create_templates.dir/trim.par
    :literal:
 
-- Suitable velocity model for computing travel times
-
-.. include:: ../../input.create_templates.dir/aquila_kato.tvel
-   :literal:
-
-- Station inventory (format consistent with ObsPy read_inventory routine see https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html)
-
-- Days to process: one column file including days to process e.g. lista1
-
-.. include:: ../../input.create_templates.dir/lista1
-   :literal:
-
-- Set parameters: e.g. trim.par
-
-.. include:: ../../input.create_templates.dir/trim.par 
-   :literal: 
-   
-- Directory i.e. ./24h where 24h continuous data are stored
-
-- Output dir i.e. ./template (find trimmed time series)
-
-Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.
+Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. 
+Parameters in files .par could change.
   
 
 Check Template Quality
@@ -78,8 +68,9 @@ Check Template Quality
 
 Evaluating template quality allows to input only a good signal to noise ratio avoiding artifacts resulting in unwanted detections. The selection is based on Kurtosis method (https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html) supposing that the waveform is simmetrically trimmed at the first S-wave arrival. Kurtosis evaluates if the time distrbution of amplitudes is simmetric or not excluding data having a low signal to noise ratio.
 
-Check example running test_kurtosis1.py at https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir
-After running kurtosis based selection, templates are separated in two subdirectories "bad"(red waveforms see figure below) and "good" (black waveforms see figure below)
+Check examples running test_kurtosis1.py at https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir
+After running kurtosis based selection, 
+templates are separated in two subdirectories "bad"(red waveforms see figure below) and "good" (black waveforms see figure below)
 
 .. image:: ./figure/bad.png
     :width: 400px
@@ -105,31 +96,28 @@ After running kurtosis based selection, templates are separated in two subdirect
     :width: 400px
     :align: center
 
+Executable python scripts:
+
+- template_check1.py at https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir/template_check1.py (performs on waveform)
+- template_check2.py at https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir/template_check2.py (performs on the absolute values of waveform)
+
 
 Calculate Travel Times
 ----------------------
 (:doc:`calculate_ttimes </sub/input.calculate_ttimes>`) calculate travel times
 
 Travel time calculation is based on Java TauP Toolkit as implemented in ObsPy (https://docs.obspy.org/packages/obspy.taup.html) 
+Travel times are needed for synchronization to obtain a stacked cross-correlation function. It is supposed that trimmed templates 
+are stored in ./template directory. The same reference 1D velocity model used for trimming templates is needed.
 
-Needed files:
+Executable file:
 
-- Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format
+- calculate_ttimes.py at https://github.com/avuan/PyMPA37/tree/master/input.calculate_ttimes.dir/calculate_ttimes.py
 
-- Suitable velocity model for computing travel times
-
-- Station inventory (format consistent with ObsPy read_inventory routine see https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html)
-
-- Days to process: one column file including days to process e.g. lista1
-
-- Set parameters: e.g. times.par
+Input parameters:
 
 .. include:: ../../input.calculate_ttimes.dir/times.par
    :literal:
-
-- Input directory i.e. ./template where trimmed templates are found
-
-- Output dir i.e. ./ttimes (find moveout times from different channels used to synchronize cross-correlation functions)
 
 Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.
 
@@ -139,101 +127,53 @@ Running PyMPA
 -------------
 (:doc:`main.pympa_chunks_channel_limit </sub/main.pympa_chunks_channel_limit>`) run pympa
 
-Template matching code, using cross-correlation based on well located eventsr. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task.
+Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.
 Three different versions of the matching code are provdided:
 
-1) main.pympa.py (working on chunks of 24 hours and using all the available channels). This version costs a lot in terms of memory usage and time.
-2) main.pympa_channel_limit.py (working on a limited number of channels close to the template epicenter). It saves computation time reducing also the memory consumption.
-3) main.pympa_chunks_channel_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.
- 
-The input files are the same by using the different versions. The only input file that changes is the parameters24 input file that in the case of version 2 and 3 has added respectively 1 or 2 input lines.
+Executable files:
+
+- main.pympa.py (working on chunks of 24 hours and using all the available channels). This version costs a lot in terms of memory usage and time.
+- main.pympa_channel_limit.py (working on a limited number of channels close to the template epicenter). It saves computation time reducing also the memory consumption.
+- main.pympa_chunks_channel_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.
+
+Input parameters:
 
 .. include:: ../../main.pympa.dir/parameters24
    :literal:
-
-.. include:: ../../main.pympa_channel_limit.dir/parameters24
-   :literal: 
-
-.. include:: ../../main.pympa_chunks_channel_limit.dir/parameters24
-   :literal:
-
  
-Needed input files in common between versions 1, 2, 3:
-
-- Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format
-- Suitable velocity model for computing travel times
-- Station inventory (format consistent with ObsPy read_inventory routine see https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html)
-- Days to process: one column file including days to process e.g. lista1
-- Set parameters: e.g. parameters24.par
-- Input directory ./template where trimmed templates are found
-- Input directory ./24h where 24 hours continuous waveforms are stores  
-- Input directory /ttimes (find moveout times from different channels used to synchronize cross-correlation functions)
-
-
-Output:
-
-- Output files .cat, .stats, .stats.mag, .except (details on the output )
-
-Detections (.cat)
-
-Detections are listed in a .cat file (e.g. 200.100723.cat)
-
-.. include:: ../../main.pympa_chunks_channel_limit.dir/200.100723.cat
-   :literal:
-
-Columns in 200.100723.cat file are:
-
-- Template number corresponding to the python line index in file templates.zmap (event catalog)
-- UTC Date and Time (2010-07-23T02:20:29.833321Z) Time precision selection is possible in parameters24 input file
-- Magnitude estimated as in Peng and Zhao (2009). The magnitude of the detected event is calculated as the median value of the maximum amplitude ratios for all channels between the template and detected event, assuming that a 10-fold increase in amplitude corresponds to a one-unit increase in magnitude.
-- Average cross-correlation estimated from the channels that concurred to the detection. This value is estimated using a time shift between the channels that optimized the stacked CFT.
-- Threshold value (ratio between the amplitude of the CFT stacking and the daily MAD Median Absolute Deviation). The higher the threshold the most probable the detection. This value is estimated using a time shift between the channels that optimized the stacked CFT.
-- Average cross-correlation estimated from the channels that concurred to the detection at no time shift.
-- Threshold value (ratio between the amplitude of the CFT stacking and the daily MAD Median Absolute Deviation). No time shift of the signal cross-correlation functions is allowed.
-- Number of channels for which the cross-correlation is over a certain lower bound (e.g. 0.35)
-
-Single Channel Statistics is listed in a .stats file (e.g. 200.100723.stats)
-
-.. include:: ../../main.pympa_chunks_channel_limit.dir/200.100723.stats
-   :literal:
-
-Columns in 200.100723.stats file are:
-
-- Network.Station
-- Channel
-- Cross-correlation value at no time shift 
-- Cross-correlation value with time shift (nsamples) as in column 5
-- Time shift in nsamples (e.g. -1.0 means that the shift is equal to 0.05 at 20Hz sampling rate)
-
-At the end of each trace id you find other parameters related to the detection in part repeating the detection parameters 
-in .cat file and in part related to the cross-correlations values over some limits (0.3 - 0.5 - 0.7 - 0.9).
-
-- date, template_num, detection_num, date&time, template_magnitude, detection_magnitude, threshold_fixed, MAD, ave_crosscc, threshold_record, ave_crosscc_0, threshold_record_0, num_channels_gt0.3, num_channels_gt0.5, num_channels_gt0.7, num_channels_gt0.9
-- 100723 201 0 2010-07-23T22:20:57.712239Z 1.51 0.07 9.0 0.0342230009997 0.486 14.193 0.301 8.796 11.0 5.0 2.0 0.0
-
-.. include:: ../../main.pympa_chunks_channel_limit.dir/200.100723.stats.mag
-   :literal:
-
-Columns in 200.100723.stats.mag file are:
-
-- Station.Channel Mag.
-- date, template_num, detection_num, date&time, template_magnitude, detection_magnitude, threshold_fixed, MAD, ave_crosscc, threshold_record, ave_crosscc_0, threshold_record_0, num_channels_gt0.3, num_channels_gt0.5, num_channels_gt0.7, num_channels_gt0.9
-- 100723 201 0 2010-07-23T22:20:57.712239Z 1.51 0.07 9.0 0.0342230009997 0.486 14.193 0.301 8.796 11.0 5.0 2.0 0.0
-
-Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.
-
-
-
 
 Output Processing
 -----------------
 (:doc:`output.process_detections </sub/output.process_detections>`) controls multiple detections in short time windows
 
+A bash script calling python code performs the catalog sythesis. Some templates could concur to the same detection. The detection 
+showing the highest threshold value is preferred in a fix time window (e.g. 6 seconds).
+
+Executable file:
+
+- bash script postproc37.sh
+- process_detections.py at https://github.com/avuan/PyMPA37/tree/master/output.process_detections.dir/process_detections.py
+
+Input parameters:
+
+.. include:: ../../output.process_detections.dir/filter.par
+   :literal:  
+
 
 Verify Detections
 -----------------
-(:doc:`output.verify_detection </sub/output.verify_detection>`) visual verification of events 
+(:doc:`output.verify_detection </sub/output.verify_detection>`) for visual verification of events
 
+Produce graphics windows showing the continuous data overlapped by templates events at the detection time.
+
+Executable file:
+
+- verify_detection.py at https://github.com/avuan/PyMPA37/tree/master/output.verify_detection.dir/verify_detection.py
+
+Input parameters:
+
+.. include:: ../../output.verify_detection.dir/verify.par
+   :literal:
 
 
 

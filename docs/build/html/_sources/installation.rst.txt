@@ -14,12 +14,12 @@ Bottleneck is a set of functions inspired by NumPy and SciPy, but written in
 Cython with high performance in mind. Bottleneck provides separate Cython 
 functions for each combination of array dimensions, axis, and data type.
 
-We heavily recommend installing ObsPy using conda because this will:
+We heavily recommend installing ObsPy using conda because:
 
- * make your life easier;
+ * the life should be easier;
  * separate your install from your system default Python, meaning you can
    experiment without breaking your OS;
- * ensure that modules are compiled correctly
+ * modules should be compiled correctly
 
 If you do not have either a miniconda or anaconda installation you can follow
 the |conda-install| instructions.
@@ -41,5 +41,23 @@ with the following:
 For installing PyMPA you can simply clone the git repository and try it within your obspy env:
 
 .. code-block:: bash
-    
+
     git clone git@github.com:avuan/PyMPA37.git
+
+
+On a Linux system for installing conda, obspy, bottleneck and mirror the PyMPA code follow this commands:
+
+.. code-block:: bash
+   
+    curl -O https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+    chmod +x Anaconda3-5.0.1-Linux-x86_64.sh
+    ./Anaconda3-5.0.1-Linux-x86_64.sh
+    source ˜.bashrc
+    conda config --add channels conda-forge
+    conda create -n obspy37 python=3.7
+    source activate obspy37
+    conda install obspy
+    conda install bottleneck
+    mkdir test_obspy1.2.0
+    cd test_obspy1.2.0
+    git clone https://github.com/avuan/PyMPA37 

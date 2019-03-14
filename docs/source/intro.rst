@@ -28,7 +28,7 @@ versatile and supports most commonly used seismic data and earthquake catalog
 formats. A PyMPA flowchart is shown here below:
 
 .. image:: flowchart.png
-    :width: 600px
+    :width: 800px
     :align: left
     :alt: flowchart.png
     :target: https://github.com/avuan/PyMPA37/releases
@@ -82,13 +82,11 @@ You can also run these tests yourself locally to ensure
 that everything runs as you would expect in your environment.  
 
 Although every effort has been made to ensure these tests run smoothly on all supported environments
-(using the ci bots), if you do find any issues, please let us know on the
+, if you do find any issues, please let us know on the
 |github| page.
 
 .. |github| raw:: html
-
     <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>        
-
 
 References
 ----------

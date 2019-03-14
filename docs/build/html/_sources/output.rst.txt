@@ -7,15 +7,15 @@
 
 
 Creating an output catalog and verify detections
-===============================================
-It consists of some separate utilities in |github|, 
-post-processing tools to obtain a catalog and verify events. 
+================================================
+
+    It consists of some separate utilities in |github|, post-processing tools to obtain a catalog and verify events. 
 
 Important: we recommend to use an updated version of |ObsPy_Link|.
  
 .. |github| raw:: html
 
-    <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
+  <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
 
 .. |ObsPy_link| raw:: html
 
@@ -37,4 +37,4 @@ Contents:
 
    output.process_detections <./sub/output.process_detections>
    output.verify_detection <./sub/output.verify_detection>
-~
+

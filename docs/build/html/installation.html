@@ -1,36 +1,70 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>2. PyMPA installation &#8212; PyMPA 1.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Tutorial" href="tutorial.html" />
     <link rel="prev" title="1. Introduction to the PyMPA package" href="intro.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="shortcut icon" type="image/png" href="_static/py.png" />
+    
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    
+     
 
-  </head><body>
-  
+  </head><body>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="1. Introduction to the PyMPA package"
+             accesskey="P">previous</a> |</li>
+    <li><img src="_static/py.png" alt=""
+             style="vertical-align: middle; margin-top: -1px"/></li>
+    <li><a href="https://www.python.org/">Python</a> &#187;</li>
+    
+    <a href="index.html">PyMPA 1.0.0 documentation</a> &#187;
+    
+
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" type="text" name="q" />
+          <input type="submit" value="Go" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo1.png" class="align-left" src="_images/pympa_logo1.png" style="width: 100px;" /></a>
@@ -42,13 +76,13 @@ Some C extensions of ObsPy toolkit are also used and Bottleneck libraries.
 Bottleneck is a set of functions inspired by NumPy and SciPy, but written in
 Cython with high performance in mind. Bottleneck provides separate Cython
 functions for each combination of array dimensions, axis, and data type.</p>
-<p>We heavily recommend installing ObsPy using conda because this will:</p>
+<p>We heavily recommend installing ObsPy using conda because:</p>
 <blockquote>
 <div><ul class="simple">
-<li>make your life easier;</li>
-<li>separate your install from your system default Python, meaning you can
-experiment without breaking your OS;</li>
-<li>ensure that modules are compiled correctly</li>
+<li><p>the life should be easier;</p></li>
+<li><p>separate your install from your system default Python, meaning you can
+experiment without breaking your OS;</p></li>
+<li><p>modules should be compiled correctly</p></li>
 </ul>
 </div></blockquote>
 <p>If you do not have either a miniconda or anaconda installation you can follow
@@ -65,81 +99,107 @@ conda install bottleneck
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:avuan/PyMPA37.git
 </pre></div>
 </div>
+<p>On a Linux system for installing conda, obspy, bottleneck and mirror the PyMPA code follow this commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -O https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+chmod +x Anaconda3-5.0.1-Linux-x86_64.sh
+./Anaconda3-5.0.1-Linux-x86_64.sh
+<span class="nb">source</span> ˜.bashrc
+conda config --add channels conda-forge
+conda create -n obspy37 <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+<span class="nb">source</span> activate obspy37
+conda install obspy
+conda install bottleneck
+mkdir test_obspy1.2.0
+<span class="nb">cd</span> test_obspy1.2.0
+git clone https://github.com/avuan/PyMPA37
+</pre></div>
+</div>
 </div>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">PyMPA</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction to the PyMPA package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">2. PyMPA installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">3. Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input.html">4. Preprocessing Input</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">5. Main Program</a></li>
-<li class="toctree-l1"><a class="reference internal" href="output.html">6. Creating an output catalog and verify detections</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="intro.html" title="previous chapter">1. Introduction to the PyMPA package</a></li>
-      <li>Next: <a href="tutorial.html" title="next chapter">3. Tutorial</a></li>
-  </ul></li>
-</ul>
-</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">1. Introduction to the PyMPA package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="next chapter">3. Tutorial</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="1. Introduction to the PyMPA package"
+             >previous</a> |</li>
+    <li><img src="_static/py.png" alt=""
+             style="vertical-align: middle; margin-top: -1px"/></li>
+    <li><a href="https://www.python.org/">Python</a> &#187;</li>
+    
+    <a href="index.html">PyMPA 1.0.0 documentation</a> &#187;
+    
+
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="Quick search" type="text" name="q" />
+          <input type="submit" value="Go" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
     </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
     <div class="footer">
-      &copy;2019, Alessandro Vuan.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/installation.rst.txt"
-          rel="nofollow">Page source</a>
+    &copy; <a href="copyright.html">Copyright</a> 2019, Alessandro Vuan.
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+
+    Last updated on None.
+    
+    <br />
+
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.0.0b1.
     </div>
 
-    
-
-    
   </body>
 </html>
