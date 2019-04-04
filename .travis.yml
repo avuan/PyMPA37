@@ -81,8 +81,6 @@ script:
    - ./calculate_ttimes.py
    - cd ../main.pympa.dir
    - ./pympa.py 
-   - cd ../main.pympa_chunks_channel_limit.dir
-   - ./pympa_chunks_channel_limit.py
    - cd ../output.process_detections.dir
    - ./postproc37.sh  
    - cd ../output.verify_detection.dir
