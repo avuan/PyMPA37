@@ -74,13 +74,12 @@
 The code is stored on <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
 releases and uses <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a> for reading and writing seismic data, and for handling most
 of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a> released on March
-2019.
-Important: we recommend to use an updated version of ObsPy.</p>
+2019. This version is running on a single core and does not include multiprocessing routines. However, in the case of the workload
+is substantial, it could be easily implemented a script using SLURM or other schedulers to submit many jobs to the available processors.</p>
+<p>Important: we recommend to use an updated version of ObsPy.</p>
 <p>Main packages contains:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="sub/main.pympa.html"><span class="doc">Template matching by using daily estimation of MAD and all the available channels</span></a>;</p></li>
-<li><p><a class="reference internal" href="sub/main.pympa_channel_limit.html"><span class="doc">Template matching by using daily estimation of MAD and a limited number of channels</span></a>;</p></li>
-<li><p><a class="reference internal" href="sub/main.pympa_chunks_channel_limit.html"><span class="doc">Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels</span></a>;</p></li>
 </ul>
 <p>This package is written by the PyMPA developers, and is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.</p>
 <div class="section" id="contents">
@@ -88,8 +87,6 @@ Important: we recommend to use an updated version of ObsPy.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sub/main.pympa.html">5.1.1. main.pympa</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sub/main.pympa_channel_limit.html">5.1.2. main.pympa_channel_limit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sub/main.pympa_chunks_channel_limit.html">5.1.3. main.pympa_chunks_channel_limit</a></li>
 </ul>
 </div>
 </div>

@@ -1,25 +1,19 @@
 Running PyMPA
 -------------
 
-The input files are the same by using the different versions. The only input file that changes is the parameters24 input file that in the case of version 2 and 3 has added respectively 1 or 2 input lines.
+The input files are those prepared in advance by using pre-processing tools. The only input file that changes is the parameters24 input file.
 
 .. include:: ../../../main.pympa.dir/parameters24
    :literal:
 
-.. include:: ../../../main.pympa_channel_limit.dir/parameters24
-   :literal:
 
-.. include:: ../../../main.pympa_chunks_channel_limit.dir/parameters24
-   :literal:
-
-
-Needed input files in common between versions 1, 2, 3:
+Needed input files:
 
 - Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format
 - Suitable velocity model for computing travel times
 - Station inventory (format consistent with ObsPy read_inventory routine see https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html)
 - Days to process: one column file including days to process e.g. lista1
-- Set parameters: e.g. parameters24.par
+- Set parameters: e.g. parameters24
 - Input directory ./template where trimmed templates are found
 - Input directory ./24h where 24 hours continuous waveforms are stores
 - Input directory /ttimes (find moveout times from different channels used to synchronize cross-correlation functions)
@@ -33,7 +27,7 @@ Detections (.cat)
 
 Detections are listed in a .cat file (e.g. 200.100723.cat)
 
-.. include:: ../../../main.pympa_chunks_channel_limit.dir/200.100723.cat
+.. include:: ../../../main.pympa.dir/200.100723.cat
    :literal:
 
 Columns in 200.100723.cat file are:
@@ -49,7 +43,7 @@ Columns in 200.100723.cat file are:
 
 Single Channel Statistics is listed in a .stats file (e.g. 200.100723.stats)
 
-.. include:: ../../../main.pympa_chunks_channel_limit.dir/200.100723.stats
+.. include:: ../../../main.pympa.dir/200.100723.stats
    :literal:
 
 Columns in 200.100723.stats file are:
@@ -66,7 +60,7 @@ in .cat file and in part related to the cross-correlations values over some limi
 - date, template_num, detection_num, date&time, template_magnitude, detection_magnitude, threshold_fixed, MAD, ave_crosscc, threshold_record, ave_crosscc_0, threshold_record_0, num_channels_gt0.3, num_channels_gt0.5, num_channels_gt0.7, num_channels_gt0.9
 - 100723 201 0 2010-07-23T22:20:57.712239Z 1.51 0.07 9.0 0.0342230009997 0.486 14.193 0.301 8.796 11.0 5.0 2.0 0.0
 
-.. include:: ../../../main.pympa_chunks_channel_limit.dir/200.100723.stats.mag
+.. include:: ../../../main.pympa.dir/200.100723.stats.mag
    :literal:
 
 Columns in 200.100723.stats.mag file are:

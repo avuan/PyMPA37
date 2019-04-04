@@ -211,7 +211,7 @@ are stored in ./template directory. The same reference 1D velocity model used fo
 </div>
 <div class="section" id="running-pympa">
 <h2>3.5. Running PyMPA<a class="headerlink" href="#running-pympa" title="Permalink to this headline">¶</a></h2>
-<p>(<a class="reference internal" href="sub/main.pympa_chunks_channel_limit.html"><span class="doc">main.pympa_chunks_channel_limit</span></a>) run pympa</p>
+<p>(<span class="xref std std-doc">main.pympa_chunks_channel_limit</span>) run pympa</p>
 <p>Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.
 Three different versions of the matching code are provdided:</p>
 <p>Executable files:</p>
@@ -221,45 +221,48 @@ Three different versions of the matching code are provdided:</p>
 <li><p>main.pympa_chunks_channel_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.</p></li>
 </ul>
 <p>Input parameters:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig version 40</span>
-<span class="c1"># line1 = stations available, </span>
-<span class="c1"># line2 = channels available, </span>
-<span class="c1"># line3 = networks available, </span>
-<span class="c1"># line4 = low bandpass filter frequency, </span>
-<span class="c1"># line5 = high bandpass filter frequency, </span>
-<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel, </span>
-<span class="c1"># line7 = cross-correlation threshold to be overcome by cft, </span>
-<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold, </span>
-<span class="c1"># line9 = template duration(s), </span>
-<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds), </span>
-<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms, </span>
-<span class="c1"># line12 = string variable for templates&#39; directory, </span>
-<span class="c1"># line13 = string variable for travel times directory, </span>
-<span class="c1"># line14 = filename for day list to process, </span>
-<span class="c1"># line15 = filename for zmap catalog, </span>
-<span class="c1"># line16 = template start number, </span>
-<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed, </span>
-<span class="c1"># line18, 19, 20  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20) </span>
-<span class="n">RAVA</span> <span class="n">T0812</span> <span class="n">T0813</span> <span class="n">T0822</span>
-<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span> <span class="n">HNE</span> <span class="n">HNN</span> <span class="n">HNZ</span>
-<span class="n">IV</span> <span class="n">TV</span>
-<span class="mf">2.0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig 27 version</span>
+<span class="c1"># line1 = stations available,</span>
+<span class="c1"># line2 = channels available,</span>
+<span class="c1"># line3 = networks available,</span>
+<span class="c1"># line4 = low bandpass filter frequency,</span>
+<span class="c1"># line5 = high bandpass filter frequency,</span>
+<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel,</span>
+<span class="c1"># line7 = cross-correlation threshold to be overcome by cft,</span>
+<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold,</span>
+<span class="c1"># line9 = template duration(s),</span>
+<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds),</span>
+<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms,</span>
+<span class="c1"># line12 = string variable for templates&#39; directory,</span>
+<span class="c1"># line13 = string variable for travel times directory,</span>
+<span class="c1"># line14 = filename for day list to process,</span>
+<span class="c1"># line15 = filename for zmap catalog,</span>
+<span class="c1"># line16 = template start number,</span>
+<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed,</span>
+<span class="c1"># line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)</span>
+<span class="c1"># line 21, 22 = maximum number of templates to be used in template matching, number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc...) </span>
+<span class="n">APEC</span> <span class="n">ATBU</span> <span class="n">ATCA</span> <span class="n">ATCC</span> <span class="n">ATFO</span> <span class="n">ATLO</span> <span class="n">ATPC</span> <span class="n">ATPI</span> <span class="n">ATSC</span> <span class="n">ATVO</span> <span class="n">BADI</span> <span class="n">FOSV</span> <span class="n">FRON</span> <span class="n">MURB</span> <span class="n">NARO</span> <span class="n">PARC</span> <span class="n">PIEI</span> <span class="n">PE3</span> <span class="n">SSFR</span>
+<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span>
+<span class="n">IV</span>
+<span class="mf">3.0</span>
 <span class="mf">8.0</span>
 <span class="mi">6</span>
-<span class="mf">0.3</span>
-<span class="mi">9</span>
+<span class="mf">0.35</span>
+<span class="mi">6</span>
 <span class="mi">5</span>
 <span class="mi">6</span>
-<span class="mi">24</span><span class="n">hb</span>
-<span class="n">template618</span>
-<span class="n">ttimes618</span>
+<span class="mi">24</span><span class="n">h</span>
+<span class="n">template</span>
+<span class="n">ttimes</span>
 <span class="n">lista1</span>
 <span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
-<span class="mi">618</span>
-<span class="mi">619</span>
+<span class="mi">200</span>
+<span class="mi">203</span>
 <span class="mi">8</span>
 <span class="mf">1.5</span>
 <span class="mf">0.25</span>
+<span class="mi">12</span>
+<span class="mi">6</span>
 </pre></div>
 </div>
 </div>

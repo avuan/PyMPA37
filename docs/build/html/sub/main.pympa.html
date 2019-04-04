@@ -16,7 +16,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5.1.2. Running PyMPA using a number of limited channels" href="main.pympa_channel_limit.html" />
+    <link rel="next" title="6. Creating an output catalog and verify detections" href="../output.html" />
     <link rel="prev" title="5. Main Program" href="../main.html" />
     <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
     
@@ -32,7 +32,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="main.pympa_channel_limit.html" title="5.1.2. Running PyMPA using a number of limited channels"
+          <a href="../output.html" title="6. Creating an output catalog and verify detections"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../main.html" title="5. Main Program"
@@ -70,91 +70,7 @@
             
   <div class="section" id="running-pympa">
 <h1>5.1.1. Running PyMPA<a class="headerlink" href="#running-pympa" title="Permalink to this headline">¶</a></h1>
-<p>The input files are the same by using the different versions. The only input file that changes is the parameters24 input file that in the case of version 2 and 3 has added respectively 1 or 2 input lines.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig version 40</span>
-<span class="c1"># line1 = stations available, </span>
-<span class="c1"># line2 = channels available, </span>
-<span class="c1"># line3 = networks available, </span>
-<span class="c1"># line4 = low bandpass filter frequency, </span>
-<span class="c1"># line5 = high bandpass filter frequency, </span>
-<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel, </span>
-<span class="c1"># line7 = cross-correlation threshold to be overcome by cft, </span>
-<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold, </span>
-<span class="c1"># line9 = template duration(s), </span>
-<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds), </span>
-<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms, </span>
-<span class="c1"># line12 = string variable for templates&#39; directory, </span>
-<span class="c1"># line13 = string variable for travel times directory, </span>
-<span class="c1"># line14 = filename for day list to process, </span>
-<span class="c1"># line15 = filename for zmap catalog, </span>
-<span class="c1"># line16 = template start number, </span>
-<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed, </span>
-<span class="c1"># line18, 19, 20  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20) </span>
-<span class="n">RAVA</span> <span class="n">T0812</span> <span class="n">T0813</span> <span class="n">T0822</span>
-<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span> <span class="n">HNE</span> <span class="n">HNN</span> <span class="n">HNZ</span>
-<span class="n">IV</span> <span class="n">TV</span>
-<span class="mf">2.0</span>
-<span class="mf">8.0</span>
-<span class="mi">6</span>
-<span class="mf">0.3</span>
-<span class="mi">9</span>
-<span class="mi">5</span>
-<span class="mi">6</span>
-<span class="mi">24</span><span class="n">hb</span>
-<span class="n">template618</span>
-<span class="n">ttimes618</span>
-<span class="n">lista1</span>
-<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
-<span class="mi">618</span>
-<span class="mi">619</span>
-<span class="mi">8</span>
-<span class="mf">1.5</span>
-<span class="mf">0.25</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig 27 version</span>
-<span class="c1"># line1 = stations available,</span>
-<span class="c1"># line2 = channels available,</span>
-<span class="c1"># line3 = networks available,</span>
-<span class="c1"># line4 = low bandpass filter frequency,</span>
-<span class="c1"># line5 = high bandpass filter frequency,</span>
-<span class="c1"># line6 = sample tolerance in detecting maximum cft amplitude for each channel,</span>
-<span class="c1"># line7 = cross-correlation threshold to be overcome by cft,</span>
-<span class="c1"># line8 = min number of channels overcoming the cross-correlation threshold,</span>
-<span class="c1"># line9 = template duration(s),</span>
-<span class="c1"># line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds),</span>
-<span class="c1"># line11 = string variable containing the directory name for continuous 24h waveforms,</span>
-<span class="c1"># line12 = string variable for templates&#39; directory,</span>
-<span class="c1"># line13 = string variable for travel times directory,</span>
-<span class="c1"># line14 = filename for day list to process,</span>
-<span class="c1"># line15 = filename for zmap catalog,</span>
-<span class="c1"># line16 = template start number,</span>
-<span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed,</span>
-<span class="c1"># line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)</span>
-<span class="c1"># line 21 = maximum number of templates to be used in template matching </span>
-<span class="n">APEC</span> <span class="n">ATBU</span> <span class="n">ATCA</span> <span class="n">ATCC</span> <span class="n">ATFO</span> <span class="n">ATLO</span> <span class="n">ATPC</span> <span class="n">ATPI</span> <span class="n">ATSC</span> <span class="n">ATVO</span> <span class="n">BADI</span> <span class="n">FOSV</span> <span class="n">FRON</span> <span class="n">MURB</span> <span class="n">NARO</span> <span class="n">PARC</span> <span class="n">PIEI</span> <span class="n">PE3</span> <span class="n">SSFR</span>
-<span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span>
-<span class="n">IV</span>
-<span class="mf">3.0</span>
-<span class="mf">8.0</span>
-<span class="mi">4</span>
-<span class="mf">0.3</span>
-<span class="mi">6</span>
-<span class="mi">5</span>
-<span class="mi">6</span>
-<span class="mi">24</span><span class="n">h</span>
-<span class="n">template</span>
-<span class="n">ttimes</span>
-<span class="n">lista1</span>
-<span class="n">templates</span><span class="o">.</span><span class="n">zmap</span>
-<span class="mi">200</span> 
-<span class="mi">204</span>
-<span class="mi">8</span>
-<span class="mf">1.5</span>
-<span class="mf">0.25</span>
-<span class="mi">12</span>
-</pre></div>
-</div>
+<p>The input files are those prepared in advance by using pre-processing tools. The only input file that changes is the parameters24 input file.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig 27 version</span>
 <span class="c1"># line1 = stations available,</span>
 <span class="c1"># line2 = channels available,</span>
@@ -199,13 +115,13 @@
 <span class="mi">6</span>
 </pre></div>
 </div>
-<p>Needed input files in common between versions 1, 2, 3:</p>
+<p>Needed input files:</p>
 <ul class="simple">
 <li><p>Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format</p></li>
 <li><p>Suitable velocity model for computing travel times</p></li>
 <li><p>Station inventory (format consistent with ObsPy read_inventory routine see <a class="reference external" href="https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html">https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html</a>)</p></li>
 <li><p>Days to process: one column file including days to process e.g. lista1</p></li>
-<li><p>Set parameters: e.g. parameters24.par</p></li>
+<li><p>Set parameters: e.g. parameters24</p></li>
 <li><p>Input directory ./template where trimmed templates are found</p></li>
 <li><p>Input directory ./24h where 24 hours continuous waveforms are stores</p></li>
 <li><p>Input directory /ttimes (find moveout times from different channels used to synchronize cross-correlation functions)</p></li>
@@ -483,8 +399,8 @@ in .cat file and in part related to the cross-correlations values over some limi
   <p class="topless"><a href="../main.html"
                         title="previous chapter">5. Main Program</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="main.pympa_channel_limit.html"
-                        title="next chapter">5.1.2. Running PyMPA using a number of limited channels</a></p>
+  <p class="topless"><a href="../output.html"
+                        title="next chapter">6. Creating an output catalog and verify detections</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -513,7 +429,7 @@ in .cat file and in part related to the cross-correlations values over some limi
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="main.pympa_channel_limit.html" title="5.1.2. Running PyMPA using a number of limited channels"
+          <a href="../output.html" title="6. Creating an output catalog and verify detections"
              >next</a> |</li>
         <li class="right" >
           <a href="../main.html" title="5. Main Program"
