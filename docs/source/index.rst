@@ -41,8 +41,6 @@ This package contains:
 - :doc:`Routines for calculating moveout time for synchronization <./sub/input.calculate_ttimes>`;
 - :doc:`Kurtosis based template verification <./sub/input.template_check>`;
 - :doc:`Template matching by using daily estimation of MAD and all the available channels <./sub/main.pympa>`;
-- :doc:`Template matching by using daily estimation of MAD and a limited number of channels <./sub/main.pympa_channel_limit>`;
-- :doc:`Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels <./sub/main.pympa_chunks_channel_limit>`;
 - :doc:`Postprocessing routines <./sub/output.process_detections>`;
 - :doc:`Visual verification of detections <./sub/output.verify_detection>`;
 
