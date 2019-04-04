@@ -71,7 +71,13 @@
 <div class="section" id="creating-an-output-catalog-and-verify-detections">
 <h1>6. Creating an output catalog and verify detections<a class="headerlink" href="#creating-an-output-catalog-and-verify-detections" title="Permalink to this headline">¶</a></h1>
 <blockquote>
-<div><p>It consists of some separate utilities in <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, post-processing tools to obtain a catalog and verify events.</p>
+<div><p>It consists of some separate utilities in <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, post-processing tools to obtain a catalog and verify events.
+Many events could be correlated to more than one template in a narrow time window. A fixed time window length can be selected,
+and within each, the template for which the normalized cross-correlation coefficient is the greates provides the event location and data to determine the magnitude.
+This process is run by &lt;./sub/output.process_detections&gt; in to two steps,
+by using the last event origin time as a reference to set the next time window scrutinized. The final catalog should be verified by visual inspection
+for a number of sampled detections. Generally, we proceed by verification of events having low thresholds to understand a safe value to validate the catalog.
+The routine &lt;./sub/output.verify_detection&gt; creates graphs of time windows where continuous data and trimmed templates are plotted with info grasped from channel by channel cross-correlation process.</p>
 </div></blockquote>
 <p>Important: we recommend to use an updated version of <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a>.</p>
 <p>These utilities contains:</p>
