@@ -13,8 +13,8 @@ close the door to the user. That is the reason why we introduced a pause command
 the shutdown of the connection.
  
 
-.. image:: download_data.png
+.. image:: ../figure/dir2.png
     :width: 400px
     :align: left
-    :alt: download_data.png
+    :alt: ../figure/dir2.png
     :target: https://github.com/avuan/PyMPA37/releases
