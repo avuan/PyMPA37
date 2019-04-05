@@ -1,6 +1,12 @@
 Create templates
 ****************
 
+Actually templates are created by trimming a fixed time window focused on S-wave theoretical travel times. 
+The length of the time window is established by the inter-statiion network distance and the frequency range used.
+The user should carefully check to exclude signal deriving from numerical artifacts (e.g. filtering applied to zero padding
+time windows having no data), or pre and coda signals not connected with the seismic perturbation investigated (e.g. LFEs, earthquakes, icequakes etc...)
+In the next versions the trimming will allow for selecting variable length P and S-waves.
+
 Needed files:
 
 - Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format
