@@ -14,7 +14,7 @@ the shutdown of the connection.
  
 
 .. image:: ../figure/dir2.png
-    :width: 400px
+    :width: 800px
     :align: left
     :alt: ../figure/dir2.png
     :target: https://github.com/avuan/PyMPA37/releases
