@@ -16,10 +16,9 @@ functions for each combination of array dimensions, axis, and data type.
 
 We heavily recommend installing ObsPy using conda because:
 
- * the life should be easier;
- * separate your install from your system default Python, meaning you can
-   experiment without breaking your OS;
- * modules should be compiled correctly
+ * separate your install from your system default Python, 
+   avoiding to have problems with your OS;
+ * correct compilation is more probable
 
 If you do not have either a miniconda or anaconda installation you can follow
 the |conda-install| instructions.
