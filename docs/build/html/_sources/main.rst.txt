@@ -9,12 +9,14 @@
 Main Program
 ============
 
-PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
-The code is stored on |github|, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
+PyMPA procedure provides the detection of microseismicity starting from well located templates by using a cross-correlation function from a network.
+The code is stored on |github|, and can be freely cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
 releases and uses |ObsPy_link| for reading and writing seismic data, and for handling most
-of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 |correlate_template| released on March
-2019. This version is running on a single core and does not include multiprocessing routines. However, in the case of the workload
-is substantial, it could be easily implemented a script using SLURM or other schedulers to submit many jobs to the available processors.
+of the event metadata. Matched-filter correlations are calculated using a python normalised cross-correlation function or the
+ObsPy v. 1.2.0 |correlate_template| released on April
+2019. Detections can be also obtained using a single station and three channels by modifying the input parameters (thresholds etc..). 
+This version is running on a single core and does not include multiprocessing routines. However, in the need of massive calculations for years and thousands
+of templates, it could be easily implemented a script using SLURM or other schedulers to submit many jobs to the available processors.
    
 Important: we recommend to use an updated version of ObsPy.
  

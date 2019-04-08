@@ -12,20 +12,19 @@ implementation of the PyMPA Python package.
 
 Motivation
 ---------------
-PyMPA is designed to compute detections of earthquakes, or any seismic signal
-(explosions or low frequency tremors) using more advanced routines than standard
-fast amplitude-ratio STA/LTA methods. 
+PyMPA is designed to augment the detection capability of earthquakes, or any seismic signal
+(explosions or low frequency tremors) by using advanced routines different from the faster standard
+amplitude-ratio STA/LTA methods. 
 
-The technique allows to augment seismic catalogs 
+The technique allows to improve seismic catalogs 
 decreasing the completeness magnitude and is particularly useful in detecting seismicity below
-the background noise level and early aftershocks of a strong mainshock. 
-
-The basic algorithm of the PyMPA is the same as that of an MFT search for
+the background noise level, and during a strong aftershocks sequence when the network sensitivity is lower.
+PyMPA is based on MFT search for
 earthquakes that resemble well-located events, termed templates (e.g., Shelly
 et al., 2007; Peng and Zhao, 2009; Yang et al., 2009; Kato et al., 2012; Zhang and
 Wen, 2015). The algorithm, which exploits ObsPy routines (Krischer et al., 2015), is
 versatile and supports most commonly used seismic data and earthquake catalog
-formats. A PyMPA flowchart is shown here below:
+formats. A PyMPA flowchart is also shown below.
 
 .. image:: flowchart.png
     :width: 800px
@@ -33,9 +32,6 @@ formats. A PyMPA flowchart is shown here below:
     :alt: flowchart.png
     :target: https://github.com/avuan/PyMPA37/releases
 
-PyMPA is an open source project for the
-development of software for the detection and analysis of earthquakes self-similar to
-earthquakes. 
 In addition to PyMPA, we develop other tools external
 to the main code to manage the input–output preparation and
 validation for (1) downloading data from Observatories and
@@ -46,7 +42,7 @@ from a reference catalog, (4) trimming and filtering them
 from continuous waveforms, (5) avoiding redundant detections
 in the output, and (6) validating new events.
 This repository will continue to grow and develop
-and any modification is reported in the github repository. 
+and any modification will be reported in the github repository. 
 
 .. |github| raw:: html
 
@@ -68,7 +64,7 @@ Within :doc:`input </input>` you will find the routines to generate templates,
 (:doc:`calculate_ttimes </sub/input.calculate_ttimes>`),
 compute cross-channel correlations from these templates
 (:doc:`pympa </sub/main.pympa>`), process_detections 
-(:doc:`process_detections </sub/output.process_detections>`), a visual verification
+(:doc:`process_detections </sub/output.process_detections>`), and apply for visual inspection
 (:doc:`verify_detection </sub/output.verify_detection>`)
 
 
@@ -78,7 +74,7 @@ Running tests
 For running tests examples are provided in the github subdirectories, tests are recalled
 when modifications are performed to the codes and a TRAVIS CI report is released. 
 
-You can also run these tests yourself locally to ensure
+You can also run these tests by yourself locally to ensure
 that everything runs as you would expect in your environment.  
 
 Although every effort has been made to ensure these tests run smoothly on all supported environments
@@ -86,7 +82,8 @@ Although every effort has been made to ensure these tests run smoothly on all su
 |github| page.
 
 .. |github| raw:: html
-    <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>        
+
+    <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
 
 References
 ----------

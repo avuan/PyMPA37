@@ -74,23 +74,20 @@
 implementation of the PyMPA Python package.</p>
 <div class="section" id="motivation">
 <h2>1.1. Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
-<p>PyMPA is designed to compute detections of earthquakes, or any seismic signal
-(explosions or low frequency tremors) using more advanced routines than standard
-fast amplitude-ratio STA/LTA methods.</p>
-<p>The technique allows to augment seismic catalogs
+<p>PyMPA is designed to augment the detection capability of earthquakes, or any seismic signal
+(explosions or low frequency tremors) by using advanced routines different from the faster standard
+amplitude-ratio STA/LTA methods.</p>
+<p>The technique allows to improve seismic catalogs
 decreasing the completeness magnitude and is particularly useful in detecting seismicity below
-the background noise level and early aftershocks of a strong mainshock.</p>
-<p>The basic algorithm of the PyMPA is the same as that of an MFT search for
+the background noise level, and during a strong aftershocks sequence when the network sensitivity is lower.
+PyMPA is based on MFT search for
 earthquakes that resemble well-located events, termed templates (e.g., Shelly
 et al., 2007; Peng and Zhao, 2009; Yang et al., 2009; Kato et al., 2012; Zhang and
 Wen, 2015). The algorithm, which exploits ObsPy routines (Krischer et al., 2015), is
 versatile and supports most commonly used seismic data and earthquake catalog
-formats. A PyMPA flowchart is shown here below:</p>
+formats. A PyMPA flowchart is also shown below.</p>
 <a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="flowchart.png" class="align-left" src="_images/flowchart.png" style="width: 800px;" /></a>
-<p>PyMPA is an open source project for the
-development of software for the detection and analysis of earthquakes self-similar to
-earthquakes.
-In addition to PyMPA, we develop other tools external
+<p>In addition to PyMPA, we develop other tools external
 to the main code to manage the input–output preparation and
 validation for (1) downloading data from Observatories and
 Research Facilities for European Seismology–European
@@ -100,7 +97,7 @@ from a reference catalog, (4) trimming and filtering them
 from continuous waveforms, (5) avoiding redundant detections
 in the output, and (6) validating new events.
 This repository will continue to grow and develop
-and any modification is reported in the github repository.</p>
+and any modification will be reported in the github repository.</p>
 </div>
 <div class="section" id="supported-environments">
 <h2>1.2. Supported environments<a class="headerlink" href="#supported-environments" title="Permalink to this headline">¶</a></h2>
@@ -115,14 +112,14 @@ We will stop support for Python 2.7 in a forthcoming release.</p>
 (<a class="reference internal" href="sub/input.calculate_ttimes.html"><span class="doc">calculate_ttimes</span></a>),
 compute cross-channel correlations from these templates
 (<a class="reference internal" href="sub/main.pympa.html"><span class="doc">pympa</span></a>), process_detections
-(<a class="reference internal" href="sub/output.process_detections.html"><span class="doc">process_detections</span></a>), a visual verification
+(<a class="reference internal" href="sub/output.process_detections.html"><span class="doc">process_detections</span></a>), and apply for visual inspection
 (<a class="reference internal" href="sub/output.verify_detection.html"><span class="doc">verify_detection</span></a>)</p>
 </div>
 <div class="section" id="running-tests">
 <h2>1.4. Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
 <p>For running tests examples are provided in the github subdirectories, tests are recalled
 when modifications are performed to the codes and a TRAVIS CI report is released.</p>
-<p>You can also run these tests yourself locally to ensure
+<p>You can also run these tests by yourself locally to ensure
 that everything runs as you would expect in your environment.</p>
 <p>Although every effort has been made to ensure these tests run smoothly on all supported environments
 , if you do find any issues, please let us know on the

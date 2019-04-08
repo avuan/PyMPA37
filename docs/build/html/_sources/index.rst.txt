@@ -9,11 +9,11 @@ Python Matching Phase Algorithm
 
 A Python package for the detection of seismicity based on templates.
 PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
-The software package PyMPA is an open source seismological software. It consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalog and verify events.  PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
+PyMPA is an open source seismological software and consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalog and verify events.  PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
 
 The code is stored on |github|, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7 releases and uses |ObsPy_link| for reading and writing seismic data, and for handling most
-of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 |correlate_template| released on March
-2019. 
+of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 |correlate_template| released on 
+April 2019. 
 Important: we recommend to use an updated version of ObsPy.
  
 .. |github| raw:: html
@@ -33,6 +33,9 @@ Important: we recommend to use an updated version of ObsPy.
     :align: center
     :alt: pympa_logo.png
     :target: https://github.com/avuan/PyMPA37/docs
+
+Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left 
+for the used channels the corresponding cross-correlation value.
 
 This package contains:
 

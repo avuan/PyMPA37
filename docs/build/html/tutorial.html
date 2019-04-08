@@ -75,18 +75,18 @@ implementation of the PyMPA Python package.</p>
 <div class="section" id="downloading-seismological-data">
 <h2>3.1. Downloading Seismological Data<a class="headerlink" href="#downloading-seismological-data" title="Permalink to this headline">¶</a></h2>
 <p>To download seismological data from EIDA (European Integrated Data Archive) servers:
-Waveform broad band data from european broad band seismic stations are available
-from many others European Institutions. To download seismological data from EIDA (European Integrated Data Archive) servers
-and inventory data in STATIONXML format many examples can be found in ObsPy examples.</p>
+Data from broad band seismic stations are available
+from many European Institutions. To download seismological data from EIDA (European Integrated Data Archive) servers
+and inventory data in STATIONXML format many examples can also be found in ObsPy.</p>
 <p>PyMPA requires, continuous data and stations inventories.
-EIDA servers can easily release continuous data from permanent networks and the corresponding
+EIDA servers can easily release data from permanent networks and the corresponding
 inventories. The examples in the subdirectory input.download_data.dir show the python scripts
 that allows the download.</p>
 <p>In the case your data come from other sources, PyMPA through ObsPy libraries
 is able to manage most of the seismological data formats (MSEED, SAC, SEISAN, SEGY, etc..).
 An inventory data file including station information needs to be created by modifying an existing
-StationXML file and read that with ObsPy to perform the rest.</p>
-<p>PyMPA does not use databases and prefers to store single channel daily continuous data in archieves.</p>
+StationXML file.</p>
+<p>PyMPA does not use databases and prefers to store single channel daily continuous data in archieves or subdirectories.</p>
 <p>Executable files:</p>
 <ul class="simple">
 <li><p>download_data.py (<a class="reference external" href="https://github.com/avuan/PyMPA37/tree/master/input.download_data.dir/download_data.py">https://github.com/avuan/PyMPA37/tree/master/input.download_data.dir/download_data.py</a>)</p></li>
@@ -98,7 +98,7 @@ StationXML file and read that with ObsPy to perform the rest.</p>
 <h2>3.2. Create Templates<a class="headerlink" href="#create-templates" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference internal" href="sub/input.create_templates.html"><span class="doc">create_template</span></a>) create templates</p>
 <p>A Python script create_templates.py is used to trim templates from continuous data and inventories
-stored in an archive. Generally, we use S-wave travel times to cut events before and after arrivals.
+stored in an archive. Generally, we use travel times to cut events before and after S-wave arrivals.
 Thus, a reference 1D velocity model is needed. Trimmed waveforms have to be carefully checked to evaluate
 the effectiveness of S-wave travel time calculations.
 Take care that a high sampling rate could result in memory consumption
@@ -142,13 +142,13 @@ Check the example for running create_templates.py at <a class="reference externa
 <span class="n">aquila_kato</span>
 </pre></div>
 </div>
-<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed.
-Parameters in files .par could change.</p>
+<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps.</p>
 </div>
 <div class="section" id="check-template-quality">
 <h2>3.3. Check Template Quality<a class="headerlink" href="#check-template-quality" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference internal" href="sub/input.template_check.html"><span class="doc">template_check</span></a>) select good templates</p>
-<p>Evaluating template quality allows to input only a good signal to noise ratio avoiding artifacts resulting in unwanted detections. The selection is based on Kurtosis method (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html</a>) supposing that the waveform is simmetrically trimmed at the first S-wave arrival. Kurtosis evaluates if the time distrbution of amplitudes is simmetric or not excluding data having a low signal to noise ratio.</p>
+<p>Evaluating template quality allows to input only a good signal to noise ratio avoiding artifacts resulting in unwanted detections. The selection is based on Kurtosis method (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html">https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html</a>) supposing that the waveform is simmetrically trimmed at the first S-wave arrival. Kurtosis evaluates if the time distrbution of amplitudes is simmetric or not excluding data having a low signal to noise ratio.
+Peak amplitudes at the beginning or in the signal coda are unwanted and a selection is also made to exclude them.</p>
 <p>Check examples running test_kurtosis1.py at <a class="reference external" href="https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir">https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir</a>
 After running kurtosis based selection,
 templates are separated in two subdirectories “bad”(red waveforms see figure below) and “good” (black waveforms see figure below)</p>
@@ -207,20 +207,17 @@ are stored in ./template directory. The same reference 1D velocity model used fo
 <span class="n">aquila_kato</span>
 </pre></div>
 </div>
-<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.</p>
+<p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps.</p>
 </div>
 <div class="section" id="running-pympa">
 <h2>3.5. Running PyMPA<a class="headerlink" href="#running-pympa" title="Permalink to this headline">¶</a></h2>
-<p>(<span class="xref std std-doc">main.pympa_chunks_channel_limit</span>) run pympa</p>
-<p>Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.
-Three different versions of the matching code are provdided:</p>
+<p>Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.</p>
 <p>Executable files:</p>
 <ul class="simple">
-<li><p>main.pympa.py (working on chunks of 24 hours and using all the available channels). This version costs a lot in terms of memory usage and time.</p></li>
-<li><p>main.pympa_channel_limit.py (working on a limited number of channels close to the template epicenter). It saves computation time reducing also the memory consumption.</p></li>
-<li><p>main.pympa_chunks_channel_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.</p></li>
+<li><p>pympa.py (working on daily chunks and with a reduced number of channels). Chunking daily data results in MAD calculated on the working time window.</p></li>
 </ul>
 <p>Input parameters:</p>
+<p>Input parameters are described line by line in parameters24 file</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># input parameters for runnig 27 version</span>
 <span class="c1"># line1 = stations available,</span>
 <span class="c1"># line2 = channels available,</span>
@@ -239,8 +236,11 @@ Three different versions of the matching code are provdided:</p>
 <span class="c1"># line15 = filename for zmap catalog,</span>
 <span class="c1"># line16 = template start number,</span>
 <span class="c1"># line17 = template stop number(if line16==0  and line17==0 all templates are processed,</span>
-<span class="c1"># line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)</span>
-<span class="c1"># line 21, 22 = maximum number of templates to be used in template matching, number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc...) </span>
+<span class="c1"># line18 = multiplying factor for MAD to determine threshold </span>
+<span class="c1"># line 19 = multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19) </span>
+<span class="c1"># line 20 = multiplying factor to remove daily cft channels with std smaller than (average std from all channels * factor at at line 20)</span>
+<span class="c1"># line 21 = maximum number of templates to be used in template matching (choice is made preferring the closest channels)</span>
+<span class="c1"># line 22 = number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc... icreasing the factor allows reducing memory consumption) </span>
 <span class="n">APEC</span> <span class="n">ATBU</span> <span class="n">ATCA</span> <span class="n">ATCC</span> <span class="n">ATFO</span> <span class="n">ATLO</span> <span class="n">ATPC</span> <span class="n">ATPI</span> <span class="n">ATSC</span> <span class="n">ATVO</span> <span class="n">BADI</span> <span class="n">FOSV</span> <span class="n">FRON</span> <span class="n">MURB</span> <span class="n">NARO</span> <span class="n">PARC</span> <span class="n">PIEI</span> <span class="n">PE3</span> <span class="n">SSFR</span>
 <span class="n">EHE</span> <span class="n">EHN</span> <span class="n">EHZ</span> <span class="n">HHE</span> <span class="n">HHN</span> <span class="n">HHZ</span>
 <span class="n">IV</span>

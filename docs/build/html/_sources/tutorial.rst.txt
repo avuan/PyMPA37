@@ -13,21 +13,21 @@ implementation of the PyMPA Python package.
 Downloading Seismological Data
 ------------------------------
 To download seismological data from EIDA (European Integrated Data Archive) servers: 
-Waveform broad band data from european broad band seismic stations are available 
-from many others European Institutions. To download seismological data from EIDA (European Integrated Data Archive) servers
-and inventory data in STATIONXML format many examples can be found in ObsPy examples.
+Data from broad band seismic stations are available 
+from many European Institutions. To download seismological data from EIDA (European Integrated Data Archive) servers
+and inventory data in STATIONXML format many examples can also be found in ObsPy.
 
 PyMPA requires, continuous data and stations inventories.
-EIDA servers can easily release continuous data from permanent networks and the corresponding 
+EIDA servers can easily release data from permanent networks and the corresponding 
 inventories. The examples in the subdirectory input.download_data.dir show the python scripts
 that allows the download. 
 
 In the case your data come from other sources, PyMPA through ObsPy libraries
 is able to manage most of the seismological data formats (MSEED, SAC, SEISAN, SEGY, etc..). 
 An inventory data file including station information needs to be created by modifying an existing 
-StationXML file and read that with ObsPy to perform the rest.
+StationXML file.
 
-PyMPA does not use databases and prefers to store single channel daily continuous data in archieves.
+PyMPA does not use databases and prefers to store single channel daily continuous data in archieves or subdirectories.
 
 Executable files:
 
@@ -41,7 +41,7 @@ Create Templates
 (:doc:`create_template </sub/input.create_templates>`) create templates
 
 A Python script create_templates.py is used to trim templates from continuous data and inventories
-stored in an archive. Generally, we use S-wave travel times to cut events before and after arrivals.
+stored in an archive. Generally, we use travel times to cut events before and after S-wave arrivals.
 Thus, a reference 1D velocity model is needed. Trimmed waveforms have to be carefully checked to evaluate 
 the effectiveness of S-wave travel time calculations. 
 Take care that a high sampling rate could result in memory consumption
@@ -58,8 +58,7 @@ Input parameters:
 .. include:: ../../input.create_templates.dir/trim.par
    :literal:
 
-Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. 
-Parameters in files .par could change.
+Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps. 
   
 
 Check Template Quality
@@ -67,7 +66,8 @@ Check Template Quality
 (:doc:`template_check </sub/input.template_check>`) select good templates
 
 Evaluating template quality allows to input only a good signal to noise ratio avoiding artifacts resulting in unwanted detections. The selection is based on Kurtosis method (https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html) supposing that the waveform is simmetrically trimmed at the first S-wave arrival. Kurtosis evaluates if the time distrbution of amplitudes is simmetric or not excluding data having a low signal to noise ratio.
-
+Peak amplitudes at the beginning or in the signal coda are unwanted and a selection is also made to exclude them.
+ 
 Check examples running test_kurtosis1.py at https://github.com/avuan/PyMPA37/tree/master/input.template_check.dir
 After running kurtosis based selection, 
 templates are separated in two subdirectories "bad"(red waveforms see figure below) and "good" (black waveforms see figure below)
@@ -119,24 +119,22 @@ Input parameters:
 .. include:: ../../input.calculate_ttimes.dir/times.par
    :literal:
 
-Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.
+Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps.
 
 
 
 Running PyMPA
 -------------
-(:doc:`main.pympa_chunks_channel_limit </sub/main.pympa_chunks_channel_limit>`) run pympa
 
 Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.
-Three different versions of the matching code are provdided:
 
 Executable files:
 
-- main.pympa.py (working on chunks of 24 hours and using all the available channels). This version costs a lot in terms of memory usage and time.
-- main.pympa_channel_limit.py (working on a limited number of channels close to the template epicenter). It saves computation time reducing also the memory consumption.
-- main.pympa_chunks_channel_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.
+- pympa.py (working on daily chunks and with a reduced number of channels). Chunking daily data results in MAD calculated on the working time window. 
 
 Input parameters:
+
+Input parameters are described line by line in parameters24 file
 
 .. include:: ../../main.pympa.dir/parameters24
    :literal:

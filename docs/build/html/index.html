@@ -68,12 +68,14 @@
 <h1>Python Matching Phase Algorithm<a class="headerlink" href="#python-matching-phase-algorithm" title="Permalink to this headline">¶</a></h1>
 <p>A Python package for the detection of seismicity based on templates.
 PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
-The software package PyMPA is an open source seismological software. It consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalog and verify events.  PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.</p>
+PyMPA is an open source seismological software and consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalog and verify events.  PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.</p>
 <p>The code is stored on <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7 releases and uses <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a> for reading and writing seismic data, and for handling most
-of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a> released on March
-2019.
+of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0 <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a> released on
+April 2019.
 Important: we recommend to use an updated version of ObsPy.</p>
 <a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/docs"><img alt="pympa_logo.png" class="align-center" src="_images/pympa_logo.png" style="width: 600px;" /></a>
+<p>Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left
+for the used channels the corresponding cross-correlation value.</p>
 <p>This package contains:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="sub/input.download_data.html"><span class="doc">Routines for downloading data from eida servers</span></a>;</p></li>

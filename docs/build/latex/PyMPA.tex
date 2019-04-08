@@ -71,7 +71,7 @@
 
 
 \title{PyMPA Documentation}
-\date{Mar 15, 2019}
+\date{Apr 08, 2019}
 \release{1.0.0}
 \author{Alessandro Vuan}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -89,16 +89,16 @@
 
 A Python package for the detection of seismicity based on templates.
 PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
-The software package PyMPA is an open source seismological software. It consists of some separate utilities for input preparation,
-the main program, and output post-processing tools to obtain a catalog and verify events.
-PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
+PyMPA is an open source seismological software and consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalog and verify events.  PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates.
 
-The code is stored on , and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
-releases and uses  for reading and writing seismic data, and for handling most
-of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0  released on March
-2019.
+The code is stored on , and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7 releases and uses  for reading and writing seismic data, and for handling most
+of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0  released on
+April 2019.
 Important: we recommend to use an updated version of ObsPy.
 \sphinxhref{https://github.com/avuan/PyMPA37/docs}{\sphinxincludegraphics[width=600\sphinxpxdimen]{{pympa_logo}.png}}
+Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left
+for the used channels the corresponding cross-correlation value.
+
 This package contains:
 \begin{itemize}
 \item {} 
@@ -115,12 +115,6 @@ This package contains:
 
 \item {} 
 {\hyperref[\detokenize{sub/main.pympa::doc}]{\sphinxcrossref{\DUrole{doc}{Template matching by using daily estimation of MAD and all the available channels}}}};
-
-\item {} 
-{\hyperref[\detokenize{sub/main.pympa_channel_limit::doc}]{\sphinxcrossref{\DUrole{doc}{Template matching by using daily estimation of MAD and a limited number of channels}}}};
-
-\item {} 
-{\hyperref[\detokenize{sub/main.pympa_chunks_channel_limit::doc}]{\sphinxcrossref{\DUrole{doc}{Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels}}}};
 
 \item {} 
 {\hyperref[\detokenize{sub/output.process_detections::doc}]{\sphinxcrossref{\DUrole{doc}{Postprocessing routines}}}};
@@ -170,24 +164,20 @@ implementation of the PyMPA Python package.
 
 \subsection{Motivation}
 \label{\detokenize{intro:motivation}}
-PyMPA is designed to compute detections of earthquakes, or any seismic signal
-(explosions or low frequency tremors) using more advanced routines than standard
-fast amplitude-ratio STA/LTA methods.
+PyMPA is designed to augment the detection capability of earthquakes, or any seismic signal
+(explosions or low frequency tremors) by using advanced routines different from the faster standard
+amplitude-ratio STA/LTA methods.
 
-The technique allows to augment seismic catalogs
+The technique allows to improve seismic catalogs
 decreasing the completeness magnitude and is particularly useful in detecting seismicity below
-the background noise level and early aftershocks of a strong mainshock.
-
-The basic algorithm of the PyMPA is the same as that of an MFT search for
+the background noise level, and during a strong aftershocks sequence when the network sensitivity is lower.
+PyMPA is based on MFT search for
 earthquakes that resemble well-located events, termed templates (e.g., Shelly
 et al., 2007; Peng and Zhao, 2009; Yang et al., 2009; Kato et al., 2012; Zhang and
 Wen, 2015). The algorithm, which exploits ObsPy routines (Krischer et al., 2015), is
 versatile and supports most commonly used seismic data and earthquake catalog
-formats. A PyMPA flowchart is shown here below:
+formats. A PyMPA flowchart is also shown below.
 \sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=800\sphinxpxdimen]{{flowchart}.png}}
-PyMPA is an open source project for the
-development of software for the detection and analysis of earthquakes self-similar to
-earthquakes.
 In addition to PyMPA, we develop other tools external
 to the main code to manage the input\textendash{}output preparation and
 validation for (1) downloading data from Observatories and
@@ -198,7 +188,7 @@ from a reference catalog, (4) trimming and filtering them
 from continuous waveforms, (5) avoiding redundant detections
 in the output, and (6) validating new events.
 This repository will continue to grow and develop
-and any modification is reported in the github repository.
+and any modification will be reported in the github repository.
 
 
 \subsection{Supported environments}
@@ -215,7 +205,7 @@ Within {\hyperref[\detokenize{input::doc}]{\sphinxcrossref{\DUrole{doc}{input}}}
 ({\hyperref[\detokenize{sub/input.calculate_ttimes::doc}]{\sphinxcrossref{\DUrole{doc}{calculate\_ttimes}}}}),
 compute cross-channel correlations from these templates
 ({\hyperref[\detokenize{sub/main.pympa::doc}]{\sphinxcrossref{\DUrole{doc}{pympa}}}}), process\_detections
-({\hyperref[\detokenize{sub/output.process_detections::doc}]{\sphinxcrossref{\DUrole{doc}{process\_detections}}}}), a visual verification
+({\hyperref[\detokenize{sub/output.process_detections::doc}]{\sphinxcrossref{\DUrole{doc}{process\_detections}}}}), and apply for visual inspection
 ({\hyperref[\detokenize{sub/output.verify_detection::doc}]{\sphinxcrossref{\DUrole{doc}{verify\_detection}}}})
 
 
@@ -224,7 +214,7 @@ compute cross-channel correlations from these templates
 For running tests examples are provided in the github subdirectories, tests are recalled
 when modifications are performed to the codes and a TRAVIS CI report is released.
 
-You can also run these tests yourself locally to ensure
+You can also run these tests by yourself locally to ensure
 that everything runs as you would expect in your environment.
 
 Although every effort has been made to ensure these tests run smoothly on all supported environments
@@ -269,14 +259,11 @@ functions for each combination of array dimensions, axis, and data type.
 We heavily recommend installing ObsPy using conda because:
 \begin{itemize}
 \item {} 
-the life should be easier;
+separate your install from your system default Python,
+avoiding to have problems with your OS;
 
 \item {} 
-separate your install from your system default Python, meaning you can
-experiment without breaking your OS;
-
-\item {} 
-modules should be compiled correctly
+correct compilation is more probable
 
 \end{itemize}
 
@@ -326,21 +313,21 @@ implementation of the PyMPA Python package.
 \subsection{Downloading Seismological Data}
 \label{\detokenize{tutorial:downloading-seismological-data}}
 To download seismological data from EIDA (European Integrated Data Archive) servers:
-Waveform broad band data from european broad band seismic stations are available
-from many others European Institutions. To download seismological data from EIDA (European Integrated Data Archive) servers
-and inventory data in STATIONXML format many examples can be found in ObsPy examples.
+Data from broad band seismic stations are available
+from many European Institutions. To download seismological data from EIDA (European Integrated Data Archive) servers
+and inventory data in STATIONXML format many examples can also be found in ObsPy.
 
 PyMPA requires, continuous data and stations inventories.
-EIDA servers can easily release continuous data from permanent networks and the corresponding
+EIDA servers can easily release data from permanent networks and the corresponding
 inventories. The examples in the subdirectory input.download\_data.dir show the python scripts
 that allows the download.
 
 In the case your data come from other sources, PyMPA through ObsPy libraries
 is able to manage most of the seismological data formats (MSEED, SAC, SEISAN, SEGY, etc..).
 An inventory data file including station information needs to be created by modifying an existing
-StationXML file and read that with ObsPy to perform the rest.
+StationXML file.
 
-PyMPA does not use databases and prefers to store single channel daily continuous data in archieves.
+PyMPA does not use databases and prefers to store single channel daily continuous data in archieves or subdirectories.
 
 Executable files:
 \begin{itemize}
@@ -360,7 +347,7 @@ download\_inventory.py (\sphinxurl{https://github.com/avuan/PyMPA37/tree/master/
 ({\hyperref[\detokenize{sub/input.create_templates::doc}]{\sphinxcrossref{\DUrole{doc}{create\_template}}}}) create templates
 
 A Python script create\_templates.py is used to trim templates from continuous data and inventories
-stored in an archive. Generally, we use S-wave travel times to cut events before and after arrivals.
+stored in an archive. Generally, we use travel times to cut events before and after S-wave arrivals.
 Thus, a reference 1D velocity model is needed. Trimmed waveforms have to be carefully checked to evaluate
 the effectiveness of S-wave travel time calculations.
 Take care that a high sampling rate could result in memory consumption
@@ -410,8 +397,7 @@ Input parameters:
 \PYG{n}{aquila\PYGZus{}kato}
 \end{sphinxVerbatim}
 
-Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed.
-Parameters in files .par could change.
+Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps.
 
 
 \subsection{Check Template Quality}
@@ -419,6 +405,7 @@ Parameters in files .par could change.
 ({\hyperref[\detokenize{sub/input.template_check::doc}]{\sphinxcrossref{\DUrole{doc}{template\_check}}}}) select good templates
 
 Evaluating template quality allows to input only a good signal to noise ratio avoiding artifacts resulting in unwanted detections. The selection is based on Kurtosis method (\sphinxurl{https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html}) supposing that the waveform is simmetrically trimmed at the first S-wave arrival. Kurtosis evaluates if the time distrbution of amplitudes is simmetric or not excluding data having a low signal to noise ratio.
+Peak amplitudes at the beginning or in the signal coda are unwanted and a selection is also made to exclude them.
 
 Check examples running test\_kurtosis1.py at \sphinxurl{https://github.com/avuan/PyMPA37/tree/master/input.template\_check.dir}
 After running kurtosis based selection,
@@ -497,71 +484,70 @@ Input parameters:
 \PYG{n}{aquila\PYGZus{}kato}
 \end{sphinxVerbatim}
 
-Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.
+Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps.
 
 
 \subsection{Running PyMPA}
 \label{\detokenize{tutorial:running-pympa}}
-({\hyperref[\detokenize{sub/main.pympa_chunks_channel_limit::doc}]{\sphinxcrossref{\DUrole{doc}{main.pympa\_chunks\_channel\_limit}}}}) run pympa
-
 Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.
-Three different versions of the matching code are provdided:
 
 Executable files:
 \begin{itemize}
 \item {} 
-main.pympa.py (working on chunks of 24 hours and using all the available channels). This version costs a lot in terms of memory usage and time.
-
-\item {} 
-main.pympa\_channel\_limit.py (working on a limited number of channels close to the template epicenter). It saves computation time reducing also the memory consumption.
-
-\item {} 
-main.pympa\_chunks\_channel\_limit.py (working on daily chunks and with a reduced number of channels). This is the fastest version saving also a lot of memory and avoiding possible memory leakage occurring sometimes in version 1.
+pympa.py (working on daily chunks and with a reduced number of channels). Chunking daily data results in MAD calculated on the working time window.
 
 \end{itemize}
 
 Input parameters:
 
+Input parameters are described line by line in parameters24 file
+
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{\PYGZsh{} input parameters for runnig version 40}
-\PYG{c+c1}{\PYGZsh{} line1 = stations available, }
-\PYG{c+c1}{\PYGZsh{} line2 = channels available, }
-\PYG{c+c1}{\PYGZsh{} line3 = networks available, }
-\PYG{c+c1}{\PYGZsh{} line4 = low bandpass filter frequency, }
-\PYG{c+c1}{\PYGZsh{} line5 = high bandpass filter frequency, }
-\PYG{c+c1}{\PYGZsh{} line6 = sample tolerance in detecting maximum cft amplitude for each channel, }
-\PYG{c+c1}{\PYGZsh{} line7 = cross\PYGZhy{}correlation threshold to be overcome by cft, }
-\PYG{c+c1}{\PYGZsh{} line8 = min number of channels overcoming the cross\PYGZhy{}correlation threshold, }
-\PYG{c+c1}{\PYGZsh{} line9 = template duration(s), }
-\PYG{c+c1}{\PYGZsh{} line10 = UTCDateTime.DEFAULT\PYGZus{}PRECISION (number of digits considered in fractions of seconds), }
-\PYG{c+c1}{\PYGZsh{} line11 = string variable containing the directory name for continuous 24h waveforms, }
-\PYG{c+c1}{\PYGZsh{} line12 = string variable for templates\PYGZsq{} directory, }
-\PYG{c+c1}{\PYGZsh{} line13 = string variable for travel times directory, }
-\PYG{c+c1}{\PYGZsh{} line14 = filename for day list to process, }
-\PYG{c+c1}{\PYGZsh{} line15 = filename for zmap catalog, }
-\PYG{c+c1}{\PYGZsh{} line16 = template start number, }
-\PYG{c+c1}{\PYGZsh{} line17 = template stop number(if line16==0  and line17==0 all templates are processed, }
-\PYG{c+c1}{\PYGZsh{} line18, 19, 20  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20) }
-\PYG{n}{RAVA} \PYG{n}{T0812} \PYG{n}{T0813} \PYG{n}{T0822}
-\PYG{n}{EHE} \PYG{n}{EHN} \PYG{n}{EHZ} \PYG{n}{HHE} \PYG{n}{HHN} \PYG{n}{HHZ} \PYG{n}{HNE} \PYG{n}{HNN} \PYG{n}{HNZ}
-\PYG{n}{IV} \PYG{n}{TV}
-\PYG{l+m+mf}{2.0}
+\PYG{c+c1}{\PYGZsh{} input parameters for runnig 27 version}
+\PYG{c+c1}{\PYGZsh{} line1 = stations available,}
+\PYG{c+c1}{\PYGZsh{} line2 = channels available,}
+\PYG{c+c1}{\PYGZsh{} line3 = networks available,}
+\PYG{c+c1}{\PYGZsh{} line4 = low bandpass filter frequency,}
+\PYG{c+c1}{\PYGZsh{} line5 = high bandpass filter frequency,}
+\PYG{c+c1}{\PYGZsh{} line6 = sample tolerance in detecting maximum cft amplitude for each channel,}
+\PYG{c+c1}{\PYGZsh{} line7 = cross\PYGZhy{}correlation threshold to be overcome by cft,}
+\PYG{c+c1}{\PYGZsh{} line8 = min number of channels overcoming the cross\PYGZhy{}correlation threshold,}
+\PYG{c+c1}{\PYGZsh{} line9 = template duration(s),}
+\PYG{c+c1}{\PYGZsh{} line10 = UTCDateTime.DEFAULT\PYGZus{}PRECISION (number of digits considered in fractions of seconds),}
+\PYG{c+c1}{\PYGZsh{} line11 = string variable containing the directory name for continuous 24h waveforms,}
+\PYG{c+c1}{\PYGZsh{} line12 = string variable for templates\PYGZsq{} directory,}
+\PYG{c+c1}{\PYGZsh{} line13 = string variable for travel times directory,}
+\PYG{c+c1}{\PYGZsh{} line14 = filename for day list to process,}
+\PYG{c+c1}{\PYGZsh{} line15 = filename for zmap catalog,}
+\PYG{c+c1}{\PYGZsh{} line16 = template start number,}
+\PYG{c+c1}{\PYGZsh{} line17 = template stop number(if line16==0  and line17==0 all templates are processed,}
+\PYG{c+c1}{\PYGZsh{} line18 = multiplying factor for MAD to determine threshold }
+\PYG{c+c1}{\PYGZsh{} line 19 = multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19) }
+\PYG{c+c1}{\PYGZsh{} line 20 = multiplying factor to remove daily cft channels with std smaller than (average std from all channels * factor at at line 20)}
+\PYG{c+c1}{\PYGZsh{} line 21 = maximum number of templates to be used in template matching (choice is made preferring the closest channels)}
+\PYG{c+c1}{\PYGZsh{} line 22 = number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc... icreasing the factor allows reducing memory consumption) }
+\PYG{n}{APEC} \PYG{n}{ATBU} \PYG{n}{ATCA} \PYG{n}{ATCC} \PYG{n}{ATFO} \PYG{n}{ATLO} \PYG{n}{ATPC} \PYG{n}{ATPI} \PYG{n}{ATSC} \PYG{n}{ATVO} \PYG{n}{BADI} \PYG{n}{FOSV} \PYG{n}{FRON} \PYG{n}{MURB} \PYG{n}{NARO} \PYG{n}{PARC} \PYG{n}{PIEI} \PYG{n}{PE3} \PYG{n}{SSFR}
+\PYG{n}{EHE} \PYG{n}{EHN} \PYG{n}{EHZ} \PYG{n}{HHE} \PYG{n}{HHN} \PYG{n}{HHZ}
+\PYG{n}{IV}
+\PYG{l+m+mf}{3.0}
 \PYG{l+m+mf}{8.0}
 \PYG{l+m+mi}{6}
-\PYG{l+m+mf}{0.3}
-\PYG{l+m+mi}{9}
+\PYG{l+m+mf}{0.35}
+\PYG{l+m+mi}{6}
 \PYG{l+m+mi}{5}
 \PYG{l+m+mi}{6}
-\PYG{l+m+mi}{24}\PYG{n}{hb}
-\PYG{n}{template618}
-\PYG{n}{ttimes618}
+\PYG{l+m+mi}{24}\PYG{n}{h}
+\PYG{n}{template}
+\PYG{n}{ttimes}
 \PYG{n}{lista1}
 \PYG{n}{templates}\PYG{o}{.}\PYG{n}{zmap}
-\PYG{l+m+mi}{618}
-\PYG{l+m+mi}{619}
+\PYG{l+m+mi}{200}
+\PYG{l+m+mi}{203}
 \PYG{l+m+mi}{8}
 \PYG{l+m+mf}{1.5}
 \PYG{l+m+mf}{0.25}
+\PYG{l+m+mi}{12}
+\PYG{l+m+mi}{6}
 \end{sphinxVerbatim}
 
 
@@ -709,10 +695,27 @@ These utilities are written by the PyMPA developers, and are distributed under t
 \label{\detokenize{input:contents}}
 
 \subsubsection{Download data}
-\label{\detokenize{sub/input.download_data:download-data}}\label{\detokenize{sub/input.download_data::doc}}\sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=400\sphinxpxdimen]{{download_data}.png}}
+\label{\detokenize{sub/input.download_data:download-data}}\label{\detokenize{sub/input.download_data::doc}}
+Downloading data from EIDA servers is easily performed by using ObsPy tools
+and routines. Please see the scripts at \sphinxurl{https://github.com/avuan/PyMPA37/blob/master/input.download\_data.dir/}
+
+download\_data.py and download\_inventory.py allows downloading continuous data and inventories for the selected stations
+and time period.
+
+For some networks or stations please check before data availability or if there are some restrictions and a token
+or userid is needed. Some EIDA servers when receiving from the same user many requests in a short time
+close the door to the user. That is the reason why we introduced a pause command in our scripts, this avoids
+the shutdown of the connection.
+\sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=800\sphinxpxdimen]{{dir2}.png}}
 
 \subsubsection{Create templates}
 \label{\detokenize{sub/input.create_templates:create-templates}}\label{\detokenize{sub/input.create_templates::doc}}
+Actually templates are created by trimming a fixed time window focused on S-wave theoretical travel times.
+The length of the time window is established by the inter-statiion network distance and the frequency range used.
+The user should carefully check to exclude signal deriving from numerical artifacts (e.g. filtering applied to zero padding
+time windows having no data), or pre and coda signals not connected with the seismic perturbation investigated (e.g. LFEs, earthquakes, icequakes etc…)
+In the next versions the trimming will allow for selecting variable length P and S-waves.
+
 Needed files:
 \begin{itemize}
 \item {} 
@@ -1030,27 +1033,34 @@ Output dir i.e. ./ttimes (find moveout times from different channels used to syn
 
 
 \subsubsection{Template Kurtosis-based Waveform Check}
-\label{\detokenize{sub/input.template_check:template-kurtosis-based-waveform-check}}\label{\detokenize{sub/input.template_check::doc}}\sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=100\sphinxpxdimen]{{pympa_logo1}.png}}
+\label{\detokenize{sub/input.template_check:template-kurtosis-based-waveform-check}}\label{\detokenize{sub/input.template_check::doc}}
+Kurtosis statistics is used to evaluate the simmetry of the time series neglecting from the pool of trimmed templates
+waveforms that show high simmetry in the S-wave selected time window. It is supposed that low signal to noise ratios
+have low values of Kurtosis index. This contributes to exclude the template/channel from the estimation of the cross-correlation.
+The routine avoids also signals ior glitches that are located at the beginning and at the end of the signal (please check carefully the code
+before using it).
+Scipy Kurtosis is used as a standard routine (see \sphinxurl{https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html})
+
+An example using the input\_template\_check is provided also showing accpted and removed waveforms.
+\sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=100\sphinxpxdimen]{{pympa_logo1}.png}}
 
 \section{Main Program}
 \label{\detokenize{main:main-program}}\label{\detokenize{main::doc}}
-PyMPA contains an efficient code for the detection of microseismicity starting from well located templates.
-The code is stored on , and is free to be cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
+PyMPA procedure provides the detection of microseismicity starting from well located templates by using a cross-correlation function from a network.
+The code is stored on , and can be freely cloned on your platform. It supports Python 2.7, 3.4, 3.5, 3.6, 3.7
 releases and uses  for reading and writing seismic data, and for handling most
-of the event metadata. Matched-filter correlations are calculated using ObsPy v. 1.2.0  released on March
-2019.
+of the event metadata. Matched-filter correlations are calculated using a python normalised cross-correlation function or the
+ObsPy v. 1.2.0  released on April
+2019. Detections can be also obtained using a single station and three channels by modifying the input parameters (thresholds etc..).
+This version is running on a single core and does not include multiprocessing routines. However, in the need of massive calculations for years and thousands
+of templates, it could be easily implemented a script using SLURM or other schedulers to submit many jobs to the available processors.
+
 Important: we recommend to use an updated version of ObsPy.
 
 Main packages contains:
 \begin{itemize}
 \item {} 
 {\hyperref[\detokenize{sub/main.pympa::doc}]{\sphinxcrossref{\DUrole{doc}{Template matching by using daily estimation of MAD and all the available channels}}}};
-
-\item {} 
-{\hyperref[\detokenize{sub/main.pympa_channel_limit::doc}]{\sphinxcrossref{\DUrole{doc}{Template matching by using daily estimation of MAD and a limited number of channels}}}};
-
-\item {} 
-{\hyperref[\detokenize{sub/main.pympa_chunks_channel_limit::doc}]{\sphinxcrossref{\DUrole{doc}{Template matching by using daily chunks (MAD estimated along the chunk duration) and a limited number of channels}}}};
 
 \end{itemize}
 
@@ -1062,49 +1072,7 @@ This package is written by the PyMPA developers, and is distributed under the LG
 
 \subsubsection{Running PyMPA}
 \label{\detokenize{sub/main.pympa:running-pympa}}\label{\detokenize{sub/main.pympa::doc}}
-The input files are the same by using the different versions. The only input file that changes is the parameters24 input file that in the case of version 2 and 3 has added respectively 1 or 2 input lines.
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{\PYGZsh{} input parameters for runnig version 40}
-\PYG{c+c1}{\PYGZsh{} line1 = stations available, }
-\PYG{c+c1}{\PYGZsh{} line2 = channels available, }
-\PYG{c+c1}{\PYGZsh{} line3 = networks available, }
-\PYG{c+c1}{\PYGZsh{} line4 = low bandpass filter frequency, }
-\PYG{c+c1}{\PYGZsh{} line5 = high bandpass filter frequency, }
-\PYG{c+c1}{\PYGZsh{} line6 = sample tolerance in detecting maximum cft amplitude for each channel, }
-\PYG{c+c1}{\PYGZsh{} line7 = cross\PYGZhy{}correlation threshold to be overcome by cft, }
-\PYG{c+c1}{\PYGZsh{} line8 = min number of channels overcoming the cross\PYGZhy{}correlation threshold, }
-\PYG{c+c1}{\PYGZsh{} line9 = template duration(s), }
-\PYG{c+c1}{\PYGZsh{} line10 = UTCDateTime.DEFAULT\PYGZus{}PRECISION (number of digits considered in fractions of seconds), }
-\PYG{c+c1}{\PYGZsh{} line11 = string variable containing the directory name for continuous 24h waveforms, }
-\PYG{c+c1}{\PYGZsh{} line12 = string variable for templates\PYGZsq{} directory, }
-\PYG{c+c1}{\PYGZsh{} line13 = string variable for travel times directory, }
-\PYG{c+c1}{\PYGZsh{} line14 = filename for day list to process, }
-\PYG{c+c1}{\PYGZsh{} line15 = filename for zmap catalog, }
-\PYG{c+c1}{\PYGZsh{} line16 = template start number, }
-\PYG{c+c1}{\PYGZsh{} line17 = template stop number(if line16==0  and line17==0 all templates are processed, }
-\PYG{c+c1}{\PYGZsh{} line18, 19, 20  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20) }
-\PYG{n}{RAVA} \PYG{n}{T0812} \PYG{n}{T0813} \PYG{n}{T0822}
-\PYG{n}{EHE} \PYG{n}{EHN} \PYG{n}{EHZ} \PYG{n}{HHE} \PYG{n}{HHN} \PYG{n}{HHZ} \PYG{n}{HNE} \PYG{n}{HNN} \PYG{n}{HNZ}
-\PYG{n}{IV} \PYG{n}{TV}
-\PYG{l+m+mf}{2.0}
-\PYG{l+m+mf}{8.0}
-\PYG{l+m+mi}{6}
-\PYG{l+m+mf}{0.3}
-\PYG{l+m+mi}{9}
-\PYG{l+m+mi}{5}
-\PYG{l+m+mi}{6}
-\PYG{l+m+mi}{24}\PYG{n}{hb}
-\PYG{n}{template618}
-\PYG{n}{ttimes618}
-\PYG{n}{lista1}
-\PYG{n}{templates}\PYG{o}{.}\PYG{n}{zmap}
-\PYG{l+m+mi}{618}
-\PYG{l+m+mi}{619}
-\PYG{l+m+mi}{8}
-\PYG{l+m+mf}{1.5}
-\PYG{l+m+mf}{0.25}
-\end{sphinxVerbatim}
+The input files are those prepared in advance by using pre-processing tools. The only input file that changes is the parameters24 input file.
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{} input parameters for runnig 27 version}
@@ -1125,52 +1093,11 @@ The input files are the same by using the different versions. The only input fil
 \PYG{c+c1}{\PYGZsh{} line15 = filename for zmap catalog,}
 \PYG{c+c1}{\PYGZsh{} line16 = template start number,}
 \PYG{c+c1}{\PYGZsh{} line17 = template stop number(if line16==0  and line17==0 all templates are processed,}
-\PYG{c+c1}{\PYGZsh{} line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)}
-\PYG{c+c1}{\PYGZsh{} line 21 = maximum number of templates to be used in template matching }
-\PYG{n}{APEC} \PYG{n}{ATBU} \PYG{n}{ATCA} \PYG{n}{ATCC} \PYG{n}{ATFO} \PYG{n}{ATLO} \PYG{n}{ATPC} \PYG{n}{ATPI} \PYG{n}{ATSC} \PYG{n}{ATVO} \PYG{n}{BADI} \PYG{n}{FOSV} \PYG{n}{FRON} \PYG{n}{MURB} \PYG{n}{NARO} \PYG{n}{PARC} \PYG{n}{PIEI} \PYG{n}{PE3} \PYG{n}{SSFR}
-\PYG{n}{EHE} \PYG{n}{EHN} \PYG{n}{EHZ} \PYG{n}{HHE} \PYG{n}{HHN} \PYG{n}{HHZ}
-\PYG{n}{IV}
-\PYG{l+m+mf}{3.0}
-\PYG{l+m+mf}{8.0}
-\PYG{l+m+mi}{4}
-\PYG{l+m+mf}{0.3}
-\PYG{l+m+mi}{6}
-\PYG{l+m+mi}{5}
-\PYG{l+m+mi}{6}
-\PYG{l+m+mi}{24}\PYG{n}{h}
-\PYG{n}{template}
-\PYG{n}{ttimes}
-\PYG{n}{lista1}
-\PYG{n}{templates}\PYG{o}{.}\PYG{n}{zmap}
-\PYG{l+m+mi}{200} 
-\PYG{l+m+mi}{204}
-\PYG{l+m+mi}{8}
-\PYG{l+m+mf}{1.5}
-\PYG{l+m+mf}{0.25}
-\PYG{l+m+mi}{12}
-\end{sphinxVerbatim}
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{c+c1}{\PYGZsh{} input parameters for runnig 27 version}
-\PYG{c+c1}{\PYGZsh{} line1 = stations available,}
-\PYG{c+c1}{\PYGZsh{} line2 = channels available,}
-\PYG{c+c1}{\PYGZsh{} line3 = networks available,}
-\PYG{c+c1}{\PYGZsh{} line4 = low bandpass filter frequency,}
-\PYG{c+c1}{\PYGZsh{} line5 = high bandpass filter frequency,}
-\PYG{c+c1}{\PYGZsh{} line6 = sample tolerance in detecting maximum cft amplitude for each channel,}
-\PYG{c+c1}{\PYGZsh{} line7 = cross\PYGZhy{}correlation threshold to be overcome by cft,}
-\PYG{c+c1}{\PYGZsh{} line8 = min number of channels overcoming the cross\PYGZhy{}correlation threshold,}
-\PYG{c+c1}{\PYGZsh{} line9 = template duration(s),}
-\PYG{c+c1}{\PYGZsh{} line10 = UTCDateTime.DEFAULT\PYGZus{}PRECISION (number of digits considered in fractions of seconds),}
-\PYG{c+c1}{\PYGZsh{} line11 = string variable containing the directory name for continuous 24h waveforms,}
-\PYG{c+c1}{\PYGZsh{} line12 = string variable for templates\PYGZsq{} directory,}
-\PYG{c+c1}{\PYGZsh{} line13 = string variable for travel times directory,}
-\PYG{c+c1}{\PYGZsh{} line14 = filename for day list to process,}
-\PYG{c+c1}{\PYGZsh{} line15 = filename for zmap catalog,}
-\PYG{c+c1}{\PYGZsh{} line16 = template start number,}
-\PYG{c+c1}{\PYGZsh{} line17 = template stop number(if line16==0  and line17==0 all templates are processed,}
-\PYG{c+c1}{\PYGZsh{} line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)}
-\PYG{c+c1}{\PYGZsh{} line 21, 22 = maximum number of templates to be used in template matching, number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc...) }
+\PYG{c+c1}{\PYGZsh{} line18 = multiplying factor for MAD to determine threshold }
+\PYG{c+c1}{\PYGZsh{} line 19 = multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19) }
+\PYG{c+c1}{\PYGZsh{} line 20 = multiplying factor to remove daily cft channels with std smaller than (average std from all channels * factor at at line 20)}
+\PYG{c+c1}{\PYGZsh{} line 21 = maximum number of templates to be used in template matching (choice is made preferring the closest channels)}
+\PYG{c+c1}{\PYGZsh{} line 22 = number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc... icreasing the factor allows reducing memory consumption) }
 \PYG{n}{APEC} \PYG{n}{ATBU} \PYG{n}{ATCA} \PYG{n}{ATCC} \PYG{n}{ATFO} \PYG{n}{ATLO} \PYG{n}{ATPC} \PYG{n}{ATPI} \PYG{n}{ATSC} \PYG{n}{ATVO} \PYG{n}{BADI} \PYG{n}{FOSV} \PYG{n}{FRON} \PYG{n}{MURB} \PYG{n}{NARO} \PYG{n}{PARC} \PYG{n}{PIEI} \PYG{n}{PE3} \PYG{n}{SSFR}
 \PYG{n}{EHE} \PYG{n}{EHN} \PYG{n}{EHZ} \PYG{n}{HHE} \PYG{n}{HHN} \PYG{n}{HHZ}
 \PYG{n}{IV}
@@ -1195,7 +1122,7 @@ The input files are the same by using the different versions. The only input fil
 \PYG{l+m+mi}{6}
 \end{sphinxVerbatim}
 
-Needed input files in common between versions 1, 2, 3:
+Needed input files:
 \begin{itemize}
 \item {} 
 Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format
@@ -1210,7 +1137,7 @@ Station inventory (format consistent with ObsPy read\_inventory routine see \sph
 Days to process: one column file including days to process e.g. lista1
 
 \item {} 
-Set parameters: e.g. parameters24.par
+Set parameters: e.g. parameters24
 
 \item {} 
 Input directory ./template where trimmed templates are found
@@ -1235,14 +1162,7 @@ Detections (.cat)
 Detections are listed in a .cat file (e.g. 200.100723.cat)
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T02}\PYG{p}{:}\PYG{l+m+mi}{20}\PYG{p}{:}\PYG{l+m+mf}{29.833321}\PYG{n}{Z} \PYG{l+m+mf}{0.18} \PYG{l+m+mf}{0.624} \PYG{l+m+mf}{19.077} \PYG{l+m+mf}{0.388} \PYG{l+m+mf}{11.855} \PYG{l+m+mi}{11}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T06}\PYG{p}{:}\PYG{l+m+mi}{22}\PYG{p}{:}\PYG{l+m+mf}{08.273321}\PYG{n}{Z} \PYG{l+m+mf}{0.4} \PYG{l+m+mf}{0.565} \PYG{l+m+mf}{16.951} \PYG{l+m+mf}{0.289} \PYG{l+m+mf}{8.667} \PYG{l+m+mi}{10}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T06}\PYG{p}{:}\PYG{l+m+mi}{46}\PYG{p}{:}\PYG{l+m+mf}{09.553321}\PYG{n}{Z} \PYG{l+m+mf}{0.55} \PYG{l+m+mf}{0.652} \PYG{l+m+mf}{19.56} \PYG{l+m+mf}{0.351} \PYG{l+m+mf}{10.526} \PYG{l+m+mi}{11}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{20}\PYG{p}{:}\PYG{l+m+mf}{57.553321}\PYG{n}{Z} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{28.431} \PYG{l+m+mf}{0.361} \PYG{l+m+mf}{10.273} \PYG{l+m+mi}{12}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{32}\PYG{p}{:}\PYG{l+m+mf}{10.713321}\PYG{n}{Z} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.35} \PYG{l+m+mf}{0.499} \PYG{l+m+mf}{14.198} \PYG{l+m+mf}{0.318} \PYG{l+m+mf}{9.04} \PYG{l+m+mi}{10}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{42}\PYG{p}{:}\PYG{l+m+mf}{34.113321}\PYG{n}{Z} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.02} \PYG{l+m+mf}{0.555} \PYG{l+m+mf}{15.773} \PYG{l+m+mf}{0.292} \PYG{l+m+mf}{8.302} \PYG{l+m+mi}{11}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{53}\PYG{p}{:}\PYG{l+m+mf}{24.393321}\PYG{n}{Z} \PYG{l+m+mf}{0.72} \PYG{l+m+mf}{0.642} \PYG{l+m+mf}{18.254} \PYG{l+m+mf}{0.282} \PYG{l+m+mf}{8.012} \PYG{l+m+mi}{12}
-\PYG{l+m+mi}{200} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T23}\PYG{p}{:}\PYG{l+m+mi}{09}\PYG{p}{:}\PYG{l+m+mf}{24.953321}\PYG{n}{Z} \PYG{l+m+mf}{1.77} \PYG{l+m+mf}{0.675} \PYG{l+m+mf}{19.178} \PYG{l+m+mf}{0.407} \PYG{l+m+mf}{11.568} \PYG{l+m+mi}{12}
+
 \end{sphinxVerbatim}
 
 Columns in 200.100723.cat file are:
@@ -1276,110 +1196,7 @@ Number of channels for which the cross-correlation is over a certain lower bound
 Single Channel Statistics is listed in a .stats file (e.g. 200.100723.stats)
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.010616075281} \PYG{l+m+mf}{0.721025616044} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.283285750909} \PYG{l+m+mf}{0.66306439801} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.777449171081} \PYG{l+m+mf}{0.777449171081} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.0852349513925} \PYG{l+m+mf}{0.650466054757} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.322139846713} \PYG{l+m+mf}{0.366398836428} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{4.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.537447491069} \PYG{l+m+mf}{0.650271304516} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.435372478132} \PYG{l+m+mf}{0.435372478132} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.573539172544} \PYG{l+m+mf}{0.573539172544} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.133907687217} \PYG{l+m+mf}{0.346238209304} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{l+m+mf}{0.435748932184} \PYG{l+m+mf}{0.792480883079} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{l+m+mf}{0.452987060234} \PYG{l+m+mf}{0.713344389699} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{l+m+mf}{0.794985414714} \PYG{l+m+mf}{0.794985414714} \PYG{l+m+mf}{0.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{0} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T02}\PYG{p}{:}\PYG{l+m+mi}{20}\PYG{p}{:}\PYG{l+m+mf}{29.833321}\PYG{n}{Z} \PYG{l+m+mf}{0.18} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{0.0326947876687} \PYG{l+m+mf}{0.624} \PYG{l+m+mf}{19.077} \PYG{l+m+mf}{0.388} \PYG{l+m+mf}{11.855} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{9.0} \PYG{l+m+mf}{5.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.044988233346} \PYG{l+m+mf}{0.231377904481} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{5.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.149551602865} \PYG{l+m+mf}{0.420184950211} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.224489982653} \PYG{l+m+mf}{0.664636238755} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{l+m+mf}{0.631160567096} \PYG{l+m+mf}{0.631160567096} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.033085860272} \PYG{l+m+mf}{0.262689503234} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{3.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.0362705954363} \PYG{l+m+mf}{0.610553204714} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.297118217589} \PYG{l+m+mf}{0.525933024914} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.36078302459} \PYG{l+m+mf}{0.403840027808} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.482921869799} \PYG{l+m+mf}{0.482921869799} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{l+m+mf}{0.0567199403744} \PYG{l+m+mf}{0.857500320272} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{l+m+mf}{0.287008419281} \PYG{l+m+mf}{0.828772698562} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{l+m+mf}{0.864438991339} \PYG{l+m+mf}{0.864438991339} \PYG{l+m+mf}{0.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{0} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T06}\PYG{p}{:}\PYG{l+m+mi}{22}\PYG{p}{:}\PYG{l+m+mf}{08.273321}\PYG{n}{Z} \PYG{l+m+mf}{0.4} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{10.0} \PYG{l+m+mf}{0.0333501008197} \PYG{l+m+mf}{0.565} \PYG{l+m+mf}{16.951} \PYG{l+m+mf}{0.289} \PYG{l+m+mf}{8.667} \PYG{l+m+mf}{10.0} \PYG{l+m+mf}{7.0} \PYG{l+m+mf}{3.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.493563159844} \PYG{l+m+mf}{0.732363635003} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.502878983763} \PYG{l+m+mf}{0.601417302353} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.854286992577} \PYG{l+m+mf}{0.854286992577} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{l+m+mf}{0.7996230999} \PYG{l+m+mf}{0.7996230999} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.299188562677} \PYG{l+m+mf}{0.324593761331} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{3.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.398638163197} \PYG{l+m+mf}{0.777572264208} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.375558339812} \PYG{l+m+mf}{0.664585222306} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.231316704565} \PYG{l+m+mf}{0.610737885036} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.26865915923} \PYG{l+m+mf}{0.599567887303} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.283092335391} \PYG{l+m+mf}{0.607940349505} \PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.193080895955} \PYG{l+m+mf}{0.584272892006} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{l+m+mf}{0.464909097985} \PYG{l+m+mf}{0.671106175089} \PYG{l+m+mf}{5.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{1} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T06}\PYG{p}{:}\PYG{l+m+mi}{46}\PYG{p}{:}\PYG{l+m+mf}{09.553321}\PYG{n}{Z} \PYG{l+m+mf}{0.55} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{0.0333501008197} \PYG{l+m+mf}{0.652} \PYG{l+m+mf}{19.56} \PYG{l+m+mf}{0.351} \PYG{l+m+mf}{10.526} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{4.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.322210986536} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.253951355525} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.278841350001} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{l+m+mf}{0.354879813216} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.076424274257} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.205024190008} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.230482228036} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.266001050745} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.232455628227} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{l+m+mf}{0.115532925487} \PYG{l+m+mf}{1.0} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{0} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{20}\PYG{p}{:}\PYG{l+m+mf}{57.553321}\PYG{n}{Z} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{28.431} \PYG{l+m+mf}{0.361} \PYG{l+m+mf}{10.273} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.27835785495} \PYG{l+m+mf}{0.27835785495} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.464215345119} \PYG{l+m+mf}{0.464215345119} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.553807627447} \PYG{l+m+mf}{0.639548344368} \PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{l+m+mf}{0.595817241945} \PYG{l+m+mf}{0.682934804256} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.124458920838} \PYG{l+m+mf}{0.414792472665} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{6.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.490181937608} \PYG{l+m+mf}{0.542870771368} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.159972199467} \PYG{l+m+mf}{0.543073938124} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.569331631238} \PYG{l+m+mf}{0.581437149146} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.303750325466} \PYG{l+m+mf}{0.303750325466} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{l+m+mf}{0.435371126677} \PYG{l+m+mf}{0.435371126677} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{l+m+mf}{0.364290089669} \PYG{l+m+mf}{0.522644091355} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{l+m+mf}{0.583644009364} \PYG{l+m+mf}{0.583644009364} \PYG{l+m+mf}{0.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{1} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{32}\PYG{p}{:}\PYG{l+m+mf}{10.713321}\PYG{n}{Z} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.35} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{10.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.499} \PYG{l+m+mf}{14.198} \PYG{l+m+mf}{0.318} \PYG{l+m+mf}{9.04} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{7.0} \PYG{l+m+mf}{0.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.315717260245} \PYG{l+m+mf}{0.316496580088} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.18226247941} \PYG{l+m+mf}{0.538348076552} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.76548108478} \PYG{l+m+mf}{0.76548108478} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.30651106846} \PYG{l+m+mf}{0.71107343083} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.175140751874} \PYG{l+m+mf}{0.395886313878} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{5.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.550221988963} \PYG{l+m+mf}{0.550221988963} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.667125057705} \PYG{l+m+mf}{0.667125057705} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.465986754229} \PYG{l+m+mf}{0.701811155038} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.150874830603} \PYG{l+m+mf}{0.528232273116} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{l+m+mf}{0.336709159822} \PYG{l+m+mf}{0.582443814666} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{l+m+mf}{0.407275625222} \PYG{l+m+mf}{0.407275625222} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.206333673397} \PYG{l+m+mf}{0.493003146855} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{2} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{42}\PYG{p}{:}\PYG{l+m+mf}{34.113321}\PYG{n}{Z} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.02} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.555} \PYG{l+m+mf}{15.773} \PYG{l+m+mf}{0.292} \PYG{l+m+mf}{8.302} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{8.0} \PYG{l+m+mf}{3.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.597024006837} \PYG{l+m+mf}{0.666212214776} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.576151427278} \PYG{l+m+mf}{0.605192504123} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.802523422374} \PYG{l+m+mf}{0.802523422374} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{l+m+mf}{0.794246622277} \PYG{l+m+mf}{0.794246622277} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.261713290462} \PYG{l+m+mf}{0.54321668075} \PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.225795605873} \PYG{l+m+mf}{0.768023549282} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.237369132309} \PYG{l+m+mf}{0.610432245585} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.0826140210104} \PYG{l+m+mf}{0.54340758269} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.0765783808929} \PYG{l+m+mf}{0.544169591212} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.298544446625} \PYG{l+m+mf}{0.535326480215} \PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.262083078275} \PYG{l+m+mf}{0.608894184398} \PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{l+m+mf}{0.288271942621} \PYG{l+m+mf}{0.682827589334} \PYG{l+m+mf}{1.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{3} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{53}\PYG{p}{:}\PYG{l+m+mf}{24.393321}\PYG{n}{Z} \PYG{l+m+mf}{0.72} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.642} \PYG{l+m+mf}{18.254} \PYG{l+m+mf}{0.282} \PYG{l+m+mf}{8.012} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{3.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHE} \PYG{l+m+mf}{0.865690619679} \PYG{l+m+mf}{0.865690619679} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATFO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.82915443645} \PYG{l+m+mf}{0.82915443645} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHE} \PYG{l+m+mf}{0.675994128404} \PYG{l+m+mf}{0.675994128404} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHN} \PYG{l+m+mf}{0.878930788701} \PYG{l+m+mf}{0.878930788701} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATLO} \PYG{n}{EHZ} \PYG{l+m+mf}{0.52260713279} \PYG{l+m+mf}{0.52260713279} \PYG{l+m+mf}{0.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATPI} \PYG{n}{EHE} \PYG{l+m+mf}{0.436441880161} \PYG{l+m+mf}{0.819360579542} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHE} \PYG{l+m+mf}{0.354424434214} \PYG{l+m+mf}{0.756587935097} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHN} \PYG{l+m+mf}{0.348394023107} \PYG{l+m+mf}{0.744906831956} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{ATVO} \PYG{n}{HHZ} \PYG{l+m+mf}{0.467055038428} \PYG{l+m+mf}{0.59961848772} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.142054506386} \PYG{l+m+mf}{0.361216622713} \PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.230821891517} \PYG{l+m+mf}{0.538608343873} \PYG{l+m+mf}{2.0} 
-\PYG{n}{IV}\PYG{o}{.}\PYG{n}{MURB} \PYG{n}{HHZ} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.123187495339} \PYG{l+m+mf}{0.501711512207} \PYG{l+m+mf}{1.0} 
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{4} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T23}\PYG{p}{:}\PYG{l+m+mi}{09}\PYG{p}{:}\PYG{l+m+mf}{24.953321}\PYG{n}{Z} \PYG{l+m+mf}{1.77} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.675} \PYG{l+m+mf}{19.178} \PYG{l+m+mf}{0.407} \PYG{l+m+mf}{11.568} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{6.0} \PYG{l+m+mf}{0.0}
+
 \end{sphinxVerbatim}
 
 Columns in 200.100723.stats file are:
@@ -1413,110 +1230,7 @@ date, template\_num, detection\_num, date\&time, template\_magnitude, detection\
 \end{itemize}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{0.596105028863}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.170393549956}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{l+m+mf}{0.373070244109}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.329951522763}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.42550877913}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.0483225655661}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.191841464532}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.0947942692072}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.171838180932}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.250359739024}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.145329568414}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.201548385896}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{0} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T02}\PYG{p}{:}\PYG{l+m+mi}{20}\PYG{p}{:}\PYG{l+m+mf}{29.833321}\PYG{n}{Z} \PYG{l+m+mf}{0.18} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{0.0326947876687} \PYG{l+m+mf}{0.624} \PYG{l+m+mf}{19.077} \PYG{l+m+mf}{0.388} \PYG{l+m+mf}{11.855} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{9.0} \PYG{l+m+mf}{5.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{0.388076513533}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.292051072606}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{l+m+mf}{0.495577417282}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.351604524548}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.379804503709}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.144512967971}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.495658912113}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.331121201612}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.497348207422}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.151842475707}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.36823188478}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.00476247218528}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{0} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T06}\PYG{p}{:}\PYG{l+m+mi}{22}\PYG{p}{:}\PYG{l+m+mf}{08.273321}\PYG{n}{Z} \PYG{l+m+mf}{0.4} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{10.0} \PYG{l+m+mf}{0.0333501008197} \PYG{l+m+mf}{0.565} \PYG{l+m+mf}{16.951} \PYG{l+m+mf}{0.289} \PYG{l+m+mf}{8.667} \PYG{l+m+mf}{10.0} \PYG{l+m+mf}{7.0} \PYG{l+m+mf}{3.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{0.576184745362}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.679097346202}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{l+m+mf}{0.546824188445}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.476992588924}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.634929765059}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.345685333249}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.618940291946}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.349556189062}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.53763608087}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.411736225028}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.539730631169}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.490461193276}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{1} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T06}\PYG{p}{:}\PYG{l+m+mi}{46}\PYG{p}{:}\PYG{l+m+mf}{09.553321}\PYG{n}{Z} \PYG{l+m+mf}{0.55} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{0.0333501008197} \PYG{l+m+mf}{0.652} \PYG{l+m+mf}{19.56} \PYG{l+m+mf}{0.351} \PYG{l+m+mf}{10.526} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{4.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{1.88}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{1.88}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{1.88}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{1.88}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{1.88}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{0} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{20}\PYG{p}{:}\PYG{l+m+mf}{57.553321}\PYG{n}{Z} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{1.0} \PYG{l+m+mf}{28.431} \PYG{l+m+mf}{0.361} \PYG{l+m+mf}{10.273} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{0.00504472888794}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.123587952907}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.219563912481}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.52594517306}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.291161883007}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.341123672838}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.645272339198}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.617399606897}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.702125882823}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.492439858968}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.221244903401}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.0530834564922}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{1} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{32}\PYG{p}{:}\PYG{l+m+mf}{10.713321}\PYG{n}{Z} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.35} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{10.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.499} \PYG{l+m+mf}{14.198} \PYG{l+m+mf}{0.318} \PYG{l+m+mf}{9.04} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{7.0} \PYG{l+m+mf}{0.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{0.413064678236}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.232081767138}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.0433873767435}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.0144100500685}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.28271537475}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.0540216138896}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.12470249651}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.263968423814}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.380872281083}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.111693437768}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.00414520780979}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.0528771192165}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{2} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{42}\PYG{p}{:}\PYG{l+m+mf}{34.113321}\PYG{n}{Z} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.02} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.555} \PYG{l+m+mf}{15.773} \PYG{l+m+mf}{0.292} \PYG{l+m+mf}{8.302} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{8.0} \PYG{l+m+mf}{3.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{0.803093035554}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.615888381013}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{l+m+mf}{0.748348463219}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.695137600201}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.960014109901}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.731588902278}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.981265250687}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.615341321839}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{0.825145491738}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{0.656415513667}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{0.834391164831}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{0.682137125844}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{3} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T22}\PYG{p}{:}\PYG{l+m+mi}{53}\PYG{p}{:}\PYG{l+m+mf}{24.393321}\PYG{n}{Z} \PYG{l+m+mf}{0.72} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.642} \PYG{l+m+mf}{18.254} \PYG{l+m+mf}{0.282} \PYG{l+m+mf}{8.012} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{3.0} \PYG{l+m+mf}{0.0}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHZ} \PYG{l+m+mf}{1.67348690528}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{1.27352216828}
-\PYG{n}{ATLO}\PYG{o}{.}\PYG{n}{EHN} \PYG{l+m+mf}{1.76932866181}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{1.81632078689}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{1.85243210825}
-\PYG{n}{ATVO}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{1.63997793344}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{1.74803392605}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{1.54245846659}
-\PYG{n}{MURB}\PYG{o}{.}\PYG{n}{HHN} \PYG{l+m+mf}{1.71741408018}
-\PYG{n}{ATPI}\PYG{o}{.}\PYG{n}{EHE} \PYG{l+m+mf}{1.75089086943}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHZ} \PYG{l+m+mf}{1.89092026561}
-\PYG{n}{ATFO}\PYG{o}{.}\PYG{n}{HHE} \PYG{l+m+mf}{1.88418067696}
-\PYG{l+m+mi}{100723} \PYG{l+m+mi}{200} \PYG{l+m+mi}{4} \PYG{l+m+mi}{2010}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{07}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{23}\PYG{n}{T23}\PYG{p}{:}\PYG{l+m+mi}{09}\PYG{p}{:}\PYG{l+m+mf}{24.953321}\PYG{n}{Z} \PYG{l+m+mf}{1.77} \PYG{l+m+mf}{1.88} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{0.0351725931634} \PYG{l+m+mf}{0.675} \PYG{l+m+mf}{19.178} \PYG{l+m+mf}{0.407} \PYG{l+m+mf}{11.568} \PYG{l+m+mf}{12.0} \PYG{l+m+mf}{11.0} \PYG{l+m+mf}{6.0} \PYG{l+m+mf}{0.0}
+
 \end{sphinxVerbatim}
 
 Columns in 200.100723.stats.mag file are:
@@ -1533,18 +1247,18 @@ date, template\_num, detection\_num, date\&time, template\_magnitude, detection\
 \end{itemize}
 
 Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.
-
-
-\subsubsection{Running PyMPA using a number of limited channels}
-\label{\detokenize{sub/main.pympa_channel_limit:running-pympa-using-a-number-of-limited-channels}}\label{\detokenize{sub/main.pympa_channel_limit::doc}}
-
-\subsubsection{Running PyMPA using daily chunks and a limited number of channels}
-\label{\detokenize{sub/main.pympa_chunks_channel_limit:running-pympa-using-daily-chunks-and-a-limited-number-of-channels}}\label{\detokenize{sub/main.pympa_chunks_channel_limit::doc}}\sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=100\sphinxpxdimen]{{pympa_logo1}.png}}
+\sphinxhref{https://github.com/avuan/PyMPA37/releases}{\sphinxincludegraphics[width=100\sphinxpxdimen]{{pympa_logo1}.png}}
 
 \section{Creating an output catalog and verify detections}
 \label{\detokenize{output:creating-an-output-catalog-and-verify-detections}}\label{\detokenize{output::doc}}\begin{quote}
 
 It consists of some separate utilities in , post-processing tools to obtain a catalog and verify events.
+Many events could be correlated to more than one template in a narrow time window. A fixed time window length can be selected,
+and within each, the template for which the normalized cross-correlation coefficient is the greates provides the event location and data to determine the magnitude.
+This process is run by \textless{}./sub/output.process\_detections\textgreater{} in to two steps,
+by using the last event origin time as a reference to set the next time window scrutinized. The final catalog should be verified by visual inspection
+for a number of sampled detections. Generally, we proceed by verification of events having low thresholds to understand a safe value to validate the catalog.
+The routine \textless{}./sub/output.verify\_detection\textgreater{} creates graphs of time windows where continuous data and trimmed templates are plotted with info grasped from channel by channel cross-correlation process.
 \end{quote}
 
 Important: we recommend to use an updated version of .
@@ -1567,9 +1281,25 @@ This package is written by the PyMPA developers, and is distributed under the LG
 
 \subsubsection{Process PyMPA Output}
 \label{\detokenize{sub/output.process_detections:process-pympa-output}}\label{\detokenize{sub/output.process_detections::doc}}
+From the defined template by cross-correlation for a selected day is obtained a list of possible detections.
+Since time overlapping detections could be found also by different templates, the procedure allows a search for
+the template able to detect the events with the highest threshold value that is also related with the highest
+average cross-correlation value for the used network. From the main program, many cat files are daily sorted
+and grouped for a scan of the events showing the best detections. A bash script is used to collect data and create the input for the procedure
+and a python script is used to filter the result on the basis of the fiter.par parameters used. The filter.par defines
+some additional filtering to detections to possibly overcome a visual validation of the new detections.
+
 
 \subsubsection{Visual verification of detections}
 \label{\detokenize{sub/output.verify_detection:visual-verification-of-detections}}\label{\detokenize{sub/output.verify_detection::doc}}
+Visual verification is needed to evaluate problematic cases or estimate a
+safe threshold to validate the catalog of detections. Visual verification needs the new detections
+catalog, the templates.zmap list, the daily template detections (e.g. 230.140913.cat file) and relative
+statistics (e.g. 230.140913.stats)cat file) and relative
+statistics (e.g. 230.140913.stats)cat file) and relative
+statistics (e.g. 230.140913.stats). The verify.par parameters allow for selecting the stations, frequency range,
+and window length for the visual verification.
+
 
 
 \renewcommand{\indexname}{Index}
