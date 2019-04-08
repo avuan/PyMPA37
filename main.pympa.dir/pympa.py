@@ -3,6 +3,7 @@
 # 2016/08/23 Version 34 - parameters24 input file needed
 # 2017/10/27 Version 39 - Reformatted PEP8 Code
 # 2017/11/05 Version 40 - Corrections to tdifmin, tstda calculations
+# 2019/03/30 Version pympa - correlate_template from obspy
 
 # First Version August 2014 - Last October 2017 (author: Alessandro Vuan)
 
@@ -40,9 +41,69 @@ from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
 from obspy.signal.trigger import coincidence_trigger
+# from obspy.signal.cross_correlation import correlate_template
 
 
 # LIST OF USEFUL FUNCTIONS
+
+def read_parameters(par):
+    # read 'parameters24' file to setup useful variables
+
+    with open(par) as fp:
+        data = fp.read().splitlines()
+
+        stations = data[23].split(" ")
+        print(stations)
+        channels = data[24].split(" ")
+        print(channels)
+        networks = data[25].split(" ")
+        print(networks)
+        lowpassf = float(data[26])
+        highpassf = float(data[27])
+        sample_tol = int(data[28])
+        cc_threshold = float(data[29])
+        nch_min = int(data[30])
+        temp_length = float(data[31])
+        UTC_prec = int(data[32])
+        cont_dir = "./" + data[33] + "/"
+        temp_dir = "./" + data[34] + "/"
+        travel_dir = "./" + data[35] + "/"
+        day_list = str(data[36])
+        ev_catalog = str(data[37])
+        start_itemp = int(data[38])
+        print("starting template = ", start_itemp)
+        stop_itemp = int(data[39])
+        print("ending template = ", stop_itemp)
+        factor_thre = int(data[40])
+        stdup = float(data[41])
+        stddown = float(data[42])
+        chan_max = int(data[43])
+        nchunk = int(data[44])
+        return (
+            stations,
+            channels,
+            networks,
+            lowpassf,
+            highpassf,
+            sample_tol,
+            cc_threshold,
+            nch_min,
+            temp_length,
+            UTC_prec,
+            cont_dir,
+            temp_dir,
+            travel_dir,
+            day_list,
+            ev_catalog,
+            start_itemp,
+            stop_itemp,
+            factor_thre,
+            stdup,
+            stddown,
+            chan_max,
+            nchunk,
+            )
+
 
 def trim_fill(tc, t1, t2):
     tc.trim(starttime=t1, endtime=t2, pad=True, fill_value=0)
@@ -90,6 +151,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
                 if sc.__nonzero__():
                     tc = sc[0]
                     fct = xcorr(tc.data, tt.data)
+                    # fct = correlate_template(tc.data, tt.data)
                     stats = {'network': tc.stats.network,
                              'station': tc.stats.station,
                              'location': '',
@@ -299,33 +361,13 @@ def mad(dmad):
 start_time = time.clock()
 # read 'parameters24' file to setup useful variables
 
-with open('parameters24') as fp:
-    data = fp.read().splitlines()
+[stations, channels, networks, lowpassf,
+ highpassf, sample_tol, cc_threshold, nch_min,
+ temp_length, UTC_prec, cont_dir, temp_dir, travel_dir,
+ day_list, ev_catalog, start_itemp, stop_itemp,
+ factor_thre, stdup, stddown,
+ chan_max, nchunk] = read_parameters('parameters24')
 
-stations = data[20].split(" ")
-channels = data[21].split(" ")
-networks = data[22].split(" ")
-lowpassf = float(data[23])
-highpassf = float(data[24])
-sample_tol = int(data[25])
-cc_threshold = float(data[26])
-nch_min = int(data[27])
-temp_length = float(data[28])
-UTC_prec = int(data[29])
-cont_dir = "./" + data[30] + "/"
-temp_dir = "./" + data[31] + "/"
-travel_dir = "./" + data[32] + "/"
-day_list = str(data[33])
-ev_catalog = str(data[34])
-start_itemp = int(data[35])
-stop_itemp = int(data[36])
-factor_thre = int(data[37])
-stdup = float(data[38])
-stddown = float(data[39])
-chan_max = int(data[40])
-nchunk = int(data[41])
-
-# ---------------------------------
 # set time precision for UTCDATETIME
 UTCDateTime.DEFAULT_PRECISION = UTC_prec
 

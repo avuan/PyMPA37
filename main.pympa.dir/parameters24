@@ -16,8 +16,11 @@
 # line15 = filename for zmap catalog,
 # line16 = template start number,
 # line17 = template stop number(if line16==0  and line17==0 all templates are processed,
-# line18, 19, 20, 21  = multiplying factor for threshold detection, multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19), multiplying factor to remove daily cft channels with std maller than (average std from all channels * factor at at line 20)
-# line 21, 22 = maximum number of templates to be used in template matching, number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc...) 
+# line18 = multiplying factor for MAD to determine threshold 
+# line 19 = multiplying factor to remove daily cft channels with std greater than (average std from all channels * factor at at line 19) 
+# line 20 = multiplying factor to remove daily cft channels with std smaller than (average std from all channels * factor at at line 20)
+# line 21 = maximum number of templates to be used in template matching (choice is made preferring the closest channels)
+# line 22 = number of chunks per day (1=86400s, 2=43200, 3=28800, 4=21600, 6=14400 etc... icreasing the factor allows reducing memory consumption) 
 APEC ATBU ATCA ATCC ATFO ATLO ATPC ATPI ATSC ATVO BADI FOSV FRON MURB NARO PARC PIEI PE3 SSFR
 EHE EHN EHZ HHE HHN HHZ
 IV
