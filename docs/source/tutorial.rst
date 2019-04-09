@@ -125,7 +125,6 @@ Note that input and output file names, inventories, template catalogs, velocity 
 
 Running PyMPA
 -------------
-(:doc:`main.pympa_chunks_channel_limit </sub/main.pympa_chunks_channel_limit>`) run pympa
 
 Template matching code, using cross-correlation based on well located events. The code is embarassingly parallel and different templates/days can be run on different cores. We do not provide the scripts to parallelize jobs preferring to leave to the user to find the best strategy to accomplish the task. We generally prefer to distribute the workload by using Slurm.
 

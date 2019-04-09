@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.9)  9 APR 2019 12:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.9)  9 APR 2019 14:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -786,14 +786,16 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 80.
 LaTeX Info: Redefining \pageref on input line 80.
 LaTeX Info: Redefining \nameref on input line 80.
-
-(./PyMPA.out) (./PyMPA.out)
 \@outlinefile=\write5
 \openout5 = `PyMPA.out'.
 
 Package hyperref Info: Option `pageanchor' set `false' on input line 83.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 83.
 
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 83.
+
+LaTeX Font Info:    Try loading font information for T1+phv on input line 83.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
@@ -822,30 +824,39 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 83.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.83 \sphinxmaketitle
+                     
+? ver. 1.0.0
+Type <return> to proceed, S to scroll future error messages,
+R to run without stopping, Q to run quietly,
+I to insert something, E to edit your file,
+1 or ... or 9 to ignore the next 1 to 9 tokens of input,
+H for help, X to quit.
+? R
+OK, entering \nonstopmode...
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 83.
- [1
+[1
 
-{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
+{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2
 
 
 ]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 85.
- (./PyMPA.toc
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
-)
 \tf@toc=\write6
 \openout6 = `PyMPA.toc'.
 
-
-[1
+ [1
 
 ] [2
 
 ]
-<pympa_logo1.png, id=75, 377.2494pt x 131.0496pt>
+<pympa_logo1.png, id=28, 377.2494pt x 131.0496pt>
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 2.
  (/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -854,7 +865,7 @@ File: pympa_logo1.png Graphic file (type png)
 <use pympa_logo1.png>
 Package pdftex.def Info: pympa_logo1.png  used on input line 2.
 (pdftex.def)             Requested size: 75.28076pt x 26.15146pt.
-<pympa_logo.png, id=77, 867.24pt x 1156.32pt>
+<pympa_logo.png, id=30, 867.24pt x 1156.32pt>
 File: pympa_logo.png Graphic file (type png)
 <use pympa_logo.png>
 Package pdftex.def Info: pympa_logo.png  used on input line 2.
@@ -888,7 +899,37 @@ LaTeX Font Info:    Try loading font information for TS1+ptm on input line 104.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [2 <./pympa_logo.png>] [3] [4
+)
+
+LaTeX Warning: Hyper reference `sub/input.download_data::doc' on page 2 undefin
+ed on input line 105.
+
+
+LaTeX Warning: Hyper reference `sub/input.create_templates::doc' on page 2 unde
+fined on input line 108.
+
+
+LaTeX Warning: Hyper reference `sub/input.calculate_ttimes::doc' on page 2 unde
+fined on input line 111.
+
+
+LaTeX Warning: Hyper reference `sub/input.template_check::doc' on page 2 undefi
+ned on input line 114.
+
+[2 <./pympa_logo.png>]
+
+LaTeX Warning: Hyper reference `sub/main.pympa::doc' on page 3 undefined on inp
+ut line 117.
+
+
+LaTeX Warning: Hyper reference `sub/output.process_detections::doc' on page 3 u
+ndefined on input line 120.
+
+
+LaTeX Warning: Hyper reference `sub/output.verify_detection::doc' on page 3 und
+efined on input line 123.
+
+[3] [4
 
 ]
 Chapter 1.
@@ -904,12 +945,41 @@ File: pympa_logo1.png Graphic file (type png)
 <use pympa_logo1.png>
 Package pdftex.def Info: pympa_logo1.png  used on input line 2.
 (pdftex.def)             Requested size: 75.28076pt x 26.15146pt.
-<flowchart.png, id=136, 1446.40375pt x 960.58875pt>
+<flowchart.png, id=78, 1446.40375pt x 960.58875pt>
 File: flowchart.png Graphic file (type png)
 <use flowchart.png>
 Package pdftex.def Info: flowchart.png  used on input line 2.
 (pdftex.def)             Requested size: 452.97116pt x 300.82817pt.
-[9] [10 <./flowchart.png>]
+[9]
+
+LaTeX Warning: Hyper reference `input::doc' on page 10 undefined on input line 
+202.
+
+
+LaTeX Warning: Hyper reference `sub/input.create_templates::doc' on page 10 und
+efined on input line 203.
+
+
+LaTeX Warning: Hyper reference `sub/input.template_check::doc' on page 10 undef
+ined on input line 204.
+
+
+LaTeX Warning: Hyper reference `sub/input.calculate_ttimes::doc' on page 10 und
+efined on input line 205.
+
+
+LaTeX Warning: Hyper reference `sub/main.pympa::doc' on page 10 undefined on in
+put line 207.
+
+
+LaTeX Warning: Hyper reference `sub/output.process_detections::doc' on page 10 
+undefined on input line 208.
+
+
+LaTeX Warning: Hyper reference `sub/output.verify_detection::doc' on page 10 un
+defined on input line 209.
+
+[10 <./flowchart.png>]
 File: pympa_logo1.png Graphic file (type png)
 <use pympa_logo1.png>
 Package pdftex.def Info: pympa_logo1.png  used on input line 2.
@@ -931,6 +1001,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 338--339
  []
 
 
+LaTeX Warning: Hyper reference `sub/input.download_data::doc' on page 12 undefi
+ned on input line 342.
+
+
+LaTeX Warning: Hyper reference `sub/input.create_templates::doc' on page 12 und
+efined on input line 347.
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 361--362
 []\T1/ptm/m/n/10 create_templates.py ([][]$https : / / github . com / avuan / P
 yMPA37 / tree / master / input . create _ templates . dir / create _
@@ -939,59 +1017,94 @@ yMPA37 / tree / master / input . create _ templates . dir / create _
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <9> not available
 (Font)              Font shape `T1/pcr/m/sl' tried instead on input line 368.
 [12]
-<bad.png, id=188, 578.16pt x 216.81pt>
+
+LaTeX Warning: Hyper reference `sub/input.template_check::doc' on page 13 undef
+ined on input line 405.
+
+<bad.png, id=122, 578.16pt x 216.81pt>
 File: bad.png Graphic file (type png)
 <use bad.png>
 Package pdftex.def Info: bad.png  used on input line 414.
 (pdftex.def)             Requested size: 301.12305pt x 112.92049pt.
-<bad4.png, id=189, 578.16pt x 216.81pt>
+<bad4.png, id=123, 578.16pt x 216.81pt>
 File: bad4.png Graphic file (type png)
 <use bad4.png>
 Package pdftex.def Info: bad4.png  used on input line 416.
 (pdftex.def)             Requested size: 301.12305pt x 112.92049pt.
- [13 <./bad.png>]
-<bad7.png, id=198, 578.16pt x 216.81pt>
+[13 <./bad.png>]
+<bad7.png, id=132, 578.16pt x 216.81pt>
 File: bad7.png Graphic file (type png)
 <use bad7.png>
 Package pdftex.def Info: bad7.png  used on input line 418.
 (pdftex.def)             Requested size: 301.12305pt x 112.92049pt.
-<good.png, id=199, 578.16pt x 216.81pt>
+<good.png, id=133, 578.16pt x 216.81pt>
 File: good.png Graphic file (type png)
 <use good.png>
 Package pdftex.def Info: good.png  used on input line 420.
 (pdftex.def)             Requested size: 301.12305pt x 112.92049pt.
-<good1.png, id=200, 578.16pt x 216.81pt>
+<good1.png, id=134, 578.16pt x 216.81pt>
 File: good1.png Graphic file (type png)
 <use good1.png>
 Package pdftex.def Info: good1.png  used on input line 422.
 (pdftex.def)             Requested size: 301.12305pt x 112.92049pt.
-<good3.png, id=201, 578.16pt x 216.81pt>
+<good3.png, id=135, 578.16pt x 216.81pt>
 File: good3.png Graphic file (type png)
 <use good3.png>
 Package pdftex.def Info: good3.png  used on input line 424.
 (pdftex.def)             Requested size: 301.12305pt x 112.92049pt.
- [14 <./bad4.png> <./bad7.png> <./good.png> <./good1.png> <./good3.png>] [15]
+
+
+LaTeX Warning: Hyper reference `sub/input.calculate_ttimes::doc' on page 14 und
+efined on input line 439.
+
+[14 <./bad4.png> <./bad7.png> <./good.png> <./good1.png> <./good3.png>]
+[15]
 LaTeX Font Info:    Try loading font information for TS1+pcr on input line 518.
 
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 )
 LaTeX Font Info:    Font shape `TS1/pcr/m/it' in size <9> not available
 (Font)              Font shape `TS1/pcr/m/sl' tried instead on input line 518.
- [16]
+
+
+LaTeX Warning: Hyper reference `sub/output.process_detections::doc' on page 16 
+undefined on input line 556.
+
+[16]
 Underfull \hbox (badness 10000) in paragraph at lines 567--568
 []\T1/ptm/m/n/10 process_detections.py at [][]$https : / / github . com / avuan
  / PyMPA37 / tree / master / output . process _ detections . dir /
  []
+
+
+LaTeX Warning: Hyper reference `sub/output.verify_detection::doc' on page 17 un
+defined on input line 593.
 
 [17]
 File: pympa_logo1.png Graphic file (type png)
 <use pympa_logo1.png>
 Package pdftex.def Info: pympa_logo1.png  used on input line 2.
 (pdftex.def)             Requested size: 75.28076pt x 26.15146pt.
- [18]
-<dir2.png, id=258, 1008.76875pt x 458.71375pt>
+
+
+LaTeX Warning: Hyper reference `sub/input.download_data::doc' on page 18 undefi
+ned on input line 678.
+
+
+LaTeX Warning: Hyper reference `sub/input.create_templates::doc' on page 18 und
+efined on input line 681.
+
+
+LaTeX Warning: Hyper reference `sub/input.calculate_ttimes::doc' on page 18 und
+efined on input line 684.
+
+
+LaTeX Warning: Hyper reference `sub/input.template_check::doc' on page 18 undef
+ined on input line 687.
+
+[18]
+<dir2.png, id=188, 1008.76875pt x 458.71375pt>
 File: dir2.png Graphic file (type png)
 <use dir2.png>
 Package pdftex.def Info: dir2.png  used on input line 2.
@@ -1229,6 +1342,11 @@ File: pympa_logo1.png Graphic file (type png)
 Package pdftex.def Info: pympa_logo1.png  used on input line 2.
 (pdftex.def)             Requested size: 75.28076pt x 26.15146pt.
  [24]
+
+LaTeX Warning: Hyper reference `sub/main.pympa::doc' on page 25 undefined on in
+put line 1063.
+
+
 Overfull \vbox (2.14369pt too high) detected at line 1123
  []
 
@@ -1257,24 +1375,47 @@ File: pympa_logo1.png Graphic file (type png)
 <use pympa_logo1.png>
 Package pdftex.def Info: pympa_logo1.png  used on input line 2.
 (pdftex.def)             Requested size: 75.28076pt x 26.15146pt.
- [31] (./PyMPA.ind)
+
+
+LaTeX Warning: Hyper reference `sub/output.process_detections::doc' on page 31 
+undefined on input line 1482.
+
+
+LaTeX Warning: Hyper reference `sub/output.verify_detection::doc' on page 31 un
+defined on input line 1485.
+
+[31]
+No file PyMPA.ind.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1520.
- [32]
+[32]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 1520.
  (./PyMPA.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1520.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1520.
 
-Package rerunfilecheck Info: File `PyMPA.out' has not changed.
-(rerunfilecheck)             Checksum: E1B3E82A8B149C85EB028CCA3ACBF21C;1347.
+
+
+Package rerunfilecheck Warning: File `PyMPA.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `PyMPA.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  E1B3E82A8B149C85EB028CCA3ACBF21C;1347.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1520.
  ) 
 Here is how much of TeX's memory you used:
- 13469 strings out of 492649
- 189361 string characters out of 6129623
- 726183 words of memory out of 5000000
- 16974 multiletter control sequences out of 15000+600000
- 51557 words of font info for 71 fonts, out of 8000000 for 9000
+ 13446 strings out of 492649
+ 189094 string characters out of 6129623
+ 724068 words of memory out of 5000000
+ 16962 multiletter control sequences out of 15000+600000
+ 48754 words of font info for 69 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
  37i,12n,45p,594b,541s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
@@ -1284,13 +1425,12 @@ ve/2018/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2018/
 texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/local/texlive/2018/texmf-d
 ist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2018/texmf-dist/fon
 ts/type1/urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/typ
-e1/urw/times/utmb8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/tim
-es/utmr8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/times/utmri8a
-.pfb>
-Output written on PyMPA.pdf (36 pages, 2724662 bytes).
+e1/urw/times/utmr8a.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/urw/tim
+es/utmri8a.pfb>
+Output written on PyMPA.pdf (36 pages, 2712031 bytes).
 PDF statistics:
- 382 PDF objects out of 1000 (max. 8388607)
- 307 compressed objects within 4 object streams
+ 312 PDF objects out of 1000 (max. 8388607)
+ 239 compressed objects within 3 object streams
  69 named destinations out of 1000 (max. 500000)
- 143 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 

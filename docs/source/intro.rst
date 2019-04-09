@@ -82,7 +82,8 @@ Although every effort has been made to ensure these tests run smoothly on all su
 |github| page.
 
 .. |github| raw:: html
-    <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>        
+
+    <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
 
 References
 ----------

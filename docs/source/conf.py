@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'PyMPA'
-copyright = '2019, Alessandro Vuan'
-author = 'Alessandro Vuan'
+copyright = '2019, Alessandro Vuan & Monica Sugan'
+author = 'Alessandro Vuan & Monica Sugan'
 
 # The short X.Y version
 version = ''
@@ -140,7 +140,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'PyMPA.tex', 'PyMPA Documentation',
-     'Alessandro Vuan', 'manual'),
+     '2019 Alessandro Vuan & Monica Sugan', 'manual'),
 ]
 
 
