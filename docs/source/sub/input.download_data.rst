@@ -15,6 +15,7 @@ the shutdown of the connection.
 Here below a simple code to download continuous data:
 
 .. code-block:: python
+
 import time
 import os
 from obspy.clients.fdsn import Client
@@ -50,17 +51,16 @@ for sta in stations:
             for chann in channels:
 
                 try:
-                    bulk = [(net, sta, "*", chann, UTCDateTime(
-                        t1), UTCDateTime(t2))]
+                    bulk = [(net, sta, "*", chann, UTCDateTime(t1), UTCDateTime(t2))]
                     print("bulk == ", bulk)
                     yy = str(UTCDateTime(t1).year)
                     mm = str(UTCDateTime(t1).month).zfill(2)
                     dd = str(UTCDateTime(t1).day).zfill(2)
 
-                    newfile = inp_dir + yy + mm + dd +\
-                        "." + sta + "." + chann[0:3]
+                    newfile = inp_dir + yy + mm + dd + "." + sta + "." + chann[0:3]
                     client.get_waveforms_bulk(bulk, filename=newfile)
                     time.sleep(2)
+
                 except Exception:
                     time.sleep(1)
                     pass
