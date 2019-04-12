@@ -7,19 +7,19 @@
 Python Matching Phase Algorithm 
 ===============================
 
-PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates. PyMPA is an open source seismological software and consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalogue and verify events. The code repository with some examples is stored on GitHub, and is free to be cloned on your Mac, Windows or Linux platforms. It supports Python 2.7, 3.5, 3.6 and 3.7 releases and uses ObsPy for reading and writing seismic data, and for handling most of the event-station metadata. A flowchart of the main program is shown in Figure 1. Matched-filter correlations are calculated using a vectorised python function or using ObsPy v.1.2.0 correlate_template function allowing to select time or frequency domain.
+PyMPA is designed to detect microseismicity from the cross-correlation of continuous data and templates. PyMPA is an open source seismological software and consists of some separate utilities for input preparation, the main program, and output post-processing tools to obtain a catalogue and verify events. The code repository with some examples is stored on |GitHub|, and is free to be cloned on your Mac, Windows or Linux platforms. It supports Python 2.7, 3.5, 3.6 and 3.7 releases and uses ObsPy for reading and writing seismic data, and for handling most of the event-station metadata. A flowchart of the main program is shown in Figure 1. Matched-filter correlations are calculated using a vectorised python function or using ObsPy v.1.2.0 correlate_template function allowing to select time or frequency domain.
 Together with the manual, we also provide some practical examples. Python scripts, updates and modifications are automatically verified using TRAVIS, for testing and deployment (https://travis-ci.org/). This package is distributed under the LGPL GNU Licence, Copyright PyMPA developers 2019.
 
-The algorithm, which exploits ObsPy routines (Krischer et al., 2015), is versatile and supports most commonly used seismic data and earthquake catalogue formats. In addition to PyMPA, we develop other tools external to the main code to manage the input-output preparation and validation for (1) downloading data from Observatories and Research Facilities for European Seismology–European Integrated Data Archive (ORFEUS-EIDA) servers, (2) evaluating data quality, (3) selecting earthquakes as templates from a reference catalog, (4) trimming and filtering them from continuous waveforms, (5) avoiding redundant detections in the output, and (6) validating new events. The repository will continue to grow and develop, and any modification will be promptly reported.
+The algorithm, which exploits |ObsPy| routines (Krischer et al., 2015), is versatile and supports most commonly used seismic data and earthquake catalogue formats. In addition to PyMPA, we develop other tools external to the main code to manage the input-output preparation and validation for (1) downloading data from Observatories and Research Facilities for European Seismology–European Integrated Data Archive (ORFEUS-EIDA) servers, (2) evaluating data quality, (3) selecting earthquakes as templates from a reference catalog, (4) trimming and filtering them from continuous waveforms, (5) avoiding redundant detections in the output, and (6) validating new events. The repository will continue to grow and develop, and any modification will be promptly reported.
 
-Important: we recommend to use an updated version of ObsPy.
+Important: we recommend to use an updated version of |ObsPy|.
 
 
 .. |github| raw:: html
 
     <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
 
-.. |ObsPy_link| raw:: html
+.. |ObsPy| raw:: html
 
   <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a>
 
