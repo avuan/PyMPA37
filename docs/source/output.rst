@@ -13,7 +13,7 @@ This process is run by <./sub/output.process_detections> in to two steps, by usi
 If template matching performs well and input data are reliable we expect you are able to increase your catalog.
 
 .. image:: ./figure/catalog_improvement.png
-    :width: 600px
+    :width: 800px
     :align: left
     :alt: pympa_logo1.png
     :target: https://github.com/avuan/PyMPA37/releases
@@ -23,7 +23,7 @@ Figure - 5 years template events along the Alto-Tiberina fault (blue histograms)
 The final catalog should be verified by visual inspection for a number of sampled detections. Generally, we proceed by verification of events having low thresholds to understand a safe value to validate the catalog. The routine <./sub/output.verify_detection> creates graphs of time windows where continuous data and trimmed templates are plotted with info grasped from channel by channel cross-correlation process.
 
 .. image:: ./figure/repeater.png
-    :width: 600px
+    :width: 800px
     :align: left
     :alt: pympa_logo1.png
     :target: https://github.com/avuan/PyMPA37/releases
