@@ -31,7 +31,8 @@ Important: we recommend to use an updated version of |ObsPy|.
     :width: 800px
     :align: left
     :name: caption1
-        Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left for the used channels the corresponding cross-correlation value.
+
+    :numref: `caption1` Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left for the used channels the corresponding cross-correlation value.
 
 This package contains:
 
