@@ -13,6 +13,6 @@ An example using the input_template_check is provided also showing accpted and r
 
 .. |Kurtosis| raw:: html
 
-    <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html" target="_blank">github</a>
+    <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kurtosis.html" target="_blank">Kurtosis</a>
 
 
