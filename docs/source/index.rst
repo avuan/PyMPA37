@@ -50,7 +50,7 @@ This package is written by the PyMPA developers, and is distributed under the LG
 
 
 Acknowledgements
-----------------
+
 The software development was partially funded by a joint research project within the
 executive program of scientific and technological cooperation between Italy
 and Japan for the period 2013–2015. Additional funds for software development
@@ -65,7 +65,7 @@ support and constant development of related libraries.
 
 
 Citation
---------
+
 If you use this package in your work, please cite the following papers:
 
 Vuan A., Sugan M., Amati G., Kato A., 2017 - Improving the Detection of Low-Magnitude Seismicity Preceding the Mw 6.3 L'Aquila Earthquake: Development of a Scalable Code Based on the Cross-Correlation of Template Earthquakes, BSSA https://pubs.geoscienceworld.org/ssa/bssa/article-abstract/525813/improving-the-detection-of-low-magnitude?redirectedFrom=fulltext
@@ -74,8 +74,9 @@ Vuan A., Sugan M., Chiaraluce L., Di Stefano R., 2017 - Loading rate variations 
 
 Sugan, M., Vuan, A., Kato, A., Massa, M., & Amati, G. (2019). Seismic evidence of an early afterslip during the 2012 sequence in Emilia (Italy). Geophysical Research Letters, 46, 625–635. https://doi.org/10.1029/2018GL079617
 
-Contents:
----------
+
+Contents
+
 .. toctree::
    :maxdepth: 2 
    :numbered:
