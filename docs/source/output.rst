@@ -36,6 +36,10 @@ Important: we recommend to use an updated version of |ObsPy|.
 
   <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a>
 
+.. |github| raw:: html
+
+  <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
+
 
 These utilities contains:
 
