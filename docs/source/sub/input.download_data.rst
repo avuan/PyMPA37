@@ -15,11 +15,6 @@ the shutdown of the connection.
 Here below a simple code to download continuous data:
 
 .. code-block:: python
-
-    #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-
 import time
 import os
 from obspy.clients.fdsn import Client
@@ -27,11 +22,8 @@ from obspy.core.utcdatetime import UTCDateTime
 
 client = Client("INGV")
 networks = ["IV"]
-#
 stations=["MURB", "NARO"]
-
 channels = ["EH*", "HH*"]
-
 start = "2012-02-05T00:00:00.000"
 stop = "2012-02-06T00:00:00.000"
 
@@ -44,7 +36,6 @@ inp_dir = "./24h/"
 # output directory
 if not os.path.exists(inp_dir):
     os.makedirs(inp_dir)
-# ---------------------------do not change below
 
 for sta in stations:
     t1 = (UTCDateTime(start)).timestamp
@@ -76,4 +67,3 @@ for sta in stations:
 
         t1 = t1 + chuncklength
         t2 = t2 + chuncklength
-
