@@ -15,14 +15,14 @@ An example of zmap file format is given here below (ZMAP is a simple 10 column C
 
 .. include:: ../../../input.create_templates.dir/templates.zmap
    :start-line: 0
-   :stop-line: 10
+   :end-line: 10
    :literal:
 
 - Suitable velocity model for computing travel times
 
 .. include:: ../../../input.create_templates.dir/aquila_kato.tvel
    :start-line: 0
-   :stop-line: 20
+   :end-line: 20
    :literal:
 
 - Station inventory (format consistent with ObsPy read_inventory routine see https://docs.obspy.org/packages/autogen/obspy.core.inventory.inventory.read_inventory.html)
