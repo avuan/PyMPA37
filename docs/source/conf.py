@@ -86,6 +86,7 @@ pygments_style = None
 #html_theme = 'alabaster'
 #html_theme = "classic"
 html_theme = 'python_docs_theme'
+numfig = True
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -135,10 +136,10 @@ latex_elements = {
     # Additional stuff for the LaTeX preamble.
     #
     'preamble': r'''
-        \setcounter{secnumdepth}{3}
+        \setcounter{secnumdepth}{6}
         %
         %%%% Table of content upto 2=subsection, 3=subsubsection
-        \setcounter{tocdepth}{2}
+        \setcounter{tocdepth}{3}
 
         \usepackage{amsmath,amsfonts,amssymb,amsthm}
         \usepackage{graphicx}
@@ -183,7 +184,7 @@ latex_elements = {
         %\fancyhead[LE]{\small \nouppercase{\leftmark}}
 
         %% for oneside: change footer at right side. If you want to use Left and right then use same as header defined above.
-        \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{{\tiny Alessandro Vuan} }{\href{http://pythondsp.readthedocs.io/en/latest/pythondsp/toc.html}{\tiny PythonDSP}}}
+        \fancyfoot[R]{\ifthenelse{\isodd{\value{page}}}{{\tiny Alessandro Vuan} }{\href{http://github.com/avuan/PyMPA37}{\tiny http://github.com/avuan/PyMPA37}}}
 
         %%% Alternating Footer for two side
         %\fancyfoot[RO, RE]{\scriptsize Alessandro Vuan (avuan@inogs.it)}
