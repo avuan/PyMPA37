@@ -14,11 +14,11 @@ the shutdown of the connection.
 
 Here below a simple code to download continuous data,
 
-.. literalinclude:: ../../input.download_data.dir/download_data.py
+.. literalinclude:: ../../../input.download_data.dir/download_data.py
 
 and for downloading station inventories
 
-.. literalinclude:: ../../input.download_data.dir/download_inventory.py
+.. literalinclude:: ../../../input.download_data.dir/download_inventory.py
 
 
 
