@@ -10,8 +10,7 @@ In the next versions the trimming will allow for selecting variable length P and
 
 Needed files:
 
-- Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for more details.
-An example of zmap file format is given here below (ZMAP is a simple 10 column CSV file (technically TSV) format for basic catalog data. It originates from ZMAP, a Matlab® based earthquake statistics package (see [Wiemer2001]). 
+- Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for more details. An example of zmap file format is given here below (ZMAP is a simple 10 column CSV file (technically TSV) format for basic catalog data. It originates from ZMAP, a Matlab® based earthquake statistics package (see [Wiemer2001]). 
 
 .. include:: ../../../input.create_templates.dir/templates.zmap
    :start-line: 0
