@@ -28,11 +28,11 @@ Important: we recommend to use an updated version of |ObsPy|.
   <a href="https://docs.obspy.org/master/packages/autogen/obspy.signal.cross_correlation.correlate_template.html" target="_blank">correlate_template</a>
 
 .. figure:: pympa_logo.png
-    :width: 600px
-    :align: center
+    :width: 800px
+    :align: left
     :name: caption1
 
-    :numref:`caption1` Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left for the used channels the corresponding cross-correlation value.
+    :numref: Example of detection using PyMPA. Templates (red waveforms) overlapped on continuous data (black) filtered from 3 to 8 Hz are shown. On the left for the used channels the corresponding cross-correlation value.
 
 This package contains:
 
