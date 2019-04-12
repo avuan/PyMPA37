@@ -1,12 +1,4 @@
-.. image:: pympa_logo1.png
-    :width: 100px
-    :align: left
-    :alt: pympa_logo1.png
-    :target: https://github.com/avuan/PyMPA37/releases
-
-
-
-Preprocessing Input 
+Preprocessing Input
 ===================
 
 This package contains utilities for:
@@ -27,3 +19,10 @@ Contents:
    input.create_templates <./sub/input.create_templates>
    input.calculate_ttimes <./sub/input.calculate_ttimes>
    input.template_check <./sub/input.template_check>
+
+
+.. image:: pympa_logo1.png
+    :width: 100px
+    :align: left
+    :alt: pympa_logo1.png
+    :target: https://github.com/avuan/PyMPA37/releases

@@ -1,9 +1,3 @@
-.. image:: pympa_logo1.png
-    :width: 100px
-    :align: left
-    :alt: pympa_logo1.png
-    :target: https://github.com/avuan/PyMPA37/releases
-
 PyMPA installation
 =======================
 
@@ -59,4 +53,11 @@ On a Linux system for installing conda, obspy, bottleneck and mirror the PyMPA c
     conda install bottleneck
     mkdir test_obspy1.2.0
     cd test_obspy1.2.0
-    git clone https://github.com/avuan/PyMPA37 
+    git clone https://github.com/avuan/PyMPA37
+
+
+.. image:: pympa_logo1.png
+    :width: 100px
+    :align: left
+    :alt: pympa_logo1.png
+    :target: https://github.com/avuan/PyMPA37/releases

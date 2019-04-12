@@ -121,7 +121,7 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     'papersize': 'a4paper',
-    'releasename':"1.0.0 ",
+    'releasename':" ",
     # Alessandro and Monica 
     # 'fncychap': '\\usepackage[Alessandro]{fncychap}',
     'fncychap': '\\usepackage{fncychap}',
@@ -221,7 +221,7 @@ latex_elements = {
             \centering
 
             \vspace*{40mm} %%% * is used to give space from top
-            \textbf{\Huge {Python Matching Phase Algorithm}}
+            \textbf{\Huge {Sphinx format for Latex and HTML}}
 
             \vspace{0mm}
             \begin{figure}[!h]
@@ -231,7 +231,6 @@ latex_elements = {
 
             \vspace{0mm}
             \Large \textbf{{Alessandro Vuan}}
-            \Large \textbf{{Monica Sugan}}
 
             \small Created on : April, 2019
 
@@ -241,7 +240,7 @@ latex_elements = {
 
             %% \vfill adds at the bottom
             \vfill
-            \small \textit{More documents are freely available at }{\href{https://github.com/avuan/PyMPA37}{PyMPA}}
+            \small \textit{More documents are freely available at }{\href{http://pythondsp.readthedocs.io/en/latest/pythondsp/toc.html}{PythonDSP}}
         \end{titlepage}
 
         \clearpage

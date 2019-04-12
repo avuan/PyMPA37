@@ -1,10 +1,4 @@
-.. image:: pympa_logo1.png
-    :width: 100px
-    :align: left
-    :alt: pympa_logo1.png
-    :target: https://github.com/avuan/PyMPA37/releases
-
-Tutorial 
+Tutorial
 ======================================
 
 This tutorial is designed to give you an overview of the capabilities and
@@ -199,3 +193,11 @@ Krischer, L., T. Megies, R. Barsch, M. Beyreuther, T. Lecocq, C. Caudron,
 and J. Wassermann (2015). ObsPy: A bridge for seismology into the
 scientific Python ecosystem, Comput. Sci. Discov. 8, no. 1, 014003,
 doi: 10.1088/1749-4699/8/1/014003.
+
+.. image:: pympa_logo1.png
+    :width: 100px
+    :align: left
+    :alt: pympa_logo1.png
+    :target: https://github.com/avuan/PyMPA37/releases
+
+

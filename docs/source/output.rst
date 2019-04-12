@@ -1,9 +1,3 @@
-.. image:: pympa_logo1.png
-    :width: 100px
-    :align: left
-    :alt: pympa_logo1.png
-    :target: https://github.com/avuan/PyMPA37/releases
-
 Creating an output catalog and verify detections
 ================================================
 
@@ -59,3 +53,9 @@ Contents:
    output.process_detections <./sub/output.process_detections>
    output.verify_detection <./sub/output.verify_detection>
 
+
+.. image:: pympa_logo1.png
+    :width: 100px
+    :align: center
+    :alt: pympa_logo1.png
+    :target: https://github.com/avuan/PyMPA37/releases
