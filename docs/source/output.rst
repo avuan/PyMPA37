@@ -12,6 +12,7 @@ Many events could be correlated to more than one template in a narrow time windo
 This process is run by <./sub/output.process_detections> in to two steps, by using the last event origin time as a reference to set the next time window scrutinized. 
 If template matching performs well and input data are reliable we expect you are able to increase your catalog.
 
+
 .. image:: ./figure/catalog_improvement.png
     :width: 800px
     :align: left
@@ -19,6 +20,7 @@ If template matching performs well and input data are reliable we expect you are
     :target: https://github.com/avuan/PyMPA37/releases
 
 Figure - 5 years template events along the Alto-Tiberina fault (blue histograms) as recorded by ATF test bed and augmented detections by PyMPA (orange). Solid lines represent the cumulative number of earthquakes. In the inset the magnitude distribution of the templates in comparison with the augmented catalog. The completeness magnitude is decreased by 0.5. Stars indicate the timing of eartquakes between magnitude 2 and 2.8. 
+
 
 The final catalog should be verified by visual inspection for a number of sampled detections. Generally, we proceed by verification of events having low thresholds to understand a safe value to validate the catalog. The routine <./sub/output.verify_detection> creates graphs of time windows where continuous data and trimmed templates are plotted with info grasped from channel by channel cross-correlation process.
 
