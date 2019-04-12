@@ -12,7 +12,7 @@ Many events could be correlated to more than one template in a narrow time windo
 This process is run by <./sub/output.process_detections> in to two steps, by using the last event origin time as a reference to set the next time window scrutinized. 
 If template matching performs well and input data are reliable we expect you are able to increase your catalog.
 
-.. image:: ./figure/catalog_improvements.png
+.. image:: ./figure/catalog_improvement.png
     :width: 400px
     :align: left
     :alt: pympa_logo1.png
@@ -32,11 +32,7 @@ Figure - Visual inspection of a repeater with an average cross-correlation value
 
 Important: we recommend to use an updated version of |ObsPy|.
  
-.. |github| raw:: html
-
-  <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
-
-.. |ObsPy_link| raw:: html
+.. |ObsPy| raw:: html
 
   <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a>
 
