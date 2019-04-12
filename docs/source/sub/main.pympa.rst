@@ -44,6 +44,8 @@ Columns in 200.100723.cat file are:
 Single Channel Statistics is listed in a .stats file (e.g. 200.100723.stats)
 
 .. include:: ../../../main.pympa.dir/200.100723.stats
+   :start-line: 0
+   :end-line: 26
    :literal:
 
 Columns in 200.100723.stats file are:
@@ -61,6 +63,8 @@ in .cat file and in part related to the cross-correlations values over some limi
 - 100723 201 0 2010-07-23T22:20:57.712239Z 1.51 0.07 9.0 0.0342230009997 0.486 14.193 0.301 8.796 11.0 5.0 2.0 0.0
 
 .. include:: ../../../main.pympa.dir/200.100723.stats.mag
+   :start-line: 0
+   :end-line: 26
    :literal:
 
 Columns in 200.100723.stats.mag file are:
