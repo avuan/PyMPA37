@@ -81,9 +81,6 @@ Although every effort has been made to ensure these tests run smoothly on all su
 , if you do find any issues, please let us know on the
 |github| page.
 
-.. |github| raw:: html
-
-    <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>
 
 References
 ----------
