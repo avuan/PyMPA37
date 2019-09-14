@@ -32,15 +32,17 @@
 
 import os
 import os.path
-import time
 from math import log10
 
 import bottleneck as bn
 import numpy as np
+from time import perf_counter
 from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
 from obspy.signal.trigger import coincidence_trigger
+
+
 # from obspy.signal.cross_correlation import correlate_template
 
 
@@ -102,7 +104,7 @@ def read_parameters(par):
             stddown,
             chan_max,
             nchunk,
-            )
+        )
 
 
 def trim_fill(tc, t1, t2):
@@ -124,8 +126,8 @@ def xcorr(x, y):
     tmp = rolling_window(x, m)
     with np.errstate(divide='ignore'):
         c = bn.nansum((y - meany) * (
-            tmp - np.reshape(bn.nanmean(tmp, -1), (n - m + 1, 1))), -1) / (
-                m * bn.nanstd(tmp, -1) * stdy)
+                tmp - np.reshape(bn.nanmean(tmp, -1), (n - m + 1, 1))), -1) / (
+                    m * bn.nanstd(tmp, -1) * stdy)
         c[m * bn.nanstd(tmp, -1) * stdy == 0] = 0
         return c
 
@@ -358,7 +360,7 @@ def mad(dmad):
     return tstda
 
 
-start_time = time.clock()
+start_time = perf_counter()
 # read 'parameters24' file to setup useful variables
 
 [stations, channels, networks, lowpassf,
@@ -676,7 +678,7 @@ for day in days:
                             elif tdifmin != min_time_value:
                                 diff_time = min_time_value - tdifmin
                                 tt[itrig] = trg['time'] + diff_time + \
-                                    min_time_value
+                                            min_time_value
 
                             cs[itrig] = trg['coincidence_sum']
                             cft_ave[itrig] = trg['cft_peak_wmean']
@@ -808,4 +810,4 @@ for day in days:
     f2.close()
     f3.close()
     f.close()
-print(time.clock() - start_time, "seconds")
+print(" elapsed time ", perf_counter() - start_time, " seconds")
