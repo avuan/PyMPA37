@@ -3,8 +3,6 @@ language: C
 matrix:
   include:
     - os: linux
-      env: PYTHON_VERSION=2.7
-    - os: linux
       env: PYTHON_VERSION=3.5
     - os: linux
       env: PYTHON_VERSION=3.6
@@ -12,9 +10,6 @@ matrix:
       env: PYTHON_VERSION=3.7
 
 
-    - osx_image: xcode10.1
-      env:
-        - PYTHON_VERSION=2.7
     - osx_image: xcode10.1
       env:
         - PYTHON_VERSION=3.5
