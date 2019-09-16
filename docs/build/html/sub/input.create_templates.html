@@ -70,43 +70,28 @@
             
   <div class="section" id="create-templates">
 <h1>4.1.2. Create templates<a class="headerlink" href="#create-templates" title="Permalink to this headline">¶</a></h1>
-<p>Actually templates are created by trimming a fixed time window focused on S-wave theoretical travel times.
-The length of the time window is established by the inter-statiion network distance and the frequency range used.
+<p>Actually templates are created by trimming a fixed time window focused on S-wave theoretical travel times. For details on the travel time calculations see <a class="reference external" href="file:///Users/vuan/PycharmProjects/PyMPA37/docs/build/html/tutorial.html#calculate-travel-times">file:///Users/vuan/PycharmProjects/PyMPA37/docs/build/html/tutorial.html#calculate-travel-times</a>.</p>
+<p>The length of the time window is established by the inter-statiion network distance and the frequency range used.
 The user should carefully check to exclude signal deriving from numerical artifacts (e.g. filtering applied to zero padding
 time windows having no data), or pre and coda signals not connected with the seismic perturbation investigated (e.g. LFEs, earthquakes, icequakes etc…)
 In the next versions the trimming will allow for selecting variable length P and S-waves.</p>
 <p>Needed files:</p>
 <ul class="simple">
-<li><p>Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for format</p></li>
+<li><p>Events in a catalog: e.g. templates.zmap (quakeml or zmap format) see ObsPy for more details. An example of zmap file format is given here below (ZMAP is a simple 10 column CSV file (technically TSV) format for basic catalog data. It originates from ZMAP, a Matlab® based earthquake statistics package (see [Wiemer2001]).</p></li>
+<li><p>Columns represent: longitude, latitude, year, month, day, magnitude, depth, hour, minute, second - note that fields have to be separated by tabs.</p></li>
 </ul>
-<pre class="literal-block">13.38347        42.38842        2009    03      30      1.3     11.180  14      04      34.50
-13.38981        42.33004        2009    03      30      1.5     9.170   14      15      4.32
-13.39447        42.32878        2009    03      30      1.6     9.610   14      16      6.35
-13.40577        42.31941        2009    03      30      1.4     5.370   14      17      1.74
-13.36791        42.59639        2009    03      30      1.3     5.710   14      35      16.74
-13.45651        42.25600        2009    03      30      1.3     5.620   14      42      23.29
-13.38686        42.31381        2009    03      30      1.2     6.270   15      10      34.73
-13.49527        42.30006        2009    03      30      0.9     6.810   15      21      2.28
-13.32714        42.33182        2009    03      30      1.4     6.210   15      40      5.62
-13.29606        42.27235        2009    03      30      1.2     8.690   15      53      5.35
-13.39056        42.31176        2009    03      30      1.0     6.630   15      57      21.38
-13.33732        42.32800        2009    03      30      1.6     11.580  16      06      59.81
-13.37035        42.31771        2009    03      30      1.4     10.570  16      28      12.31
-13.39649        42.31908        2009    03      30      1.4     8.140   17      04      31.64
-13.33823        42.33349        2009    03      30      1.3     7.820   17      15      58.33
-13.41437        42.34201        2009    03      30      1.5     7.120   17      47      19.88
-13.38869        42.30452        2009    03      30      1.0     7.820   18      08      28.49
-13.39272        42.32332        2009    03      30      1.3     8.670   19      27      21.43
-13.44121        42.32962        2009    03      30      1.2     2.700   19      52      48.49
-13.39902        42.34200        2009    03      30      1.2     9.790   20      23      36.86
-13.37897        42.33234        2009    03      30      1.0     8.200   21      35      55.98
-13.42597        42.46570        2009    03      30      1.3     19.820  21      37      24.47
-13.38473        42.31577        2009    03      30      1.2     6.540   22      08      12.70
-13.38779        42.30452        2009    03      30      1.1     6.690   22      18      38.95
-13.38168        42.31454        2009    03      30      1.0     7.290   22      52      12.88
-13.25361        42.27312        2009    03      30      1.0     14.930  23      21      59.35
-13.38767        42.30401        2009    03      30      1.1     6.470   23      55      40.01
-</pre>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">13.38347</span> <span class="mf">42.38842</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.3</span> <span class="mf">11.180</span> <span class="mi">14</span> <span class="mi">04</span> <span class="mf">34.50</span>
+<span class="mf">13.38981</span> <span class="mf">42.33004</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.5</span> <span class="mf">9.170</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mf">4.32</span>
+<span class="mf">13.39447</span> <span class="mf">42.32878</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.6</span> <span class="mf">9.610</span> <span class="mi">14</span> <span class="mi">16</span> <span class="mf">6.35</span>
+<span class="mf">13.40577</span> <span class="mf">42.31941</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.4</span> <span class="mf">5.370</span> <span class="mi">14</span> <span class="mi">17</span> <span class="mf">1.74</span>
+<span class="mf">13.36791</span> <span class="mf">42.59639</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.3</span> <span class="mf">5.710</span> <span class="mi">14</span> <span class="mi">35</span> <span class="mf">16.74</span>
+<span class="mf">13.45651</span> <span class="mf">42.25600</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.3</span> <span class="mf">5.620</span> <span class="mi">14</span> <span class="mi">42</span> <span class="mf">23.29</span>
+<span class="mf">13.38686</span> <span class="mf">42.31381</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.2</span> <span class="mf">6.270</span> <span class="mi">15</span> <span class="mi">10</span> <span class="mf">34.73</span>
+<span class="mf">13.49527</span> <span class="mf">42.30006</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">0.9</span> <span class="mf">6.810</span> <span class="mi">15</span> <span class="mi">21</span> <span class="mf">2.28</span>
+<span class="mf">13.32714</span> <span class="mf">42.33182</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.4</span> <span class="mf">6.210</span> <span class="mi">15</span> <span class="mi">40</span> <span class="mf">5.62</span>
+<span class="mf">13.29606</span> <span class="mf">42.27235</span> <span class="mi">2009</span> <span class="mi">03</span> <span class="mi">30</span> <span class="mf">1.2</span> <span class="mf">8.690</span> <span class="mi">15</span> <span class="mi">53</span> <span class="mf">5.35</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p>Suitable velocity model for computing travel times</p></li>
 </ul>
@@ -130,133 +115,6 @@ In the next versions the trimming will allow for selecting variable length P and
    <span class="mf">136.500</span>      <span class="mf">7.1000</span>      <span class="mf">3.9900</span>      <span class="mf">3.3000</span> 
    <span class="mf">165.000</span>      <span class="mf">8.1750</span>      <span class="mf">4.5090</span>      <span class="mf">3.3487</span> 
    <span class="mf">210.000</span>      <span class="mf">8.3000</span>      <span class="mf">4.5180</span>      <span class="mf">3.3960</span>
-   <span class="mf">210.000</span>      <span class="mf">8.3000</span>      <span class="mf">4.5230</span>      <span class="mf">3.3960</span>
-   <span class="mf">260.000</span>      <span class="mf">8.4825</span>      <span class="mf">4.6090</span>      <span class="mf">3.4652</span> 
-   <span class="mf">310.000</span>      <span class="mf">8.6650</span>      <span class="mf">4.6960</span>      <span class="mf">3.5343</span>
-   <span class="mf">360.000</span>      <span class="mf">8.8475</span>      <span class="mf">4.7830</span>      <span class="mf">3.6034</span>
-   <span class="mf">410.000</span>      <span class="mf">9.0300</span>      <span class="mf">4.8700</span>      <span class="mf">3.6726</span>
-   <span class="mf">410.000</span>      <span class="mf">9.3600</span>      <span class="mf">5.0800</span>      <span class="mf">3.7976</span>
-   <span class="mf">460.000</span>      <span class="mf">9.5280</span>      <span class="mf">5.1860</span>      <span class="mf">3.8612</span>
-   <span class="mf">510.000</span>      <span class="mf">9.6960</span>      <span class="mf">5.2920</span>      <span class="mf">3.9248</span>
-   <span class="mf">560.000</span>      <span class="mf">9.8640</span>      <span class="mf">5.3980</span>      <span class="mf">3.9885</span>
-   <span class="mf">610.000</span>     <span class="mf">10.0320</span>      <span class="mf">5.5040</span>      <span class="mf">4.0521</span>
-   <span class="mf">660.000</span>     <span class="mf">10.2000</span>      <span class="mf">5.6100</span>      <span class="mf">4.1158</span>
-   <span class="mf">660.000</span>     <span class="mf">10.7900</span>      <span class="mf">5.9600</span>      <span class="mf">4.3393</span>
-   <span class="mf">710.000</span>     <span class="mf">10.9229</span>      <span class="mf">6.0897</span>      <span class="mf">4.3896</span>
-   <span class="mf">760.000</span>     <span class="mf">11.0558</span>      <span class="mf">6.2095</span>      <span class="mf">4.4399</span>
-   <span class="mf">809.500</span>     <span class="mf">11.1353</span>      <span class="mf">6.2426</span>      <span class="mf">4.4701</span>
-   <span class="mf">859.000</span>     <span class="mf">11.2221</span>      <span class="mf">6.2798</span>      <span class="mf">4.5029</span>
-   <span class="mf">908.500</span>     <span class="mf">11.3068</span>      <span class="mf">6.3160</span>      <span class="mf">4.5350</span>
-   <span class="mf">958.000</span>     <span class="mf">11.3896</span>      <span class="mf">6.3512</span>      <span class="mf">4.5664</span>
-  <span class="mf">1007.500</span>     <span class="mf">11.4705</span>      <span class="mf">6.3854</span>      <span class="mf">4.5970</span>
-  <span class="mf">1057.000</span>     <span class="mf">11.5495</span>      <span class="mf">6.4187</span>      <span class="mf">4.6270</span>
-  <span class="mf">1106.500</span>     <span class="mf">11.6269</span>      <span class="mf">6.4510</span>      <span class="mf">4.6563</span>
-  <span class="mf">1156.000</span>     <span class="mf">11.7026</span>      <span class="mf">6.4828</span>      <span class="mf">4.6849</span>
-  <span class="mf">1205.500</span>     <span class="mf">11.7766</span>      <span class="mf">6.5138</span>      <span class="mf">4.7130</span>
-  <span class="mf">1255.000</span>     <span class="mf">11.8491</span>      <span class="mf">6.5439</span>      <span class="mf">4.7404</span>
-  <span class="mf">1304.500</span>     <span class="mf">11.9200</span>      <span class="mf">6.5727</span>      <span class="mf">4.7673</span>
-  <span class="mf">1354.000</span>     <span class="mf">11.9895</span>      <span class="mf">6.6008</span>      <span class="mf">4.7936</span>
-  <span class="mf">1403.500</span>     <span class="mf">12.0577</span>      <span class="mf">6.6285</span>      <span class="mf">4.8195</span>
-  <span class="mf">1453.000</span>     <span class="mf">12.1245</span>      <span class="mf">6.6555</span>      <span class="mf">4.8448</span>
-  <span class="mf">1502.500</span>     <span class="mf">12.1912</span>      <span class="mf">6.6815</span>      <span class="mf">4.8700</span>
-  <span class="mf">1552.000</span>     <span class="mf">12.2550</span>      <span class="mf">6.7073</span>      <span class="mf">4.8942</span>
-  <span class="mf">1601.500</span>     <span class="mf">12.3185</span>      <span class="mf">6.7326</span>      <span class="mf">4.9182</span>
-  <span class="mf">1651.000</span>     <span class="mf">12.3819</span>      <span class="mf">6.7573</span>      <span class="mf">4.9423</span>
-  <span class="mf">1700.500</span>     <span class="mf">12.4426</span>      <span class="mf">6.7815</span>      <span class="mf">4.9653</span>
-  <span class="mf">1750.000</span>     <span class="mf">12.5031</span>      <span class="mf">6.8052</span>      <span class="mf">4.9882</span>
-  <span class="mf">1799.500</span>     <span class="mf">12.5631</span>      <span class="mf">6.8286</span>      <span class="mf">5.0109</span>
-  <span class="mf">1849.000</span>     <span class="mf">12.6221</span>      <span class="mf">6.8515</span>      <span class="mf">5.0333</span>
-  <span class="mf">1898.500</span>     <span class="mf">12.6804</span>      <span class="mf">6.8742</span>      <span class="mf">5.0553</span>
-  <span class="mf">1948.000</span>     <span class="mf">12.7382</span>      <span class="mf">6.8972</span>      <span class="mf">5.0772</span>
-  <span class="mf">1997.500</span>     <span class="mf">12.7956</span>      <span class="mf">6.9194</span>      <span class="mf">5.0990</span>
-  <span class="mf">2047.000</span>     <span class="mf">12.8526</span>      <span class="mf">6.9418</span>      <span class="mf">5.1206</span>
-  <span class="mf">2096.500</span>     <span class="mf">12.9096</span>      <span class="mf">6.9627</span>      <span class="mf">5.1422</span>
-  <span class="mf">2146.000</span>     <span class="mf">12.9668</span>      <span class="mf">6.9855</span>      <span class="mf">5.1638</span>
-  <span class="mf">2195.500</span>     <span class="mf">13.0222</span>      <span class="mf">7.0063</span>      <span class="mf">5.1848</span>
-  <span class="mf">2245.000</span>     <span class="mf">13.0783</span>      <span class="mf">7.0281</span>      <span class="mf">5.2061</span>
-  <span class="mf">2294.500</span>     <span class="mf">13.1336</span>      <span class="mf">7.0500</span>      <span class="mf">5.2270</span>
-  <span class="mf">2344.000</span>     <span class="mf">13.1894</span>      <span class="mf">7.0720</span>      <span class="mf">5.2481</span>
-  <span class="mf">2393.500</span>     <span class="mf">13.2465</span>      <span class="mf">7.0931</span>      <span class="mf">5.2698</span>
-  <span class="mf">2443.000</span>     <span class="mf">13.3018</span>      <span class="mf">7.1144</span>      <span class="mf">5.2907</span>
-  <span class="mf">2492.500</span>     <span class="mf">13.3585</span>      <span class="mf">7.1369</span>      <span class="mf">5.3122</span>
-  <span class="mf">2542.000</span>     <span class="mf">13.4156</span>      <span class="mf">7.1586</span>      <span class="mf">5.3338</span>
-  <span class="mf">2591.500</span>     <span class="mf">13.4741</span>      <span class="mf">7.1807</span>      <span class="mf">5.3560</span>
-  <span class="mf">2640.000</span>     <span class="mf">13.5312</span>      <span class="mf">7.2031</span>      <span class="mf">5.3776</span>
-  <span class="mf">2690.000</span>     <span class="mf">13.5900</span>      <span class="mf">7.2258</span>      <span class="mf">5.3999</span>
-  <span class="mf">2740.000</span>     <span class="mf">13.6494</span>      <span class="mf">7.2490</span>      <span class="mf">5.4224</span>
-  <span class="mf">2740.000</span>     <span class="mf">13.6494</span>      <span class="mf">7.2490</span>      <span class="mf">5.4224</span>
-  <span class="mf">2789.670</span>     <span class="mf">13.6530</span>      <span class="mf">7.2597</span>      <span class="mf">5.4238</span>
-  <span class="mf">2839.330</span>     <span class="mf">13.6566</span>      <span class="mf">7.2704</span>      <span class="mf">5.4250</span>
-  <span class="mf">2891.500</span>     <span class="mf">13.6602</span>      <span class="mf">7.2811</span>      <span class="mf">5.4265</span>
-  <span class="mf">2891.500</span>      <span class="mf">8.0000</span>      <span class="mf">0.0000</span>      <span class="mf">9.9145</span>
-  <span class="mf">2939.330</span>      <span class="mf">8.0382</span>      <span class="mf">0.0000</span>      <span class="mf">9.9942</span>
-  <span class="mf">2989.660</span>      <span class="mf">8.1283</span>      <span class="mf">0.0000</span>     <span class="mf">10.0722</span>
-  <span class="mf">3039.990</span>      <span class="mf">8.2213</span>      <span class="mf">0.0000</span>     <span class="mf">10.1485</span>
-  <span class="mf">3090.320</span>      <span class="mf">8.3122</span>      <span class="mf">0.0000</span>     <span class="mf">10.2233</span>
-  <span class="mf">3140.660</span>      <span class="mf">8.4001</span>      <span class="mf">0.0000</span>     <span class="mf">10.2964</span>
-  <span class="mf">3190.990</span>      <span class="mf">8.4861</span>      <span class="mf">0.0000</span>     <span class="mf">10.3679</span>
-  <span class="mf">3241.320</span>      <span class="mf">8.5692</span>      <span class="mf">0.0000</span>     <span class="mf">10.4378</span>
-  <span class="mf">3291.650</span>      <span class="mf">8.6496</span>      <span class="mf">0.0000</span>     <span class="mf">10.5062</span>
-  <span class="mf">3341.980</span>      <span class="mf">8.7283</span>      <span class="mf">0.0000</span>     <span class="mf">10.5731</span>
-  <span class="mf">3392.310</span>      <span class="mf">8.8036</span>      <span class="mf">0.0000</span>     <span class="mf">10.6385</span>
-  <span class="mf">3442.640</span>      <span class="mf">8.8761</span>      <span class="mf">0.0000</span>     <span class="mf">10.7023</span>
-  <span class="mf">3492.970</span>      <span class="mf">8.9461</span>      <span class="mf">0.0000</span>     <span class="mf">10.7647</span>
-  <span class="mf">3543.300</span>      <span class="mf">9.0138</span>      <span class="mf">0.0000</span>     <span class="mf">10.8257</span>
-  <span class="mf">3593.640</span>      <span class="mf">9.0792</span>      <span class="mf">0.0000</span>     <span class="mf">10.8852</span>
-  <span class="mf">3643.970</span>      <span class="mf">9.1426</span>      <span class="mf">0.0000</span>     <span class="mf">10.9434</span>
-  <span class="mf">3694.300</span>      <span class="mf">9.2042</span>      <span class="mf">0.0000</span>     <span class="mf">11.0001</span>
-  <span class="mf">3744.630</span>      <span class="mf">9.2634</span>      <span class="mf">0.0000</span>     <span class="mf">11.0555</span>
-  <span class="mf">3794.960</span>      <span class="mf">9.3205</span>      <span class="mf">0.0000</span>     <span class="mf">11.1095</span>
-  <span class="mf">3845.290</span>      <span class="mf">9.3760</span>      <span class="mf">0.0000</span>     <span class="mf">11.1623</span>
-  <span class="mf">3895.620</span>      <span class="mf">9.4297</span>      <span class="mf">0.0000</span>     <span class="mf">11.2137</span>
-  <span class="mf">3945.950</span>      <span class="mf">9.4814</span>      <span class="mf">0.0000</span>     <span class="mf">11.2639</span>
-  <span class="mf">3996.280</span>      <span class="mf">9.5306</span>      <span class="mf">0.0000</span>     <span class="mf">11.3127</span>
-  <span class="mf">4046.620</span>      <span class="mf">9.5777</span>      <span class="mf">0.0000</span>     <span class="mf">11.3604</span>
-  <span class="mf">4096.950</span>      <span class="mf">9.6232</span>      <span class="mf">0.0000</span>     <span class="mf">11.4069</span>
-  <span class="mf">4147.280</span>      <span class="mf">9.6673</span>      <span class="mf">0.0000</span>     <span class="mf">11.4521</span>
-  <span class="mf">4197.610</span>      <span class="mf">9.7100</span>      <span class="mf">0.0000</span>     <span class="mf">11.4962</span>
-  <span class="mf">4247.940</span>      <span class="mf">9.7513</span>      <span class="mf">0.0000</span>     <span class="mf">11.5391</span>
-  <span class="mf">4298.270</span>      <span class="mf">9.7914</span>      <span class="mf">0.0000</span>     <span class="mf">11.5809</span>
-  <span class="mf">4348.600</span>      <span class="mf">9.8304</span>      <span class="mf">0.0000</span>     <span class="mf">11.6216</span>
-  <span class="mf">4398.930</span>      <span class="mf">9.8682</span>      <span class="mf">0.0000</span>     <span class="mf">11.6612</span>
-  <span class="mf">4449.260</span>      <span class="mf">9.9051</span>      <span class="mf">0.0000</span>     <span class="mf">11.6998</span>
-  <span class="mf">4499.600</span>      <span class="mf">9.9410</span>      <span class="mf">0.0000</span>     <span class="mf">11.7373</span>
-  <span class="mf">4549.930</span>      <span class="mf">9.9761</span>      <span class="mf">0.0000</span>     <span class="mf">11.7737</span>
-  <span class="mf">4600.260</span>     <span class="mf">10.0103</span>      <span class="mf">0.0000</span>     <span class="mf">11.8092</span>
-  <span class="mf">4650.590</span>     <span class="mf">10.0439</span>      <span class="mf">0.0000</span>     <span class="mf">11.8437</span>
-  <span class="mf">4700.920</span>     <span class="mf">10.0768</span>      <span class="mf">0.0000</span>     <span class="mf">11.8772</span>
-  <span class="mf">4801.580</span>     <span class="mf">10.1415</span>      <span class="mf">0.0000</span>     <span class="mf">11.9414</span>
-  <span class="mf">4851.910</span>     <span class="mf">10.1739</span>      <span class="mf">0.0000</span>     <span class="mf">11.9722</span>
-  <span class="mf">4902.240</span>     <span class="mf">10.2049</span>      <span class="mf">0.0000</span>     <span class="mf">12.0001</span>
-  <span class="mf">4952.580</span>     <span class="mf">10.2329</span>      <span class="mf">0.0000</span>     <span class="mf">12.0311</span>
-  <span class="mf">5002.910</span>     <span class="mf">10.2565</span>      <span class="mf">0.0000</span>     <span class="mf">12.0593</span>
-  <span class="mf">5053.240</span>     <span class="mf">10.2745</span>      <span class="mf">0.0000</span>     <span class="mf">12.0867</span>
-  <span class="mf">5103.570</span>     <span class="mf">10.2854</span>      <span class="mf">0.0000</span>     <span class="mf">12.1133</span>
-  <span class="mf">5153.500</span>     <span class="mf">10.2890</span>      <span class="mf">0.0000</span>     <span class="mf">12.1391</span>
-  <span class="mf">5153.500</span>     <span class="mf">11.0427</span>      <span class="mf">3.5043</span>     <span class="mf">12.7037</span>
-  <span class="mf">5204.610</span>     <span class="mf">11.0585</span>      <span class="mf">3.5187</span>     <span class="mf">12.7289</span>
-  <span class="mf">5255.320</span>     <span class="mf">11.0718</span>      <span class="mf">3.5314</span>     <span class="mf">12.7530</span>
-  <span class="mf">5306.040</span>     <span class="mf">11.0850</span>      <span class="mf">3.5435</span>     <span class="mf">12.7760</span>
-  <span class="mf">5356.750</span>     <span class="mf">11.0983</span>      <span class="mf">3.5551</span>     <span class="mf">12.7980</span>
-  <span class="mf">5407.460</span>     <span class="mf">11.1166</span>      <span class="mf">3.5661</span>     <span class="mf">12.8188</span>
-  <span class="mf">5458.170</span>     <span class="mf">11.1316</span>      <span class="mf">3.5765</span>     <span class="mf">12.8387</span>
-  <span class="mf">5508.890</span>     <span class="mf">11.1457</span>      <span class="mf">3.5864</span>     <span class="mf">12.8574</span>
-  <span class="mf">5559.600</span>     <span class="mf">11.1590</span>      <span class="mf">3.5957</span>     <span class="mf">12.8751</span>
-  <span class="mf">5610.310</span>     <span class="mf">11.1715</span>      <span class="mf">3.6044</span>     <span class="mf">12.8917</span>
-  <span class="mf">5661.020</span>     <span class="mf">11.1832</span>      <span class="mf">3.6126</span>     <span class="mf">12.9072</span>
-  <span class="mf">5711.740</span>     <span class="mf">11.1941</span>      <span class="mf">3.6202</span>     <span class="mf">12.9217</span>
-  <span class="mf">5813.160</span>     <span class="mf">11.2134</span>      <span class="mf">3.6337</span>     <span class="mf">12.9474</span>
-  <span class="mf">5863.870</span>     <span class="mf">11.2219</span>      <span class="mf">3.6396</span>     <span class="mf">12.9586</span>
-  <span class="mf">5914.590</span>     <span class="mf">11.2295</span>      <span class="mf">3.6450</span>     <span class="mf">12.9688</span>
-  <span class="mf">5965.300</span>     <span class="mf">11.2364</span>      <span class="mf">3.6498</span>     <span class="mf">12.9779</span>
-  <span class="mf">6016.010</span>     <span class="mf">11.2424</span>      <span class="mf">3.6540</span>     <span class="mf">12.9859</span>
-  <span class="mf">6066.720</span>     <span class="mf">11.2477</span>      <span class="mf">3.6577</span>     <span class="mf">12.9929</span>
-  <span class="mf">6117.440</span>     <span class="mf">11.2521</span>      <span class="mf">3.6608</span>     <span class="mf">12.9988</span>
-  <span class="mf">6168.150</span>     <span class="mf">11.2557</span>      <span class="mf">3.6633</span>     <span class="mf">13.0036</span>
-  <span class="mf">6218.860</span>     <span class="mf">11.2586</span>      <span class="mf">3.6653</span>     <span class="mf">13.0074</span>
-  <span class="mf">6269.570</span>     <span class="mf">11.2606</span>      <span class="mf">3.6667</span>     <span class="mf">13.0100</span>
-  <span class="mf">6320.290</span>     <span class="mf">11.2618</span>      <span class="mf">3.6675</span>     <span class="mf">13.0117</span>
-  <span class="mf">6371.000</span>     <span class="mf">11.2622</span>      <span class="mf">3.6678</span>     <span class="mf">13.0122</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -306,6 +164,8 @@ In the next versions the trimming will allow for selecting variable length P and
 <li><p>Output dir i.e. ./template (find trimmed time series)</p></li>
 </ul>
 <p>Note that input and output file names, inventories, template catalogs, velocity models are recalled also in the next steps and remain almost fixed. Parameters in files .par could change.</p>
+<p>References
+Wiemer S. (2001), A software package to analyzeseismicity: ZMAP, Seismol Res Lett 92, 373-382</p>
 </div>
 
 
@@ -379,7 +239,7 @@ In the next versions the trimming will allow for selecting variable length P and
       </ul>
     </div>  
     <div class="footer">
-    &copy; <a href="../copyright.html">Copyright</a> 2019, Alessandro Vuan &amp; Monica Sugan.
+    &copy; <a href="../copyright.html">Copyright</a> 2019, Alessandro Vuan and Monica Sugan.
     <br />
 
     The Python Software Foundation is a non-profit corporation.

@@ -1,11 +1,3 @@
-.. image:: pympa_logo1.png
-    :width: 100px
-    :align: left
-    :alt: pympa_logo1.png
-    :target: https://github.com/avuan/PyMPA37/releases
-
-
-
 Main Program
 ============
 
@@ -46,3 +38,10 @@ Contents:
    :maxdepth: 2
 
    main.pympa <./sub/main.pympa>
+
+
+.. image:: pympa_logo1.png
+    :width: 100px
+    :align: center
+    :alt: pympa_logo1.png
+    :target: https://github.com/avuan/PyMPA37/releases

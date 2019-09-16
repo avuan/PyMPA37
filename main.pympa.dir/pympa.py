@@ -3,7 +3,7 @@
 # 2016/08/23 Version 34 - parameters24 input file needed
 # 2017/10/27 Version 39 - Reformatted PEP8 Code
 # 2017/11/05 Version 40 - Corrections to tdifmin, tstda calculations
-# 2019/03/30 Version pympa - correlate_template from obspy
+# 2019/10/15 Version pympa - xcorr substitued with correlate_template from obspy
 
 # First Version August 2014 - Last October 2017 (author: Alessandro Vuan)
 
@@ -13,13 +13,15 @@
 # Method's references:
 # The code is developed and maintained at
 # Istituto Nazionale di Oceanografia e Geofisica di Trieste (OGS)
-# and was inspired by the Aitaro Kato and collegues.
+# and was inspired by collaborating with Aitaro Kato and collegues at ERI.
 # Kato A, Obara K, Igarashi T, Tsuruoka H, Nakagawa S, Hirata N (2012)
 # Propagation of slow slip leading up to the 2011 Mw 9.0 Tohoku-Oki
 # earthquake. Science doi:10.1126/science.1215141
 #
 # For questions comments and suggestions please send an email to avuan@inogs.it
 # The kernel function xcorr used from Austin Holland is modified in pympa
+# Recommended the use of Obspy v. 1.2.0 with the substitution of xcorr function with
+# correlate_template
 
 # Software Requirements: the following dependencies are needed (check import
 # and from statements below)
@@ -33,10 +35,10 @@
 import os
 import os.path
 from math import log10
+from time import perf_counter
 
 import bottleneck as bn
 import numpy as np
-from time import perf_counter
 from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
@@ -66,7 +68,7 @@ def read_parameters(par):
         cc_threshold = float(data[29])
         nch_min = int(data[30])
         temp_length = float(data[31])
-        UTC_prec = int(data[32])
+        utc_prec = int(data[32])
         cont_dir = "./" + data[33] + "/"
         temp_dir = "./" + data[34] + "/"
         travel_dir = "./" + data[35] + "/"
@@ -91,7 +93,7 @@ def read_parameters(par):
             cc_threshold,
             nch_min,
             temp_length,
-            UTC_prec,
+            utc_prec,
             cont_dir,
             temp_dir,
             travel_dir,
@@ -140,7 +142,6 @@ def process_input(itemp, nn, ss, ich, stream_df):
     temp_file = "%s.%s.%s..%s.mseed" % (str(itemp), nn, ss, ich)
     finpt = "%s%s" % (temp_dir, temp_file)
     if os.path.isfile(finpt):
-        tsize = 0
         try:
             tsize = os.path.getsize(finpt)
             if tsize > 0:
@@ -196,7 +197,7 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
 
     for jtr, tr in enumerate(stall):
 
-        if (std_trac[jtr] >= avestdup or std_trac[jtr] <= avestddw):
+        if std_trac[jtr] >= avestdup or std_trac[jtr] <= avestddw:
             stall.remove(tr)
             print("removed Trace n Stream = ...", tr, std_trac[jtr], avestd)
             td[jtr] = 99.99
@@ -365,13 +366,13 @@ start_time = perf_counter()
 
 [stations, channels, networks, lowpassf,
  highpassf, sample_tol, cc_threshold, nch_min,
- temp_length, UTC_prec, cont_dir, temp_dir, travel_dir,
+ temp_length, utc_prec, cont_dir, temp_dir, travel_dir,
  day_list, ev_catalog, start_itemp, stop_itemp,
  factor_thre, stdup, stddown,
  chan_max, nchunk] = read_parameters('parameters24')
 
 # set time precision for UTCDATETIME
-UTCDateTime.DEFAULT_PRECISION = UTC_prec
+UTCDateTime.DEFAULT_PRECISION = utc_prec
 
 # read Catalog of Templates Events
 
@@ -606,8 +607,8 @@ for day in days:
                         tend[idx] = tstart[idx] + secs
                         check_npts = (tend[idx] -
                                       tstart[idx]) / tc_cft.stats.delta
-                        ts = UTCDateTime(tstart[idx], precision=UTC_prec)
-                        te = UTCDateTime(tend[idx], precision=UTC_prec)
+                        ts = UTCDateTime(tstart[idx], precision=utc_prec)
+                        te = UTCDateTime(tend[idx], precision=utc_prec)
                         stall += tc_cft.trim(
                             starttime=ts, endtime=te,
                             nearest_sample=True, pad=True, fill_value=0)
@@ -678,7 +679,7 @@ for day in days:
                             elif tdifmin != min_time_value:
                                 diff_time = min_time_value - tdifmin
                                 tt[itrig] = trg['time'] + diff_time + \
-                                            min_time_value
+                                    min_time_value
 
                             cs[itrig] = trg['coincidence_sum']
                             cft_ave[itrig] = trg['cft_peak_wmean']
@@ -705,6 +706,7 @@ for day in days:
                                 # estimate magnitude is measured.
                                 damaxac = {}
                                 mchan = {}
+                                timestart = UTCDateTime()
                                 timex = UTCDateTime(tt[itrig])
 
                                 for il, tc in enumerate(stream_df):
@@ -721,7 +723,7 @@ for day in days:
                                         uts = UTCDateTime(
                                             ttt.stats.starttime).timestamp
                                         utr = UTCDateTime(reft).timestamp
-                                        if tdifmin < 0:
+                                        if tdifmin <= 0:
                                             timestart = timex + \
                                                         abs(tdifmin) + \
                                                         (uts - utr)
@@ -732,7 +734,6 @@ for day in days:
                                                         (uts - utr)
 
                                         timend = timestart + temp_length
-                                        ta = Trace()
                                         ta = tc.copy()
                                         ta.trim(starttime=timestart,
                                                 endtime=timend,
@@ -806,8 +807,8 @@ for day in days:
             f3.write(str_except0)
             pass
 
-    f1.close()
-    f2.close()
-    f3.close()
-    f.close()
+        f1.close()
+        f2.close()
+        f3.close()
+        f.close()
 print(" elapsed time ", perf_counter() - start_time, " seconds")

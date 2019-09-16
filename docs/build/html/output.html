@@ -67,18 +67,17 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo1.png" class="align-left" src="_images/pympa_logo1.png" style="width: 100px;" /></a>
-<div class="section" id="creating-an-output-catalog-and-verify-detections">
+  <div class="section" id="creating-an-output-catalog-and-verify-detections">
 <h1>6. Creating an output catalog and verify detections<a class="headerlink" href="#creating-an-output-catalog-and-verify-detections" title="Permalink to this headline">¶</a></h1>
-<blockquote>
-<div><p>It consists of some separate utilities in <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, post-processing tools to obtain a catalog and verify events.
-Many events could be correlated to more than one template in a narrow time window. A fixed time window length can be selected,
-and within each, the template for which the normalized cross-correlation coefficient is the greates provides the event location and data to determine the magnitude.
-This process is run by &lt;./sub/output.process_detections&gt; in to two steps,
-by using the last event origin time as a reference to set the next time window scrutinized. The final catalog should be verified by visual inspection
-for a number of sampled detections. Generally, we proceed by verification of events having low thresholds to understand a safe value to validate the catalog.
-The routine &lt;./sub/output.verify_detection&gt; creates graphs of time windows where continuous data and trimmed templates are plotted with info grasped from channel by channel cross-correlation process.</p>
-</div></blockquote>
+<p>It consists of some separate utilities in <a href="https://github.com/avuan/PyMPA37" target="_blank">github</a>, post-processing tools to obtain a catalog and verify events.
+Many events could be correlated to more than one template in a narrow time window. A fixed time window length can be selected, and within each, the template for which the normalized cross-correlation coefficient is the greates provides the event location and data to determine the magnitude.
+This process is run by &lt;./sub/output.process_detections&gt; in to two steps, by using the last event origin time as a reference to set the next time window scrutinized.
+If template matching performs well and input data are reliable we expect you are able to increase your catalog.</p>
+<a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo1.png" class="align-left" src="_images/catalog_improvement.png" style="width: 800px;" /></a>
+<p>Figure - 5 years template events along the Alto-Tiberina fault (blue histograms) as recorded by ATF test bed and augmented detections by PyMPA (orange). Solid lines represent the cumulative number of earthquakes. In the inset the magnitude distribution of the templates in comparison with the augmented catalog. The completeness magnitude is decreased by 0.5. Stars indicate the timing of eartquakes between magnitude 2 and 2.8.</p>
+<p>The final catalog should be verified by visual inspection for a number of sampled detections. Generally, we proceed by verification of events having low thresholds to understand a safe value to validate the catalog. The routine &lt;./sub/output.verify_detection&gt; creates graphs of time windows where continuous data and trimmed templates are plotted with info grasped from channel by channel cross-correlation process.</p>
+<a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo1.png" class="align-left" src="_images/repeater.png" style="width: 800px;" /></a>
+<p>Figure - Visual inspection of a repeater with an average cross-correlation value of 0.98 along the Alto-Tiberina fault. Seismic data from ATF test bed (black waveforms) and a template (red) are overlapped. On the left of the panel, we list the station and channel codes, and on the right the corresponding value of cross-correlation between the two events. The template event (a magnitude M=-0.4) allows to detect a M=-1.0 repeater.</p>
 <p>Important: we recommend to use an updated version of <a href="https://github.com/obspy/obspy/wiki" target="_blank">ObsPy</a>.</p>
 <p>These utilities contains:</p>
 <ul class="simple">
@@ -94,6 +93,7 @@ The routine &lt;./sub/output.verify_detection&gt; creates graphs of time windows
 <li class="toctree-l1"><a class="reference internal" href="sub/output.verify_detection.html">6.1.2. output.verify_detection</a></li>
 </ul>
 </div>
+<a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="pympa_logo1.png" class="align-center" src="_images/pympa_logo1.png" style="width: 100px;" /></a>
 </div>
 </div>
 
@@ -175,7 +175,7 @@ The routine &lt;./sub/output.verify_detection&gt; creates graphs of time windows
       </ul>
     </div>  
     <div class="footer">
-    &copy; <a href="copyright.html">Copyright</a> 2019, Alessandro Vuan &amp; Monica Sugan.
+    &copy; <a href="copyright.html">Copyright</a> 2019, Alessandro Vuan and Monica Sugan.
     <br />
 
     The Python Software Foundation is a non-profit corporation.

@@ -78,7 +78,88 @@ and time period.</p>
 or userid is needed. Some EIDA servers when receiving from the same user many requests in a short time
 close the door to the user. That is the reason why we introduced a pause command in our scripts, this avoids
 the shutdown of the connection.</p>
-<a class="reference external image-reference" href="https://github.com/avuan/PyMPA37/releases"><img alt="../figure/dir2.png" class="align-left" src="../_images/dir2.png" style="width: 800px;" /></a>
+<p>Here below a simple code to download continuous data,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">obspy.clients.fdsn</span> <span class="k">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">obspy.core.utcdatetime</span> <span class="k">import</span> <span class="n">UTCDateTime</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s2">&quot;INGV&quot;</span><span class="p">)</span>
+<span class="n">networks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IV&quot;</span><span class="p">]</span>
+<span class="c1">#</span>
+<span class="n">stations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;MURB&quot;</span><span class="p">,</span> <span class="s2">&quot;NARO&quot;</span><span class="p">]</span>
+
+<span class="n">channels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;EH*&quot;</span><span class="p">,</span> <span class="s2">&quot;HH*&quot;</span><span class="p">]</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="s2">&quot;2012-02-05T00:00:00.000&quot;</span>
+<span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;2012-02-06T00:00:00.000&quot;</span>
+
+<span class="c1"># 24h as seconds</span>
+<span class="n">chuncklength</span> <span class="o">=</span> <span class="mi">86400</span>
+
+<span class="c1"># output directory</span>
+<span class="n">inp_dir</span> <span class="o">=</span> <span class="s2">&quot;./24h/&quot;</span>
+
+<span class="c1"># output directory</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inp_dir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">inp_dir</span><span class="p">)</span>
+<span class="c1"># ---------------------------do not change below</span>
+
+<span class="k">for</span> <span class="n">sta</span> <span class="ow">in</span> <span class="n">stations</span><span class="p">:</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="p">(</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">start</span><span class="p">))</span><span class="o">.</span><span class="n">timestamp</span>
+    <span class="n">t3</span> <span class="o">=</span> <span class="p">(</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">stop</span><span class="p">))</span><span class="o">.</span><span class="n">timestamp</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">chuncklength</span>
+
+    <span class="k">while</span> <span class="n">t2</span> <span class="o">&lt;=</span> <span class="n">t3</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;station == &quot;</span><span class="p">,</span> <span class="n">sta</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">networks</span><span class="p">:</span>
+
+            <span class="k">for</span> <span class="n">chann</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">bulk</span> <span class="o">=</span> <span class="p">[(</span><span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">chann</span><span class="p">,</span> <span class="n">UTCDateTime</span><span class="p">(</span>
+                        <span class="n">t1</span><span class="p">),</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="n">t2</span><span class="p">))]</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bulk == &quot;</span><span class="p">,</span> <span class="n">bulk</span><span class="p">)</span>
+                    <span class="n">yy</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+                    <span class="n">mm</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span><span class="o">.</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="n">dd</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span><span class="o">.</span><span class="n">day</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+                    <span class="n">newfile</span> <span class="o">=</span> <span class="n">inp_dir</span> <span class="o">+</span> <span class="n">yy</span> <span class="o">+</span> <span class="n">mm</span> <span class="o">+</span> <span class="n">dd</span> <span class="o">+</span>\
+                        <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">sta</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">chann</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">get_waveforms_bulk</span><span class="p">(</span><span class="n">bulk</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">newfile</span><span class="p">)</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">pass</span>
+
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">chuncklength</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">chuncklength</span>
+</pre></div>
+</div>
+<p>and for downloading station inventories</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">obspy.clients.fdsn</span> <span class="k">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">obspy.core.utcdatetime</span> <span class="k">import</span> <span class="n">UTCDateTime</span>
+
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s2">&quot;INGV&quot;</span><span class="p">)</span>
+
+<span class="n">starttime</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2011-01-01&quot;</span><span class="p">)</span>
+<span class="n">endtime</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2017-06-30&quot;</span><span class="p">)</span>
+
+<span class="n">inventory</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_stations</span><span class="p">(</span>
+    <span class="n">starttime</span><span class="o">=</span><span class="n">starttime</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="n">endtime</span><span class="p">,</span>
+    <span class="n">network</span><span class="o">=</span><span class="s2">&quot;MN&quot;</span><span class="p">,</span> <span class="n">sta</span><span class="o">=</span><span class="s2">&quot;AQU&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;inv.aqu&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -152,7 +233,7 @@ the shutdown of the connection.</p>
       </ul>
     </div>  
     <div class="footer">
-    &copy; <a href="../copyright.html">Copyright</a> 2019, Alessandro Vuan &amp; Monica Sugan.
+    &copy; <a href="../copyright.html">Copyright</a> 2019, Alessandro Vuan and Monica Sugan.
     <br />
 
     The Python Software Foundation is a non-profit corporation.

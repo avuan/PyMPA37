@@ -45,7 +45,7 @@ def read_input_par(filepar):
     highpassf = float(data[19])
     tlen_bef = float(data[20])
     tlen_aft = float(data[21])
-    UTC_prec = int(data[22])
+    utc_prec = int(data[22])
     tempinp_dir = "./" + data[23] + "/"
     tempout_dir = "./" + data[24] + "/"
     day_list = str(data[25])
@@ -54,7 +54,7 @@ def read_input_par(filepar):
     stop_itemp = int(data[28])
     taup_model = str(data[29])
     return stations, channels, networks, lowpassf, highpassf,\
-        tlen_bef, tlen_aft, UTC_prec, tempinp_dir, tempout_dir, \
+        tlen_bef, tlen_aft, utc_prec, tempinp_dir, tempout_dir, \
         day_list, ev_catalog, start_itemp, stop_itemp, taup_model
 
 
@@ -76,7 +76,7 @@ def read_sta_inv(invfile, sta):
 filepar = './times.par'
 
 [stations, channels, networks, lowpassf, highpassf, tlen_bef,
- tlen_aft, UTC_prec, tempinp_dir, tempout_dir, day_list, ev_catalog,
+ tlen_aft, utc_prec, tempinp_dir, tempout_dir, day_list, ev_catalog,
  start_itemp, stop_itemp, taup_model] = read_input_par(filepar)
 st = Stream()
 tr = Trace()

@@ -64,7 +64,7 @@ def read_parameters(par):
         cc_threshold = float(data[29])
         nch_min = int(data[30])
         temp_length = float(data[31])
-        UTC_prec = int(data[32])
+        utc_prec = int(data[32])
         cont_dir = "./" + data[33] + "/"
         temp_dir = "./" + data[34] + "/"
         travel_dir = "./" + data[35] + "/"
@@ -89,7 +89,7 @@ def read_parameters(par):
             cc_threshold,
             nch_min,
             temp_length,
-            UTC_prec,
+            utc_prec,
             cont_dir,
             temp_dir,
             travel_dir,
@@ -363,13 +363,13 @@ start_time = time.clock()
 
 [stations, channels, networks, lowpassf,
  highpassf, sample_tol, cc_threshold, nch_min,
- temp_length, UTC_prec, cont_dir, temp_dir, travel_dir,
+ temp_length, utc_prec, cont_dir, temp_dir, travel_dir,
  day_list, ev_catalog, start_itemp, stop_itemp,
  factor_thre, stdup, stddown,
  chan_max, nchunk] = read_parameters('parameters24')
 
 # set time precision for UTCDATETIME
-UTCDateTime.DEFAULT_PRECISION = UTC_prec
+UTCDateTime.DEFAULT_PRECISION = utc_prec
 
 # read Catalog of Templates Events
 
@@ -604,8 +604,8 @@ for day in days:
                         tend[idx] = tstart[idx] + secs
                         check_npts = (tend[idx] -
                                       tstart[idx]) / tc_cft.stats.delta
-                        ts = UTCDateTime(tstart[idx], precision=UTC_prec)
-                        te = UTCDateTime(tend[idx], precision=UTC_prec)
+                        ts = UTCDateTime(tstart[idx], precision=utc_prec)
+                        te = UTCDateTime(tend[idx], precision=utc_prec)
                         stall += tc_cft.trim(
                             starttime=ts, endtime=te,
                             nearest_sample=True, pad=True, fill_value=0)

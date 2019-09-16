@@ -11,10 +11,14 @@ For some networks or stations please check before data availability or if there 
 or userid is needed. Some EIDA servers when receiving from the same user many requests in a short time
 close the door to the user. That is the reason why we introduced a pause command in our scripts, this avoids
 the shutdown of the connection.
- 
 
-.. image:: ../figure/dir2.png
-    :width: 800px
-    :align: left
-    :alt: ../figure/dir2.png
-    :target: https://github.com/avuan/PyMPA37/releases
+Here below a simple code to download continuous data,
+
+.. literalinclude:: ../../../input.download_data.dir/download_data.py
+
+and for downloading station inventories
+
+.. literalinclude:: ../../../input.download_data.dir/download_inventory.py
+
+
+

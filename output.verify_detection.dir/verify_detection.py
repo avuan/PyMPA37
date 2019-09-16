@@ -79,7 +79,7 @@ def read_input_par(vfile):
     highpassf = float(data[23])
     tlen_bef = float(data[24])
     tlen_aft = float(data[25])
-    UTC_prec = int(data[26])
+    utc_prec = int(data[26])
     cont_dir = "./" + data[27] + "/"
     temp_dir = "./" + data[28] + "/"
     ttimes_dir = "./" + data[29] + "/"
@@ -92,7 +92,7 @@ def read_input_par(vfile):
     Flag_Read_Stats = int(data[36])
     stat_tol = float(data[37])
     return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
-        tlen_aft, UTC_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog,\
+        tlen_aft, utc_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog,\
         start_det, stop_det, det_dur, taup_model, Flag_Save_Figure,\
         Flag_Read_Stats, stat_tol
 
@@ -214,7 +214,7 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
 # read input parameters
 vfile = 'verify.par'
 [stations, channels, networks, lowpassf, highpassf,
-    tlen_bef, tlen_aft, UTC_prec, cont_dir, temp_dir,
+    tlen_bef, tlen_aft, utc_prec, cont_dir, temp_dir,
     ttimes_dir, ev_catalog, start_det, stop_det, det_dur,
     taup_model, Flag_Save_Figure, Flag_Read_Stats, stat_tol] = \
     read_input_par(vfile)

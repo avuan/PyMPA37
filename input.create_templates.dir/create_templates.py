@@ -40,7 +40,7 @@ def read_input_par(trimfile):
     highpassf = float(data[19])
     tlen_bef = float(data[20])
     tlen_aft = float(data[21])
-    UTC_prec = int(data[22])
+    utc_prec = int(data[22])
     cont_dir = "./" + data[23] + "/"
     temp_dir = "./" + data[24] + "/"
     day_list = str(data[25])
@@ -50,7 +50,7 @@ def read_input_par(trimfile):
     taup_model = str(data[29])
 
     return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
-        tlen_aft, UTC_prec, cont_dir, temp_dir, day_list, ev_catalog, \
+        tlen_aft, utc_prec, cont_dir, temp_dir, day_list, ev_catalog, \
         start_itemp, stop_itemp, taup_model
 
 
@@ -76,7 +76,7 @@ trimfile = './trim.par'
 # print(lat, lon, elev)
 
 [stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft,
- UTC_prec, cont_dir, temp_dir, day_list, ev_catalog, start_itemp, stop_itemp,
+ utc_prec, cont_dir, temp_dir, day_list, ev_catalog, start_itemp, stop_itemp,
  taup_model] = read_input_par(trimfile)
 
 # -------

@@ -26,7 +26,7 @@ with open('filter.par') as fp:
 FlagDateTime = int(data[7])
 Flag_cc = int(data[8])
 inp_file = str(data[9])
-UTC_prec = int(data[10])
+utc_prec = int(data[10])
 window_length = float(data[11])
 min_threshold = float(data[12])
 min_nch = int(data[13])
@@ -34,7 +34,7 @@ min_nch = int(data[13])
 print("FlagDateTime == ", FlagDateTime)
 print("Flag_cc == ", Flag_cc)
 print("Input File == ", inp_file)
-print("UTC_prec == ", UTC_prec)
+print("utc_prec == ", utc_prec)
 print("Window_Length == ", window_length)
 print("min_threshold == ", min_threshold)
 print("min_nch == ", min_nch)
@@ -265,7 +265,7 @@ for iu, ti in enumerate(t_timr):
         tminute = UTCDateTime(t_timr[ie]).minute
         tsecond = UTCDateTime(t_timr[ie]).second
         # precision = 10 ** UTCDateTime.DEFAULT_PRECISION
-        precision = 10 ** UTC_prec
+        precision = 10 ** utc_prec
         tmicro = UTCDateTime(t_timr[ie]).microsecond / precision
         tmicro = UTCDateTime(t_timr[ie]).microsecond
         print("tsecond, tmicro == ", tsecond, tmicro,
