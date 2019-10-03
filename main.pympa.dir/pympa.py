@@ -39,6 +39,7 @@ from time import perf_counter
 
 import bottleneck as bn
 import numpy as np
+import pandas as pd
 from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
@@ -49,6 +50,18 @@ from obspy.signal.trigger import coincidence_trigger
 
 
 # LIST OF USEFUL FUNCTIONS
+
+def listdays(year,month,day,period):
+    """
+    Function creating a list of days to process
+    """
+    datelist = pd.date_range(pd.datetime(year,month,day), periods=period).tolist()
+    a = list(map(pd.Timestamp.to_pydatetime, datelist))
+    days = []
+    for i in a:
+        days.append(i.strftime("%y%m%d"))
+    return days
+
 
 def read_parameters(par):
     # read 'parameters24' file to setup useful variables
@@ -72,7 +85,7 @@ def read_parameters(par):
         cont_dir = "./" + data[33] + "/"
         temp_dir = "./" + data[34] + "/"
         travel_dir = "./" + data[35] + "/"
-        day_list = str(data[36])
+        dateperiod = data[36].split(" ")
         ev_catalog = str(data[37])
         start_itemp = int(data[38])
         print("starting template = ", start_itemp)
@@ -386,20 +399,15 @@ ncat = len(cat)
 t_start = start_itemp
 t_stop = stop_itemp
 
-# t_start = int(startTemplate)
-# t_stop = int(stopTemplate)
-
-fname = day_list
-
-# array of days is built deleting last line character (/newline)
-# ls -1 command include a newline character at the end
-with open(fname) as fl:
-    days = [line[:-1] for line in fl]
-    print(days)
-
-fl.close()
-
 # loop over days
+
+# generate list of days "
+year = int(dateperiod[0])
+month = int(dateperiod[1])
+day = int(dateperiod[2])
+period = int(dateperiod[3])
+days = listdays(year, month, day, period)
+
 """
 initialise stt as a stream of templates
 and stream_df as a stream of continuous waveforms
