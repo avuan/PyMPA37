@@ -110,7 +110,7 @@ def read_parameters(par):
             cont_dir,
             temp_dir,
             travel_dir,
-            day_list,
+            dateperiod,
             ev_catalog,
             start_itemp,
             stop_itemp,
@@ -380,7 +380,7 @@ start_time = perf_counter()
 [stations, channels, networks, lowpassf,
  highpassf, sample_tol, cc_threshold, nch_min,
  temp_length, utc_prec, cont_dir, temp_dir, travel_dir,
- day_list, ev_catalog, start_itemp, stop_itemp,
+ dateperiod, ev_catalog, start_itemp, stop_itemp,
  factor_thre, stdup, stddown,
  chan_max, nchunk] = read_parameters('parameters24')
 
