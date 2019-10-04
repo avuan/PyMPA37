@@ -33,7 +33,7 @@ def create_day_list(catalog, days_from_par):
     for day in dd:
         gg = day.strftime("%Y") + day.strftime("%m") + day.strftime("%d")
         days_from_catalog += gg
-        print(days, days_from_par)
+        print(days_from_catalog, days_from_par)
     days = list(set(days_from_par).intersection(days_from_catalog))
     print(days)
     return days
