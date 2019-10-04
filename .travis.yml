@@ -56,8 +56,6 @@ install:
   - travis_wait conda create -q -n test-environment python=$PYTHON_VERSION colorama numpy scipy matplotlib obspy pandas flake8 mock coverage bottleneck pyproj
   - source activate test-environment
   - travis_wait pip install pep8-naming pytest pytest-cov pytest-pep8 pytest-xdist coverage codecov Cython
-  - travis_wait /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  - travis_wait brew install gdate
   - pip freeze
   - conda list
   # done installing dependencies
@@ -79,7 +77,7 @@ script:
    - cd ../main.pympa.dir
    - ./pympa.py 
    - cd ../output.process_detections.dir
-   - ./postproc37.sh  
+   - ./process_detections.py
    - cd ../output.verify_detection.dir
    - ./verify_detection.py
    
