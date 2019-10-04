@@ -61,7 +61,7 @@ def read_input_par(trimfile):
     taup_model = str(data[29])
 
     return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
-        tlen_aft, utc_prec, cont_dir, temp_dir, day_list, ev_catalog, \
+        tlen_aft, utc_prec, cont_dir, temp_dir, dateperiod, ev_catalog, \
         start_itemp, stop_itemp, taup_model
 
 
