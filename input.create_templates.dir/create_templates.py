@@ -18,7 +18,7 @@ def listdays(year,month,day,period):
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days_from_par = []
     for i in a:
-        days.append(i.strftime("%y%m%d"))
+        days_from_par.append(i.strftime("%y%m%d"))
     return days_from_par
 
 
