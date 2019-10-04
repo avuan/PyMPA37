@@ -8,8 +8,6 @@ matrix:
       env: PYTHON_VERSION=3.6
     - os: linux
       env: PYTHON_VERSION=3.7
-    - os: linux
-      env: PYTHON_VERSION=3.8
 
     - osx_image: xcode10.1
       env:
@@ -20,9 +18,7 @@ matrix:
     - osx_image: xcode10.1
       env:
         - PYTHON_VERSION=3.7
-    - osx_image: xcode10.1
-      env:
-        - PYTHON_VERSION=3.8
+
 
 sudo: true 
 
