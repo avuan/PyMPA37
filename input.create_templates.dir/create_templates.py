@@ -16,7 +16,7 @@ def listdays(year,month,day,period):
     # create a list of days for scanning by templates
     datelist = pd.date_range(pd.datetime(year,month,day), periods=period).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
-    days = []
+    days_from_par = []
     for i in a:
         days.append(i.strftime("%y%m%d"))
     return days_from_par
