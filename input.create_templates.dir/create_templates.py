@@ -4,6 +4,7 @@
 import numpy as np
 import glob
 import pandas as pd
+import datetime
 from obspy import read
 from obspy import read_inventory, read_events, Stream, Trace
 from obspy.core.utcdatetime import UTCDateTime
@@ -30,10 +31,15 @@ def create_day_list(catalog, days_from_par):
     num_eve = len(catalog)
     dd = [catalog[i].origins[0].time.date for i in range(0, num_eve)]
     dd = list(set(dd))
+
     for day in dd:
-        gg = day.strftime("%Y") + day.strftime("%m") + day.strftime("%d")
-        days_from_catalog += gg
-        print(days_from_catalog, days_from_par)
+        year = str(day.strftime("%y"))
+        month = str(day.strftime("%m"))
+        dday = str(day.strftime("%d"))
+        days_from_catalog += [year + month + dday]
+
+    print(days_from_catalog, days_from_par)
+
     days = list(set(days_from_par).intersection(days_from_catalog))
     print(days)
     return days
