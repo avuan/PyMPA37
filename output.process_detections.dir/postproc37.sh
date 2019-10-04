@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# install GNU date "gdate" before running the script
+# e.g. by calling "brew install coreutils" or "conda install coreutils"
+
 # set start abd stop dates
 start="2009-03-29"
 stop="2009-03-30"
