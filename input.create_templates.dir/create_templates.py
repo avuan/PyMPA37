@@ -19,6 +19,21 @@ def listdays(year,month,day,period):
     days = []
     for i in a:
         days.append(i.strftime("%y%m%d"))
+    return days_from_par
+
+
+def create_day_list(catalog, days_from_par):
+    # creates day list from the intersection between the datepriod input in trim.par and
+    # the template catalog
+    days = []
+    days_from_catalog = []
+    num_eve = len(catalog)
+    dd = [catalog[i].origins[0].time.date for i in range(0, num_eve)]
+    dd = list(set(dd))
+    for day in dd:
+        gg = day.strftime("%Y") + day.strftime("%m") + day.strftime("%d")
+        days_from_catalog += gg
+    days = list(set(days_from_par).intersection(days_from_catalog))
     return days
 
 
@@ -121,7 +136,8 @@ year = int(dateperiod[0])
 month = int(dateperiod[1])
 day = int(dateperiod[2])
 period = int(dateperiod[3])
-days = listdays(year, month, day, period)
+days_from_par = listdays(year, month, day, period)
+days = create_day_list(cat, days_from_par)
 
 for ista in stations:
 
