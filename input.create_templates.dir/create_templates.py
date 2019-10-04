@@ -3,12 +3,23 @@
 #
 import numpy as np
 import glob
+import pandas as pd
 from obspy import read
 from obspy import read_inventory, read_events, Stream, Trace
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
 from obspy.taup.taup_create import build_taup_model
 from obspy.taup.tau import TauPyModel
+
+
+def listdays(year,month,day,period):
+    # create a list of days for scanning by templates
+    datelist = pd.date_range(pd.datetime(year,month,day), periods=period).tolist()
+    a = list(map(pd.Timestamp.to_pydatetime, datelist))
+    days = []
+    for i in a:
+        days.append(i.strftime("%y%m%d"))
+    return days
 
 
 def kilometer2degrees(kilometer, radius=6371):
@@ -43,7 +54,7 @@ def read_input_par(trimfile):
     utc_prec = int(data[22])
     cont_dir = "./" + data[23] + "/"
     temp_dir = "./" + data[24] + "/"
-    day_list = str(data[25])
+    dateperiod = data[25].split(" ")
     ev_catalog = str(data[26])
     start_itemp = int(data[27])
     stop_itemp = int(data[28])
@@ -76,7 +87,7 @@ trimfile = './trim.par'
 # print(lat, lon, elev)
 
 [stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft,
- utc_prec, cont_dir, temp_dir, day_list, ev_catalog, start_itemp, stop_itemp,
+ utc_prec, cont_dir, temp_dir, dateperiod, ev_catalog, start_itemp, stop_itemp,
  taup_model] = read_input_par(trimfile)
 
 # -------
@@ -100,17 +111,17 @@ aa3 = aa2 * 1000000
 st = Stream()
 st1 = Stream()
 st2 = Stream()
-fname = "%s" % day_list
 
-# array of days is built deleting last line character (/newline) ls -1 command
-# include a newline character at the end
-with open(fname) as fl:
-    days = [line[:-1] for line in fl]
-    print(days)
-
-fl.close()
+# create taup model from a tvel model
 tvel = "./" + taup_model + ".tvel"
 build_taup_model(tvel)
+
+# generate list of days to process
+year = int(dateperiod[0])
+month = int(dateperiod[1])
+day = int(dateperiod[2])
+period = int(dateperiod[3])
+days = listdays(year, month, day, period)
 
 for ista in stations:
 
