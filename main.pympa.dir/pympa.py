@@ -52,9 +52,7 @@ from obspy.signal.trigger import coincidence_trigger
 # LIST OF USEFUL FUNCTIONS
 
 def listdays(year,month,day,period):
-    """
-    Function creating a list of days to process
-    """
+    # create a list of days for scanning by templates
     datelist = pd.date_range(pd.datetime(year,month,day), periods=period).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days = []
