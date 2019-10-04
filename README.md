@@ -18,7 +18,7 @@ The software was developed in the framework of a 2013-2015 bilateral project bet
 
 Python installed to run the program (version 2.6 or more) is required [http://python.org]
 Python 3 with Obspy installed (since version 0.10.1) is supported.
-Installing Obspy implies Numpy, Scipy and Matplotlib libraries. For details on installing Obspy, please, consult the [official guide] (https://github.com/obspy/obspy/wiki).
+Installing Obspy implies Numpy, Scipy, Pandas and Matplotlib libraries. For details on installing Obspy, please, consult the [official guide] (https://github.com/obspy/obspy/wiki).
 
 ### References
 Sugan, M., A. Kato, H. Miyake,S. Nakagawa, and A. Vuan (2014), Thepreparatory phase of the 2009Mw6.3 L’Aquila earthquake by improving thedetection capability of low-magnitudeforeshocks,Geophys. Res. Lett.,41,6137–6144, doi:10.1002/2014GL061199.
