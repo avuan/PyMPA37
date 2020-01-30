@@ -53,9 +53,23 @@ def read_input_par(filepar):
     start_itemp = int(data[27])
     stop_itemp = int(data[28])
     taup_model = str(data[29])
-    return stations, channels, networks, lowpassf, highpassf,\
-        tlen_bef, tlen_aft, utc_prec, tempinp_dir, tempout_dir, \
-        day_list, ev_catalog, start_itemp, stop_itemp, taup_model
+    return (
+        stations,
+        channels,
+        networks,
+        lowpassf,
+        highpassf,
+        tlen_bef,
+        tlen_aft,
+        utc_prec,
+        tempinp_dir,
+        tempout_dir,
+        day_list,
+        ev_catalog,
+        start_itemp,
+        stop_itemp,
+        taup_model,
+    )
 
 
 def read_sta_inv(invfile, sta):
@@ -73,11 +87,25 @@ def read_sta_inv(invfile, sta):
     return lat, lon, elev
 
 
-filepar = './times.par'
+filepar = "./times.par"
 
-[stations, channels, networks, lowpassf, highpassf, tlen_bef,
- tlen_aft, utc_prec, tempinp_dir, tempout_dir, day_list, ev_catalog,
- start_itemp, stop_itemp, taup_model] = read_input_par(filepar)
+[
+    stations,
+    channels,
+    networks,
+    lowpassf,
+    highpassf,
+    tlen_bef,
+    tlen_aft,
+    utc_prec,
+    tempinp_dir,
+    tempout_dir,
+    day_list,
+    ev_catalog,
+    start_itemp,
+    stop_itemp,
+    taup_model,
+] = read_input_par(filepar)
 st = Stream()
 tr = Trace()
 
@@ -91,8 +119,7 @@ ncat = len(cat)
 print(cat.__str__(print_all=True))
 
 for iev in range(start_itemp, stop_itemp):
-    inplist = tempinp_dir + str(iev) + ".??" +\
-        "." + "*" + "..???" + "." + "mseed"
+    inplist = tempinp_dir + str(iev) + ".??" + "." + "*" + "..???" + "." + "mseed"
     print("inplist == ...", inplist)
     st.clear()
 
@@ -112,7 +139,7 @@ for iev in range(start_itemp, stop_itemp):
     arrS = np.empty(nst)
     origin_time_shift = np.empty(1)
     fout1 = tempout_dir + str(iev) + ".ttimes"
-    fileout = open(fout1, 'w+')
+    fileout = open(fout1, "w+")
 
     for it, tr in enumerate(st):
         Tshift[it] = tr.stats.starttime - refT
@@ -132,7 +159,7 @@ for iev in range(start_itemp, stop_itemp):
             eve_coord = [lat, lon, dep]
 
             for network in networks:
-                invfile = './inv.' + network
+                invfile = "./inv." + network
                 slat, slon, selev = read_sta_inv(invfile, ref_sta)
                 print(ref_sta, slat, slon, selev)
 
@@ -143,7 +170,6 @@ for iev in range(start_itemp, stop_itemp):
                     print("Warning no data found in ", invfile, " for station", ref_sta)
                     continue
 
-
             eve_lat = eve_coord[0]
             eve_lon = eve_coord[1]
             eve_dep = eve_coord[2]
@@ -153,9 +179,11 @@ for iev in range(start_itemp, stop_itemp):
             epi_dist = epi_dist / 1000
             deg = kilometer2degrees(epi_dist)
             model = TauPyModel(model=taup_model)
-            arrivals = model.get_travel_times(source_depth_in_km=eve_dep,
-                                              distance_in_degree=deg,
-                                              phase_list=["s", "S"])
+            arrivals = model.get_travel_times(
+                source_depth_in_km=eve_dep,
+                distance_in_degree=deg,
+                phase_list=["s", "S"],
+            )
             print(arrivals)
             # arrP = arrivals[0]
             arrS = arrivals[0]
@@ -168,8 +196,16 @@ for iev in range(start_itemp, stop_itemp):
         ssta = tr.stats.station
         schan = tr.stats.channel
         snet = tr.stats.network
-        s1 = str(snet) + "." + str(ssta) + "." + str(schan) + " " +\
-            str(Tshift[ii]) + "\n"
+        s1 = (
+            str(snet)
+            + "."
+            + str(ssta)
+            + "."
+            + str(schan)
+            + " "
+            + str(Tshift[ii])
+            + "\n"
+        )
         fileout.write(s1)
 
     fileout.close()
