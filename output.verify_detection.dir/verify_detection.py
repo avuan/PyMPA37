@@ -17,7 +17,7 @@ from obspy.geodetics import gps2dist_azimuth
 from obspy.taup import TauPyModel
 from obspy.taup.taup_create import build_taup_model
 
-matplotlib.use('agg')
+matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
 
@@ -43,8 +43,8 @@ def calc_timeshift(eve_lat, eve_lon, eve_dep, sta_lat, sta_lon, tlen_bef):
     deg = kilometer2degrees(epi_dist)
     model = TauPyModel(model=taup_model)
     arrivals = model.get_travel_times(
-        source_depth_in_km=eve_dep, distance_in_degree=deg,
-        phase_list=["s", "S"])
+        source_depth_in_km=eve_dep, distance_in_degree=deg, phase_list=["s", "S"]
+    )
     # print(arrivals)
     arrS = arrivals[0]
     # correction to be used to evaluate the start time for the template
@@ -91,10 +91,27 @@ def read_input_par(vfile):
     Flag_Save_Figure = int(data[35])
     Flag_Read_Stats = int(data[36])
     stat_tol = float(data[37])
-    return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
-        tlen_aft, utc_prec, cont_dir, temp_dir, ttimes_dir, ev_catalog,\
-        start_det, stop_det, det_dur, taup_model, Flag_Save_Figure,\
-        Flag_Read_Stats, stat_tol
+    return (
+        stations,
+        channels,
+        networks,
+        lowpassf,
+        highpassf,
+        tlen_bef,
+        tlen_aft,
+        utc_prec,
+        cont_dir,
+        temp_dir,
+        ttimes_dir,
+        ev_catalog,
+        start_det,
+        stop_det,
+        det_dur,
+        taup_model,
+        Flag_Save_Figure,
+        Flag_Read_Stats,
+        stat_tol,
+    )
 
 
 def read_sta_inv(invfiles, sta):
@@ -116,8 +133,7 @@ def read_cat(stats_dir, template_num, yymmdd):
     return ncat
 
 
-def read_stats(stats_dir, template_num, yymmdd,
-               det_ot, ch_name, ch_cmp, stat_tol):
+def read_stats(stats_dir, template_num, yymmdd, det_ot, ch_name, ch_cmp, stat_tol):
     # open input file related to detection
     filestats = "%s%s.%s.stats" % (stats_dir, str(int(template_num)), yymmdd)
     with open(filestats) as file:
@@ -143,8 +159,7 @@ def read_stats(stats_dir, template_num, yymmdd,
     # print(linestop)
     for ii, iline in enumerate(linestop):
         tdetection = UTCDateTime(str(det_ot)).timestamp
-        tdetection_in_stats = UTCDateTime(lines[
-                                int(iline)].split(" ")[3]).timestamp
+        tdetection_in_stats = UTCDateTime(lines[int(iline)].split(" ")[3]).timestamp
         # check difference between detection time in cat and stats files
         tdiff = abs(tdetection - tdetection_in_stats)
         # print("tdiff == ", tdiff)
@@ -152,11 +167,11 @@ def read_stats(stats_dir, template_num, yymmdd,
         if tdiff < stat_tol:
             lstop = iline
             if ii > 0:
-                lstart = linestop[ii-1] + 1
+                lstart = linestop[ii - 1] + 1
     # print("1 lstart, lstop == ", lstart, lstop)
     # read detection lines found between
     # linestart and linestop
-    stat = open(filestats, 'r')
+    stat = open(filestats, "r")
     ifound = 0
 
     for ichan, lstat1 in enumerate(stat):
@@ -164,7 +179,7 @@ def read_stats(stats_dir, template_num, yymmdd,
 
         if ichan >= lstart and ichan < lstop:
             # print("lstat1 == ", lstat1)
-            ch_string = ch_name + ' ' + ch_cmp
+            ch_string = ch_name + " " + ch_cmp
 
             if ch_string in lstat1:
                 ifound = 1
@@ -199,12 +214,16 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
     vv = [x[0] for x in v]
 
     for vvc in vv:
-        n_net = vvc.split('.')[0]
-        n_sta = vvc.split('.')[1]
-        n_chn = vvc.split('.')[2]
-        filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(template_num),
-                                             str(n_net), str(n_sta),
-                                             str(n_chn))
+        n_net = vvc.split(".")[0]
+        n_sta = vvc.split(".")[1]
+        n_chn = vvc.split(".")[2]
+        filename = "%s%s.%s.%s..%s.mseed" % (
+            temp_dir,
+            str(template_num),
+            str(n_net),
+            str(n_sta),
+            str(n_chn),
+        )
         # print(filename)
         st_new += read(filename)
     # print(st_new)
@@ -212,15 +231,31 @@ def sort_stream_for_distance(st, ttimes_dir, temp_dir, template_num):
 
 
 # read input parameters
-vfile = 'verify.par'
-[stations, channels, networks, lowpassf, highpassf,
-    tlen_bef, tlen_aft, utc_prec, cont_dir, temp_dir,
-    ttimes_dir, ev_catalog, start_det, stop_det, det_dur,
-    taup_model, Flag_Save_Figure, Flag_Read_Stats, stat_tol] = \
-    read_input_par(vfile)
+vfile = "verify.par"
+[
+    stations,
+    channels,
+    networks,
+    lowpassf,
+    highpassf,
+    tlen_bef,
+    tlen_aft,
+    utc_prec,
+    cont_dir,
+    temp_dir,
+    ttimes_dir,
+    ev_catalog,
+    start_det,
+    stop_det,
+    det_dur,
+    taup_model,
+    Flag_Save_Figure,
+    Flag_Read_Stats,
+    stat_tol,
+] = read_input_par(vfile)
 
 # generate model for travel times
-gen_model = taup_model + '.tvel'
+gen_model = taup_model + ".tvel"
 build_taup_model(gen_model)
 
 # set inventory files
@@ -279,8 +314,9 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     # read UTCDateTime and other detection parameters
     detection_otime = UTCDateTime(yy, mm, dd, hh, mmn, ss)
     # compute the shift in seconds from the midnight
-    detection_daily_otime = detection_otime.timestamp -\
-        UTCDateTime(yy, mm, dd, 0, 0, 0, 0).timestamp
+    detection_daily_otime = (
+        detection_otime.timestamp - UTCDateTime(yy, mm, dd, 0, 0, 0, 0).timestamp
+    )
     magd = dcmag[detection_num]
     avcc = dcavcc[detection_num]
     thre = dcthre[detection_num]
@@ -309,8 +345,9 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     magt = cat[template_num].magnitudes[0].mag
     # compute the shift in seconds from midnight of the template
     template_otime = UTCDateTime(yyt, mmt, ddt, hht, mint, sst, microsect)
-    template_daily_otime = template_otime.timestamp -\
-        UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
+    template_daily_otime = (
+        template_otime.timestamp - UTCDateTime(yyt, mmt, ddt, 0, 0, 0, 0).timestamp
+    )
     # print("yyt, mmt, ddt, hht, mint, sst, microsect == ", yyt, mmt,
     #       ddt, hht, mint, sst, microsect)
     # print("detection_daily_otime, template_daily_otime == ",
@@ -341,8 +378,17 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         for station in stations:
 
             for channel in channels:
-                file = temp_dir + stemp_num + '.' + network + '.' + station +\
-                       '..' + channel + '.mseed'
+                file = (
+                    temp_dir
+                    + stemp_num
+                    + "."
+                    + network
+                    + "."
+                    + station
+                    + ".."
+                    + channel
+                    + ".mseed"
+                )
 
                 if os.path.isfile(file):
                     st_temp += read(file)
@@ -351,7 +397,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     for tt in st_temp:
         station = tt.stats.station
         channel = tt.stats.channel
-        file1 = cont_dir + sday + '.' + station + '.' + channel
+        file1 = cont_dir + sday + "." + station + "." + channel
         # print(" file1 ===", file1)
         if os.path.isfile(file1):
             st_cont += read(file1)
@@ -359,8 +405,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             # remove from the template stream if continuous not exists
             st_temp.remove(tt)
 
-    st_cont.filter('bandpass', freqmin=bandpass[0], freqmax=bandpass[1],
-                   zerophase=True)
+    st_cont.filter("bandpass", freqmin=bandpass[0], freqmax=bandpass[1], zerophase=True)
 
     # define variables
     # st1_temp = st_temp.select(channel=channel[0])
@@ -378,8 +423,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     plt.rcParams["figure.figsize"] = [9, 16]
     jf, axarray = plt.subplots(npanels, sharex=True)
     count = 0
-    st_temp_new = sort_stream_for_distance(st_temp, ttimes_dir, temp_dir,
-                                           template_num)
+    st_temp_new = sort_stream_for_distance(st_temp, ttimes_dir, temp_dir, template_num)
 
     for it, tt in enumerate(st_temp_new):
         count = count + 1
@@ -392,20 +436,25 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
 
         if Flag_Read_Stats == 1:
             # compute shift from the origin time
-            stats_dir = './'
-            ch_name = tt.stats.network + '.' + sstat
+            stats_dir = "./"
+            ch_name = tt.stats.network + "." + sstat
             ch_cmp = tt.stats.channel
             [ch_id, ch_cmp, ch_ccros, ch_nsamp] = read_stats(
-                stats_dir, str(template_num), sday, detection_otime,
-                ch_name, ch_cmp, stat_tol)
+                stats_dir,
+                str(template_num),
+                sday,
+                detection_otime,
+                ch_name,
+                ch_cmp,
+                stat_tol,
+            )
             # print("ch_ccros, ch_nsamp == ", ch_ccros, ch_nsamp)
             # print("tt.stats.delta = ", tt.stats.delta)
 
             if ch_id != "None":
                 time_shift = float(ch_nsamp) * tt.stats.delta
 
-        [ori, dist] = calc_timeshift(eve_lat, eve_lon, eve_dep, slat,
-                                     slon, tlen_bef)
+        [ori, dist] = calc_timeshift(eve_lat, eve_lon, eve_dep, slat, slon, tlen_bef)
         # print("ori == ", ori)
 
         if Flag_Read_Stats == 1 and ch_id != "None":
@@ -424,9 +473,13 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             # print(st1_cont.__str__(extended=True))
             tc = st1_cont[0]
             # print("Trace Id.i= ", st1_cont[0])
-            tc.trim(starttime=UTCDateTime(detection_otime),
-                    endtime=UTCDateTime(detection_otime) + 2 * det_dur,
-                    pad=True, nearest_sample=True, fill_value=0)
+            tc.trim(
+                starttime=UTCDateTime(detection_otime),
+                endtime=UTCDateTime(detection_otime) + 2 * det_dur,
+                pad=True,
+                nearest_sample=True,
+                fill_value=0,
+            )
             # print("tc.stats.starttime == ", tc.stats.starttime)
             # print("detection_otime == ", UTCDateTime(detection_otime))
 
@@ -462,32 +515,39 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             tlen = UTCDateTime(detection_otime).timestamp
 
             # plot tc and tt data
-            tad = np.arange(0, (tt.stats.npts / tt.stats.sampling_rate),
-                            tt.stats.delta)
+            tad = np.arange(0, (tt.stats.npts / tt.stats.sampling_rate), tt.stats.delta)
             # print(tad, tad + ori)
-            t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate,
-                          tc.stats.delta)
+            t = np.arange(0, tc.stats.npts / tc.stats.sampling_rate, tc.stats.delta)
             # axarray[count - 1].plot(t, tc.data, 'k', lw=0.8, zorder=5)
-            axarray[count - 1].plot(tad + ori, amaxmul * tt.data, 'r', lw=1.5)
-            axarray[count - 1].plot(t, tc.data, 'k', lw=1.0)
-            axarray[count - 1].text(det_dur * 1.25, 0.45 * magg,
-                                    smagd, fontsize=8, color='k')
+            axarray[count - 1].plot(tad + ori, amaxmul * tt.data, "r", lw=1.5)
+            axarray[count - 1].plot(t, tc.data, "k", lw=1.0)
+            axarray[count - 1].text(
+                det_dur * 1.25, 0.45 * magg, smagd, fontsize=8, color="k"
+            )
             if Flag_Read_Stats == 1 and ch_ccros != "None":
-                axarray[count - 1].text(det_dur * 1.85, 0.45 * magg,
-                                        'ch_cc = ' + ch_ccros[0:5],
-                                        fontsize=13, color='k')
+                axarray[count - 1].text(
+                    det_dur * 1.85,
+                    0.45 * magg,
+                    "ch_cc = " + ch_ccros[0:5],
+                    fontsize=13,
+                    color="k",
+                )
             elif Flag_Read_Stats == 0:
-                axarray[count - 1].text(det_dur * 1.85, 0.45 * magg,
-                                        'avcc = ' + str(avcc)[0:5],
-                                        fontsize=12)
+                axarray[count - 1].text(
+                    det_dur * 1.85, 0.45 * magg, "avcc = " + str(avcc)[0:5], fontsize=12
+                )
             # axarray[count - 1].text(det_dur * 1.45, 0.55 * magg,
             #                         'av_ch_cc/MAD= ' + str(thre)[0:4],
             #                         fontsize=10)
             # axarray[count - 1].text(det_dur, 0.65 * magg, 'template_num=' +
             #                         str(template_num), fontsize=10)
-            axarray[count - 1].text(det_dur * -0.05, 0.45 * magg,
-                                    tc.stats.station + '.' +
-                                    tc.stats.channel, fontsize=13, color='k')
+            axarray[count - 1].text(
+                det_dur * -0.05,
+                0.45 * magg,
+                tc.stats.station + "." + tc.stats.channel,
+                fontsize=13,
+                color="k",
+            )
             # print("det_dur, magg == ", det_dur, magg)
 
             # uncomment 2 lines below to display template and detection time
@@ -497,25 +557,31 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             #    'detection_time=' + str(detection_otime), fontsize=11)
 
             on_of = ori + tlen_bef
-            axarray[count - 1].axvline(on_of, color='b',
-                                       linewidth=1.8, linestyle='--')
+            axarray[count - 1].axvline(on_of, color="b", linewidth=1.8, linestyle="--")
             if count == 1:
-                axarray[count - 1].text(det_dur * 0.05, 1.8 * magg,
-                                        'N = ' + str(detection_num) +
-                                        ', ' + 'Template = ' + str(
-                                            template_num) + ', DateTime = ' +
-                                        str(detection_otime) +
-                                        ' av_ch_cc/MAD = ' + str(thre)[0:4],
-                                        fontsize=14, color='k')
+                axarray[count - 1].text(
+                    det_dur * 0.05,
+                    1.8 * magg,
+                    "N = "
+                    + str(detection_num)
+                    + ", "
+                    + "Template = "
+                    + str(template_num)
+                    + ", DateTime = "
+                    + str(detection_otime)
+                    + " av_ch_cc/MAD = "
+                    + str(thre)[0:4],
+                    fontsize=14,
+                    color="k",
+                )
             # print("det_dur, magg == ", det_dur, magg)
 
-            plt.xlabel('Time [s]')
+            plt.xlabel("Time [s]")
 
             on_of = ori + tlen_bef
-            axarray[count - 1].axvline(on_of, color='b',
-                                       linewidth=1.8, linestyle='--')
+            axarray[count - 1].axvline(on_of, color="b", linewidth=1.8, linestyle="--")
             if count < npanels:
-                axarray[count - 1].axis('off')
+                axarray[count - 1].axis("off")
             else:
                 plt.box(False)
                 axarray[count - 1].axes.get_yaxis().set_visible(False)
@@ -527,7 +593,8 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
         fig = plt.gcf()
         fig.set_size_inches(12, 16)
         # print "sfig===", sfig
-        outfile = sday + "." + str(detection_num) +\
-            "." + str(template_num).zfill(3) + ".png"
+        outfile = (
+            sday + "." + str(detection_num) + "." + str(template_num).zfill(3) + ".png"
+        )
         fig.savefig(outfile, dpi=300)
         fig.clf()

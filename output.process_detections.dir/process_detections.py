@@ -20,7 +20,7 @@ cat = read_events("templates.zmap", format="ZMAP")
 # read 'filter.par' file to setup useful variables
 # ppp
 
-with open('filter.par') as fp:
+with open("filter.par") as fp:
     data = fp.read().splitlines()
 
 FlagDateTime = int(data[7])
@@ -77,7 +77,7 @@ nch = np.empty(num_lines)
 # read daily catalog as an output from running all templates on a
 # one day coninuous data
 #
-f = open(fileinp, 'r')
+f = open(fileinp, "r")
 
 for ind, line in enumerate(f):
     line = line.strip()
@@ -169,7 +169,7 @@ for it, tt in enumerate(times):
 detections = np.unique(det.decode())
 nu = len(detections)
 print(" detections are reduced to == ", nu)
-outfile = open(fileinp + "f1", 'w+')
+outfile = open(fileinp + "f1", "w+")
 
 for iu in detections:
     # print(iu)
@@ -196,7 +196,7 @@ t_nch = np.empty(num_lines1)
 # read daily catalog as an output from running all templates
 # on a one day continuous data
 #
-f1 = open(fileinp1, 'r')
+f1 = open(fileinp1, "r")
 
 for ind1, line in enumerate(f1):
     line = line.strip()
@@ -235,7 +235,7 @@ for irr, jj in enumerate(ireorder):
     t_sumr[irr] = t_sum[jj]
     t_nchr[irr] = t_nch[jj]
 
-outfile1 = open(fileinp1 + "f2", 'w+')
+outfile1 = open(fileinp1 + "f2", "w+")
 
 for iu, ti in enumerate(t_timr):
     ttmini[iu] = ti - window_length
@@ -246,8 +246,7 @@ for iu, ti in enumerate(t_timr):
         # print("ttmini, ttmaxi ===", UTCDateTime(ttmini[iu]),
         # UTCDateTime(ttmaxi[iu]))
         # find events in a 5 seconds window for each ttmin-ttmax window
-        indeces1 = np.where(np.logical_and(t_timr >=
-                                           ttmini[iu], t_timr <= ttmaxi[iu]))
+        indeces1 = np.where(np.logical_and(t_timr >= ttmini[iu], t_timr <= ttmaxi[iu]))
 
         # find the maximum ccmad and the corresponding
         # "index" between indeces of events that are within a time interval
@@ -268,12 +267,25 @@ for iu, ti in enumerate(t_timr):
         precision = 10 ** utc_prec
         tmicro = UTCDateTime(t_timr[ie]).microsecond / precision
         tmicro = UTCDateTime(t_timr[ie]).microsecond
-        print("tsecond, tmicro == ", tsecond, tmicro,
-              UTCDateTime(t_timr[ie]).microsecond)
+        print(
+            "tsecond, tmicro == ", tsecond, tmicro, UTCDateTime(t_timr[ie]).microsecond
+        )
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
-        stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " "\
-            + str(th) + " " + str(tminute) + " " + str(
-            tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
+        stringtime = (
+            str(ty)
+            + " "
+            + str(tmm)
+            + " "
+            + str(td)
+            + " "
+            + str(th)
+            + " "
+            + str(tminute)
+            + " "
+            + str(tsecond)
+            + "."
+            + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
+        )
         # stringtime=str(ty) + " " + str(tmm) + " " +
         # str(td) + " " + str(th) + " " + str(tminute) + " "
         # + str(tsecond) + "." + str(tmicro)
@@ -284,14 +296,36 @@ for iu, ti in enumerate(t_timr):
                 lon = cat[int(t_numr[ie])].origins[0].longitude
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
-                sf = stringtime + " " + str(t_magr[ie]) + " " +\
-                    str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
-                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
-                    " " + str(dep) + " " + str(t_nchr[ie])
+                sf = (
+                    stringtime
+                    + " "
+                    + str(t_magr[ie])
+                    + " "
+                    + str(t_aver[ie])
+                    + " "
+                    + str(t_sumr[ie])
+                    + " "
+                    + str(int(t_numr[ie]))
+                    + " "
+                    + str(lat)
+                    + " "
+                    + str(lon)
+                    + " "
+                    + str(dep)
+                    + " "
+                    + str(t_nchr[ie])
+                )
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
-                sf = str(t_timr[ie]) + " " + str(t_magr[ie]) + " " +\
-                    str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                sf = (
+                    str(t_timr[ie])
+                    + " "
+                    + str(t_magr[ie])
+                    + " "
+                    + str(t_sumr[ie])
+                    + " "
+                    + str(t_nchr[ie])
+                )
 
             outfile1.write(sf + "\n")
 
@@ -299,8 +333,7 @@ for iu, ti in enumerate(t_timr):
         # print("ttmini, ttmaxi ===", UTCDateTime(ttmini[iu]),
         # UTCDateTime(ttmaxi[iu]))
         # find events in a 5 seconds window for each ttmin-ttmax window
-        indeces1 = np.where(np.logical_and(t_timr >= ttmini[iu],
-                                           t_timr <= ttmaxi[iu]))
+        indeces1 = np.where(np.logical_and(t_timr >= ttmini[iu], t_timr <= ttmaxi[iu]))
 
         # find the maximum ccmad and the corresponding
         # "index" between indeces of events that are within a time interval
@@ -319,12 +352,25 @@ for iu, ti in enumerate(t_timr):
         tsecond = UTCDateTime(t_timr[ie]).second
         tmicro = UTCDateTime(t_timr[ie]).microsecond / precision
         tmicro = UTCDateTime(t_timr[ie]).microsecond
-        print("tsecond, tmicro == ", tsecond, tmicro, UTCDateTime(
-            t_timr[ie]).microsecond)
+        print(
+            "tsecond, tmicro == ", tsecond, tmicro, UTCDateTime(t_timr[ie]).microsecond
+        )
         correctTime = UTCDateTime(int(ty), int(tmm), int(td)).timestamp
-        stringtime = str(ty) + " " + str(tmm) + " " + str(td) + " " +\
-            str(th) + " " + str(tminute) + " " + str(
-            tsecond) + "." + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
+        stringtime = (
+            str(ty)
+            + " "
+            + str(tmm)
+            + " "
+            + str(td)
+            + " "
+            + str(th)
+            + " "
+            + str(tminute)
+            + " "
+            + str(tsecond)
+            + "."
+            + str(tmicro).zfill(UTCDateTime.DEFAULT_PRECISION)
+        )
         # stringtime=str(ty) + " " + str(tmm) + " " + str(td) + " " +
         # str(th) + " " + str(tminute) + " " + str(tsecond) + "." +
         # str(tmicro)
@@ -335,19 +381,44 @@ for iu, ti in enumerate(t_timr):
                 lon = cat[int(t_numr[ie])].origins[0].longitude
                 lat = cat[int(t_numr[ie])].origins[0].latitude
                 dep = cat[int(t_numr[ie])].origins[0].depth / 1000
-                sf = stringtime + " " + str(t_magr[ie]) + " " +\
-                    str(t_aver[ie]) + " " + str(t_sumr[ie]) + " " + str(
-                    int(t_numr[ie])) + " " + str(lat) + " " + str(lon) +\
-                    " " + str(dep) + " " + str(t_nchr[ie])
+                sf = (
+                    stringtime
+                    + " "
+                    + str(t_magr[ie])
+                    + " "
+                    + str(t_aver[ie])
+                    + " "
+                    + str(t_sumr[ie])
+                    + " "
+                    + str(int(t_numr[ie]))
+                    + " "
+                    + str(lat)
+                    + " "
+                    + str(lon)
+                    + " "
+                    + str(dep)
+                    + " "
+                    + str(t_nchr[ie])
+                )
             else:
                 t_timr[ie] = t_timr[ie] - correctTime
-                sf = str(t_timr[ie]) + " " + str(t_magr[ie]) +\
-                    " " + str(t_sumr[ie]) + " " + str(t_nchr[ie])
+                sf = (
+                    str(t_timr[ie])
+                    + " "
+                    + str(t_magr[ie])
+                    + " "
+                    + str(t_sumr[ie])
+                    + " "
+                    + str(t_nchr[ie])
+                )
 
             outfile1.write(sf + "\n")
 
     elif iu > 0 and ti < ttmaxi[iu - 1]:
-        print("iur<0 ttmini, ttmaxi >===", UTCDateTime(ttmini[iu]),
-              UTCDateTime(ttmaxi[iu]))
+        print(
+            "iur<0 ttmini, ttmaxi >===",
+            UTCDateTime(ttmini[iu]),
+            UTCDateTime(ttmaxi[iu]),
+        )
 
 outfile1.close()

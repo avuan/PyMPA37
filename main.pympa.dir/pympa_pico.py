@@ -41,10 +41,12 @@ from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
 from obspy.signal.trigger import coincidence_trigger
+
 # from obspy.signal.cross_correlation import correlate_template
 
 
 # LIST OF USEFUL FUNCTIONS
+
 
 def read_parameters(par):
     # read 'parameters24' file to setup useful variables
@@ -102,7 +104,7 @@ def read_parameters(par):
             stddown,
             chan_max,
             nchunk,
-            )
+        )
 
 
 def trim_fill(tc, t1, t2):
@@ -122,10 +124,10 @@ def xcorr(x, y):
     meany = np.nanmean(y)
     stdy = np.nanstd(np.asarray(y))
     tmp = rolling_window(x, m)
-    with np.errstate(divide='ignore'):
-        c = bn.nansum((y - meany) * (
-            tmp - np.reshape(bn.nanmean(tmp, -1), (n - m + 1, 1))), -1) / (
-                m * bn.nanstd(tmp, -1) * stdy)
+    with np.errstate(divide="ignore"):
+        c = bn.nansum(
+            (y - meany) * (tmp - np.reshape(bn.nanmean(tmp, -1), (n - m + 1, 1))), -1
+        ) / (m * bn.nanstd(tmp, -1) * stdy)
         c[m * bn.nanstd(tmp, -1) * stdy == 0] = 0
         return c
 
@@ -152,14 +154,16 @@ def process_input(itemp, nn, ss, ich, stream_df):
                     tc = sc[0]
                     fct = xcorr(tc.data, tt.data)
                     # fct = correlate_template(tc.data, tt.data)
-                    stats = {'network': tc.stats.network,
-                             'station': tc.stats.station,
-                             'location': '',
-                             'channel': tc.stats.channel,
-                             'starttime': tc.stats.starttime,
-                             'npts': len(fct),
-                             'sampling_rate': tc.stats.sampling_rate,
-                             'mseed': {'dataquality': 'D'}}
+                    stats = {
+                        "network": tc.stats.network,
+                        "station": tc.stats.station,
+                        "location": "",
+                        "channel": tc.stats.channel,
+                        "starttime": tc.stats.starttime,
+                        "npts": len(fct),
+                        "sampling_rate": tc.stats.sampling_rate,
+                        "mseed": {"dataquality": "D"},
+                    }
                     trnew = Trace(data=fct, header=stats)
                     tc = trnew.copy()
                     st_cft = Stream(traces=[tc])
@@ -194,7 +198,7 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
 
     for jtr, tr in enumerate(stall):
 
-        if (std_trac[jtr] >= avestdup or std_trac[jtr] <= avestddw):
+        if std_trac[jtr] >= avestdup or std_trac[jtr] <= avestddw:
             stall.remove(tr)
             print("removed Trace n Stream = ...", tr, std_trac[jtr], avestd)
             td[jtr] = 99.99
@@ -215,9 +219,14 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
         sta = "STACK"
         cha = "BH"
         net = "XX"
-        header = {'network': net, 'station': sta,
-                  'channel': cha, 'starttime': tstart,
-                  'sampling_rate': df, 'npts': npts}
+        header = {
+            "network": net,
+            "station": sta,
+            "channel": cha,
+            "starttime": tstart,
+            "sampling_rate": df,
+            "npts": npts,
+        }
         tt = Trace(data=tdat, header=header)
 
     else:
@@ -225,16 +234,22 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
         sta = "STACK"
         cha = "BH"
         net = "XX"
-        header = {'network': net, 'station': sta,
-                  'channel': cha, 'starttime': tstart,
-                  'sampling_rate': df, 'npts': npts}
+        header = {
+            "network": net,
+            "station": sta,
+            "channel": cha,
+            "starttime": tstart,
+            "sampling_rate": df,
+            "npts": npts,
+        }
         tt = Trace(data=np.zeros(npts), header=header)
 
     return tt, tdifmin
 
 
-def csc(stall, stcc, trg, tstda, sample_tol,
-        cc_threshold, nch_min, day, itemp, itrig, f1):
+def csc(
+    stall, stcc, trg, tstda, sample_tol, cc_threshold, nch_min, day, itemp, itrig, f1
+):
     """
     The function check_singlechannelcft compute the maximum CFT's
     values at each trigger time and counts the number of channels
@@ -247,7 +262,7 @@ def csc(stall, stcc, trg, tstda, sample_tol,
     sample_tolerance = sample_tol
     single_channelcft = cc_threshold
     #
-    trigger_time = trg['time']
+    trigger_time = trg["time"]
     tcft = stcc[0]
     t0_tcft = tcft.stats.starttime
     trigger_shift = trigger_time.timestamp - t0_tcft.timestamp
@@ -262,8 +277,9 @@ def csc(stall, stcc, trg, tstda, sample_tol,
         # get cft amplitude value at corresponding trigger and store it in
         # check for possible 2 sample shift and eventually change
         # trg['cft_peaks']
-        chan_sct[icft] = tsc.stats.network + "." + \
-                         tsc.stats.station + " " + tsc.stats.channel
+        chan_sct[icft] = (
+            tsc.stats.network + "." + tsc.stats.station + " " + tsc.stats.channel
+        )
         tmp0 = trigger_sample - sample_tolerance
 
         if tmp0 < 0:
@@ -272,7 +288,7 @@ def csc(stall, stcc, trg, tstda, sample_tol,
         max_sct[icft] = max(tsc.data[tmp0:tmp1])
         max_ind[icft] = np.nanargmax(tsc.data[tmp0:tmp1])
         max_ind[icft] = sample_tolerance - max_ind[icft]
-        max_trg[icft] = tsc.data[trigger_sample:trigger_sample + 1]
+        max_trg[icft] = tsc.data[trigger_sample : trigger_sample + 1]
     nch = (max_sct > single_channelcft).sum()
 
     if nch >= nch_min:
@@ -298,8 +314,11 @@ def csc(stall, stcc, trg, tstda, sample_tol,
 
         for idchan in range(0, len(max_sct)):
             str22 = "%s %s %s %s \n" % (
-                chan_sct[idchan].decode(), max_trg[
-                    idchan], max_sct[idchan], max_ind[idchan])
+                chan_sct[idchan].decode(),
+                max_trg[idchan],
+                max_sct[idchan],
+                max_ind[idchan],
+            )
             f1.write(str22)
 
     else:
@@ -328,7 +347,7 @@ def mag_detect(magt, amaxt, amaxd):
     return magd
 
 
-def reject_moutliers(data, m=1.):
+def reject_moutliers(data, m=1.0):
     nonzeroind = np.nonzero(data)[0]
     nzlen = len(nonzeroind)
     # print("nonzeroind ==", nonzeroind)
@@ -361,12 +380,30 @@ def mad(dmad):
 start_time = time.clock()
 # read 'parameters24' file to setup useful variables
 
-[stations, channels, networks, lowpassf,
- highpassf, sample_tol, cc_threshold, nch_min,
- temp_length, utc_prec, cont_dir, temp_dir, travel_dir,
- day_list, ev_catalog, start_itemp, stop_itemp,
- factor_thre, stdup, stddown,
- chan_max, nchunk] = read_parameters('parameters24')
+[
+    stations,
+    channels,
+    networks,
+    lowpassf,
+    highpassf,
+    sample_tol,
+    cc_threshold,
+    nch_min,
+    temp_length,
+    utc_prec,
+    cont_dir,
+    temp_dir,
+    travel_dir,
+    day_list,
+    ev_catalog,
+    start_itemp,
+    stop_itemp,
+    factor_thre,
+    stdup,
+    stddown,
+    chan_max,
+    nchunk,
+] = read_parameters("parameters24")
 
 # set time precision for UTCDATETIME
 UTCDateTime.DEFAULT_PRECISION = utc_prec
@@ -379,7 +416,7 @@ ncat = len(cat)
 # read template from standard input
 startTemplate = input("INPUT: Enter Starting template ")
 stopTemplate = input("INPUT: Enter Ending template ")
-print("OUTPUT: Running from template", startTemplate,  " to ", stopTemplate)
+print("OUTPUT: Running from template", startTemplate, " to ", stopTemplate)
 # t_start = start_itemp
 # t_stop = stop_itemp
 
@@ -426,17 +463,17 @@ for day in days:
         stt.clear()
         # open file containing detections
         fout = "%s.%s.cat" % (str(itemp), day[0:6])
-        f = open(fout, 'w+')
+        f = open(fout, "w+")
         print("itemp == ...", str(itemp))
         # open statistics file for each detection
         fout1 = "%s.%s.stats" % (str(itemp), day[0:6])
-        f1 = open(fout1, 'w+')
+        f1 = open(fout1, "w+")
         # open file including magnitude information
         fout2 = "%s.%s.stats.mag" % (str(itemp), day[0:6])
-        f2 = open(fout2, 'w+')
+        f2 = open(fout2, "w+")
         # open file listing exceptions
         fout3 = "%s.%s.except" % (str(itemp), day[0:6])
-        f3 = open(fout3, 'w+')
+        f3 = open(fout3, "w+")
 
         ot = cat[itemp].origins[0].time
         mt = cat[itemp].magnitudes[0].mag
@@ -458,12 +495,16 @@ for day in days:
         vv = [x[0] for x in v]
 
         for vvc in vv:
-            n_net = vvc.split('.')[0]
-            n_sta = vvc.split('.')[1]
-            n_chn = vvc.split('.')[2]
-            filename = "%s%s.%s.%s..%s.mseed" % (temp_dir, str(itemp),
-                                                 str(n_net), str(n_sta),
-                                                 str(n_chn))
+            n_net = vvc.split(".")[0]
+            n_sta = vvc.split(".")[1]
+            n_chn = vvc.split(".")[2]
+            filename = "%s%s.%s.%s..%s.mseed" % (
+                temp_dir,
+                str(itemp),
+                str(n_net),
+                str(n_sta),
+                str(n_chn),
+            )
             print(filename)
             stt += read(filename)
 
@@ -489,9 +530,12 @@ for day in days:
                 print(t1, t2)
                 stream_df.clear()
                 for tr in stt:
-                    finpc1 = "%s%s.%s.%s" % (cont_dir, str(day),
-                                             str(tr.stats.station),
-                                             str(tr.stats.channel))
+                    finpc1 = "%s%s.%s.%s" % (
+                        cont_dir,
+                        str(day),
+                        str(tr.stats.station),
+                        str(tr.stats.channel),
+                    )
 
                     if os.path.exists(finpc1) and os.path.getsize(finpc1) > 0:
 
@@ -503,11 +547,15 @@ for day in days:
                                 tc = st[0]
                                 stat = tc.stats.station
                                 chan = tc.stats.channel
-                                tc.detrend('constant')
+                                tc.detrend("constant")
                                 # 24h continuous trace starts 00 h 00 m 00.0s
                                 trim_fill(tc, t1, t2)
-                                tc.filter("bandpass", freqmin=bandpass[0],
-                                          freqmax=bandpass[1], zerophase=True)
+                                tc.filter(
+                                    "bandpass",
+                                    freqmin=bandpass[0],
+                                    freqmax=bandpass[1],
+                                    zerophase=True,
+                                )
                                 # store detrended and filtered continuous data
                                 # in a Stream
                                 stream_df += Stream(traces=[tc])
@@ -550,8 +598,7 @@ for day in days:
                     time_values = [float(v) for v in d.values()]
                     min_time_value = min(time_values)
                     # print("min_time_value == ", min_time_value)
-                    min_time_key = [k for k, v in d.items()
-                                    if v == str(min_time_value)]
+                    min_time_key = [k for k, v in d.items() if v == str(min_time_value)]
                     # print("key, mintime == ", min_time_key, min_time_value)
 
                     # clear global_variable
@@ -563,8 +610,9 @@ for day in days:
                         for ss in stations:
 
                             for ich in channels:
-                                stream_cft += process_input(itemp, nn, ss,
-                                                            ich, stream_df)
+                                stream_cft += process_input(
+                                    itemp, nn, ss, ich, stream_df
+                                )
 
                     stall.clear()
                     stcc.clear()
@@ -602,13 +650,16 @@ for day in days:
                         # S-wave travel time
                         secs = (h24 / nchunk) + 60
                         tend[idx] = tstart[idx] + secs
-                        check_npts = (tend[idx] -
-                                      tstart[idx]) / tc_cft.stats.delta
+                        check_npts = (tend[idx] - tstart[idx]) / tc_cft.stats.delta
                         ts = UTCDateTime(tstart[idx], precision=utc_prec)
                         te = UTCDateTime(tend[idx], precision=utc_prec)
                         stall += tc_cft.trim(
-                            starttime=ts, endtime=te,
-                            nearest_sample=True, pad=True, fill_value=0)
+                            starttime=ts,
+                            endtime=te,
+                            nearest_sample=True,
+                            pad=True,
+                            fill_value=0,
+                        )
                     tstart = min([tr.stats.starttime for tr in stall])
                     df = stall[0].stats.sampling_rate
                     npts = stall[0].stats.npts
@@ -616,9 +667,9 @@ for day in days:
                     # compute mean cross correlation from the stack of
                     # CFTs (see stack function)
 
-                    ccmad, tdifmin = stack(stall, df,
-                                           tstart, npts, stdup, stddown,
-                                           nch_min)
+                    ccmad, tdifmin = stack(
+                        stall, df, tstart, npts, stdup, stddown, nch_min
+                    )
                     print("tdifmin == ", tdifmin)
 
                     if tdifmin is not None:
@@ -626,7 +677,7 @@ for day in days:
                         tstda = mad(ccmad.data)
 
                         # define threshold as 9 times std  and quality index
-                        thresholdd = (factor_thre * tstda)
+                        thresholdd = factor_thre * tstda
 
                         # Trace ccmad is stored in a Stream
                         stcc = Stream(traces=[ccmad])
@@ -642,12 +693,17 @@ for day in days:
                         similarity_thresholds = {"BH": thr_on}
                         trigger_type = None
                         triglist = coincidence_trigger(
-                            trigger_type, thr_on, thr_off,
-                            stcc, thr_coincidence_sum,
+                            trigger_type,
+                            thr_on,
+                            thr_off,
+                            stcc,
+                            thr_coincidence_sum,
                             trace_ids=None,
                             similarity_thresholds=similarity_thresholds,
                             delete_long_trigger=False,
-                            trigger_off_extension=3.0, details=True)
+                            trigger_off_extension=3.0,
+                            details=True,
+                        )
                         ntrig = len(triglist)
 
                         tt = np.empty(ntrig)
@@ -671,24 +727,40 @@ for day in days:
                             #
 
                             if tdifmin == min_time_value:
-                                tt[itrig] = trg['time'] + min_time_value
+                                tt[itrig] = trg["time"] + min_time_value
 
                             elif tdifmin != min_time_value:
                                 diff_time = min_time_value - tdifmin
-                                tt[itrig] = trg['time'] + diff_time + \
-                                    min_time_value
+                                tt[itrig] = trg["time"] + diff_time + min_time_value
 
-                            cs[itrig] = trg['coincidence_sum']
-                            cft_ave[itrig] = trg['cft_peak_wmean']
-                            crt[itrig] = trg['cft_peaks'][0] / tstda
+                            cs[itrig] = trg["coincidence_sum"]
+                            cft_ave[itrig] = trg["cft_peak_wmean"]
+                            crt[itrig] = trg["cft_peaks"][0] / tstda
                             # traceID = trg['trace_ids']
                             # check single channel CFT
-                            [nch[itrig], cft_ave[itrig], crt[itrig],
-                             cft_ave_trg[itrig], crt_trg[itrig], nch3[itrig],
-                             nch5[itrig], nch7[itrig], nch9[itrig]] = \
-                                csc(stall, stcc, trg, tstda, sample_tol,
-                                    cc_threshold, nch_min, day, itemp,
-                                    itrig, f1)
+                            [
+                                nch[itrig],
+                                cft_ave[itrig],
+                                crt[itrig],
+                                cft_ave_trg[itrig],
+                                crt_trg[itrig],
+                                nch3[itrig],
+                                nch5[itrig],
+                                nch7[itrig],
+                                nch9[itrig],
+                            ] = csc(
+                                stall,
+                                stcc,
+                                trg,
+                                tstda,
+                                sample_tol,
+                                cc_threshold,
+                                nch_min,
+                                day,
+                                itemp,
+                                itrig,
+                                f1,
+                            )
 
                             if int(nch[itrig]) >= nch_min:
                                 nn = len(stream_df)
@@ -710,31 +782,33 @@ for day in days:
                                     ich = tc.stats.channel
                                     netwk = tc.stats.network
 
-                                    if stt.select(station=ss,
-                                                  channel=ich).__nonzero__():
-                                        ttt = stt.select(station=ss,
-                                                         channel=ich)[0]
+                                    if stt.select(
+                                        station=ss, channel=ich
+                                    ).__nonzero__():
+                                        ttt = stt.select(station=ss, channel=ich)[0]
                                         s = "%s.%s.%s" % (netwk, ss, ich)
                                         # print " s ==", s
-                                        uts = UTCDateTime(
-                                            ttt.stats.starttime).timestamp
+                                        uts = UTCDateTime(ttt.stats.starttime).timestamp
                                         utr = UTCDateTime(reft).timestamp
                                         if tdifmin < 0:
-                                            timestart = timex + \
-                                                        abs(tdifmin) + \
-                                                        (uts - utr)
+                                            timestart = (
+                                                timex + abs(tdifmin) + (uts - utr)
+                                            )
 
                                         elif tdifmin > 0:
-                                            timestart = timex - \
-                                                        abs(tdifmin) + \
-                                                        (uts - utr)
+                                            timestart = (
+                                                timex - abs(tdifmin) + (uts - utr)
+                                            )
 
                                         timend = timestart + temp_length
                                         ta = Trace()
                                         ta = tc.copy()
-                                        ta.trim(starttime=timestart,
-                                                endtime=timend,
-                                                pad=True, fill_value=0)
+                                        ta.trim(
+                                            starttime=timestart,
+                                            endtime=timend,
+                                            pad=True,
+                                            fill_value=0,
+                                        )
                                         amaxac[il] = max(abs(ta.data))
                                         tid_c = "%s.%s" % (ss, ich)
                                         damaxac[tid_c] = float(amaxac[il])
@@ -742,38 +816,40 @@ for day in days:
                                         dtt = damaxat[tid_c]
                                         if dct != 0 and dtt != 0:
                                             md[il] = mag_detect(
-                                                mt, damaxat[tid_c],
-                                                damaxac[tid_c])
+                                                mt, damaxat[tid_c], damaxac[tid_c]
+                                            )
                                             mchan[tid_c] = md[il]
-                                            str00 = "%s %s\n" % (
-                                                tid_c, mchan[tid_c])
+                                            str00 = "%s %s\n" % (tid_c, mchan[tid_c])
                                             f2.write(str00)
 
                                 mdr = reject_moutliers(md, 1)
                                 mm[itrig] = round(np.mean(mdr), 2)
                                 cft_ave[itrig] = round(cft_ave[itrig], 3)
                                 crt[itrig] = round(crt[itrig], 3)
-                                cft_ave_trg[itrig] = round(
-                                    cft_ave_trg[itrig], 3)
+                                cft_ave_trg[itrig] = round(cft_ave_trg[itrig], 3)
                                 crt_trg[itrig] = round(crt_trg[itrig], 3)
-                                str33 = "%s %s %s %s %s %s %s %s %s " \
-                                        "%s %s %s %s %s %s %s\n" % (
-                                            day[0:6],
-                                            str(itemp),
-                                            str(itrig),
-                                            str(UTCDateTime(tt[itrig])),
-                                            str(mm[itrig]),
-                                            str(mt),
-                                            str(nch[itrig]),
-                                            str(tstda),
-                                            str(cft_ave[itrig]),
-                                            str(crt[itrig]),
-                                            str(cft_ave_trg[itrig]),
-                                            str(crt_trg[itrig]),
-                                            str(nch3[itrig]),
-                                            str(nch5[itrig]),
-                                            str(nch7[itrig]),
-                                            str(nch9[itrig]))
+                                str33 = (
+                                    "%s %s %s %s %s %s %s %s %s "
+                                    "%s %s %s %s %s %s %s\n"
+                                    % (
+                                        day[0:6],
+                                        str(itemp),
+                                        str(itrig),
+                                        str(UTCDateTime(tt[itrig])),
+                                        str(mm[itrig]),
+                                        str(mt),
+                                        str(nch[itrig]),
+                                        str(tstda),
+                                        str(cft_ave[itrig]),
+                                        str(crt[itrig]),
+                                        str(cft_ave_trg[itrig]),
+                                        str(crt_trg[itrig]),
+                                        str(nch3[itrig]),
+                                        str(nch5[itrig]),
+                                        str(nch7[itrig]),
+                                        str(nch9[itrig]),
+                                    )
+                                )
                                 f1.write(str33)
                                 f2.write(str33)
                                 str1 = "%s %s %s %s %s %s %s %s\n" % (
@@ -784,23 +860,35 @@ for day in days:
                                     str(crt[itrig]),
                                     str(cft_ave_trg[itrig]),
                                     str(crt_trg[itrig]),
-                                    str(int(nch[itrig])))
+                                    str(int(nch[itrig])),
+                                )
                                 f.write(str1)
                     else:
                         str_except2 = "%s %s %s %s %s\n" % (
-                            day[0:6], str(itemp), str(t1),
-                            str(t2), " num. correlograms lower than nch_min")
+                            day[0:6],
+                            str(itemp),
+                            str(t1),
+                            str(t2),
+                            " num. correlograms lower than nch_min",
+                        )
                         f3.write(str_except2)
                         pass
                 else:
                     str_except1 = "%s %s %s %s %s\n" % (
-                        day[0:6], str(itemp), str(t1),
-                        str(t2), " num.  24h channels lower than nch_min")
+                        day[0:6],
+                        str(itemp),
+                        str(t1),
+                        str(t2),
+                        " num.  24h channels lower than nch_min",
+                    )
                     f3.write(str_except1)
                     pass
         else:
             str_except0 = "%s %s %s\n" % (
-                day[0:6], str(itemp), " num.  templates lower than nch_min")
+                day[0:6],
+                str(itemp),
+                " num.  templates lower than nch_min",
+            )
             f3.write(str_except0)
             pass
 

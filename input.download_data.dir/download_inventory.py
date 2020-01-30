@@ -11,6 +11,12 @@ starttime = UTCDateTime("2011-01-01")
 endtime = UTCDateTime("2017-06-30")
 
 inventory = client.get_stations(
-    starttime=starttime, endtime=endtime,
-    network="MN", sta="AQU", channel="*", filename="inv.aqu", format='xml')
+    starttime=starttime,
+    endtime=endtime,
+    network="MN",
+    sta="AQU",
+    channel="*",
+    filename="inv.aqu",
+    format="xml",
+)
 print(inventory)

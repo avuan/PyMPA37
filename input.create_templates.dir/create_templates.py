@@ -13,9 +13,9 @@ from obspy.taup.taup_create import build_taup_model
 from obspy.taup.tau import TauPyModel
 
 
-def listdays(year,month,day,period):
+def listdays(year, month, day, period):
     # create a list of days for scanning by templates
-    datelist = pd.date_range(pd.datetime(year,month,day), periods=period).tolist()
+    datelist = pd.date_range(pd.datetime(year, month, day), periods=period).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days_from_par = []
     for i in a:
@@ -83,9 +83,23 @@ def read_input_par(trimfile):
     stop_itemp = int(data[28])
     taup_model = str(data[29])
 
-    return stations, channels, networks, lowpassf, highpassf, tlen_bef,\
-        tlen_aft, utc_prec, cont_dir, temp_dir, dateperiod, ev_catalog, \
-        start_itemp, stop_itemp, taup_model
+    return (
+        stations,
+        channels,
+        networks,
+        lowpassf,
+        highpassf,
+        tlen_bef,
+        tlen_aft,
+        utc_prec,
+        cont_dir,
+        temp_dir,
+        dateperiod,
+        ev_catalog,
+        start_itemp,
+        stop_itemp,
+        taup_model,
+    )
 
 
 def read_sta_inv(invfile, sta):
@@ -103,15 +117,29 @@ def read_sta_inv(invfile, sta):
     return lat, lon, elev
 
 
-trimfile = './trim.par'
+trimfile = "./trim.par"
 
 
 # lat, lon, elev = read_sta_inv(invfile, station)
 # print(lat, lon, elev)
 
-[stations, channels, networks, lowpassf, highpassf, tlen_bef, tlen_aft,
- utc_prec, cont_dir, temp_dir, dateperiod, ev_catalog, start_itemp, stop_itemp,
- taup_model] = read_input_par(trimfile)
+[
+    stations,
+    channels,
+    networks,
+    lowpassf,
+    highpassf,
+    tlen_bef,
+    tlen_aft,
+    utc_prec,
+    cont_dir,
+    temp_dir,
+    dateperiod,
+    ev_catalog,
+    start_itemp,
+    stop_itemp,
+    taup_model,
+] = read_input_par(trimfile)
 
 # -------
 # Define our bandpass min and max values
@@ -158,9 +186,8 @@ for ista in stations:
             st += read(file)
 
         st.merge(method=1, fill_value=0)
-        st.detrend('constant')
-        st.filter('bandpass', freqmin=bandpass[0],
-                  freqmax=bandpass[1], zerophase=True)
+        st.detrend("constant")
+        st.filter("bandpass", freqmin=bandpass[0], freqmax=bandpass[1], zerophase=True)
         dataYY = int("20" + day[0:2])
         dataMM = int(day[2:4])
         dataDD = int(day[4:6])
@@ -196,7 +223,7 @@ for ista in stations:
             print("ista", ista)
 
             for network in networks:
-                invfile = './inv.' + network
+                invfile = "./inv." + network
                 slat, slon, selev = read_sta_inv(invfile, ista)
                 print(ista, slat, slon, selev)
 
@@ -221,9 +248,11 @@ for ista in stations:
             print("deg==", deg)
             print("eve_dep==", eve_dep)
             model = TauPyModel(model=taup_model)
-            arrivals = model.get_travel_times(source_depth_in_km=eve_dep,
-                                              distance_in_degree=deg,
-                                              phase_list=["s", "S"])
+            arrivals = model.get_travel_times(
+                source_depth_in_km=eve_dep,
+                distance_in_degree=deg,
+                phase_list=["s", "S"],
+            )
             arrS = arrivals[0]
             print("arrS.time=...", arrS.time)
 
@@ -253,8 +282,17 @@ for ista in stations:
                         netwk = tw.stats.network
                         ch = tw.stats.channel
                         tw.trim(stime, etime)
-                        newfile = temp_dir + str(iev) + "." + netwk +\
-                            "." + ista + ".." + ch + ".mseed"
+                        newfile = (
+                            temp_dir
+                            + str(iev)
+                            + "."
+                            + netwk
+                            + "."
+                            + ista
+                            + ".."
+                            + ch
+                            + ".mseed"
+                        )
                         print(newfile)
                         tw.write(newfile, format="MSEED")
                     else:
