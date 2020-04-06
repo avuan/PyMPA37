@@ -15,7 +15,7 @@ from obspy.taup.tau import TauPyModel
 
 def listdays(year, month, day, period):
     # create a list of days for scanning by templates
-    datelist = pd.date_range(pd.datetime(year, month, day), periods=period).tolist()
+    datelist = pd.date_range(datetime.datetime(year, month, day), periods=period).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days_from_par = []
     for i in a:
@@ -40,7 +40,8 @@ def create_day_list(catalog, days_from_par):
 
     print(days_from_catalog, days_from_par)
 
-    days = list(set(days_from_par).intersection(days_from_catalog))
+    days = list(sorted(set(days_from_par).intersection(days_from_catalog), key=lambda x:days_from_par.index(x)))
+
     print(days)
     return days
 
