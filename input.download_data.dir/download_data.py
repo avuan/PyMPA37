@@ -47,7 +47,7 @@ for sta in stations:
                     mm = str(UTCDateTime(t1).month).zfill(2)
                     dd = str(UTCDateTime(t1).day).zfill(2)
 
-                    newfile = inp_dir + yy + mm + dd + "." + sta + "." + chann[0:3]
+                    newfile = inp_dir + yy + mm + dd + "." + sta + "." + chann[0:2]
                     client.get_waveforms_bulk(bulk, filename=newfile)
                     time.sleep(2)
                 except Exception:
