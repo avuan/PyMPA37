@@ -11,6 +11,7 @@ from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
 from obspy.taup.taup_create import build_taup_model
 from obspy.taup.tau import TauPyModel
+from obspy.io.zmap.core import _is_zmap
 
 
 def listdays(year, month, day, period):
@@ -29,6 +30,8 @@ def create_day_list(catalog, days_from_par):
     days = []
     days_from_catalog = []
     num_eve = len(catalog)
+    print(catalog)
+    print(num_eve)
     dd = [catalog[i].origins[0].time.date for i in range(0, num_eve)]
     dd = list(set(dd))
 
@@ -150,18 +153,23 @@ bandpass = [lowpassf, highpassf]
 tmplt_dur = tlen_bef
 
 # ---Read the Catalog of template in zmap_format, filtered by day---#
-cat = read_events(ev_catalog, format="ZMAP")
+#cat = read_events(ev_catalog, format="ZMAP")
+cat = read_events(ev_catalog)
 ncat = len(cat)
 
 # ---- The following lines are needed because the input zmap has no decimal year
 # ---- in the corresponding column, but fractions of seconds are in the seconds field
-aa = np.loadtxt(ev_catalog)
 
-if ncat == 0:
-    aa1 = aa[9]
-else:
-    aa1 = aa[:, 9]
-aa2 = int((aa1 - np.floor(aa1)) * 1000000)
+# check of catalog file if is zmap take microseconds from the last column 
+if _is_zmap(ev_catalog):
+    aa = np.loadtxt(ev_catalog)
+
+    if ncat > 1:
+        aa1 = aa[:, 9]
+    elif ncat == 1:
+        aa1 = aa[9]
+    aa2 = aa1 - np.floor(aa1)
+    aa3 = int(aa2 * 1000000)
 
 st = Stream()
 st1 = Stream()
@@ -209,10 +217,14 @@ for ista in stations:
             hh = ot1.hour
             minu = ot1.minute
             sec = ot1.second
-            if ncat == 1:
-                microsec = aa2
+            
+            if _is_zmap(ev_catalog):        
+                if ncat == 1:
+                    microsec = aa3
+                else:
+                    microsec = aa3[iev]
             else:
-                microsec = aa2[iev]
+                microsec = ot1.microsecond
             m = cat[iev].magnitudes[0].mag
             lon = cat[iev].origins[0].longitude
             lat = cat[iev].origins[0].latitude
