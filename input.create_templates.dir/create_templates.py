@@ -156,9 +156,12 @@ ncat = len(cat)
 # ---- The following lines are needed because the input zmap has no decimal year
 # ---- in the corresponding column, but fractions of seconds are in the seconds field
 aa = np.loadtxt(ev_catalog)
-aa1 = aa[:, 9]
-aa2 = aa1 - np.floor(aa1)
-aa3 = aa2 * 1000000
+
+if ncat == 0:
+    aa1 = aa[9]
+else:
+    aa1 = aa[:, 9]
+aa2 = int((aa1 - np.floor(aa1)) * 1000000)
 
 st = Stream()
 st1 = Stream()
@@ -206,15 +209,17 @@ for ista in stations:
             hh = ot1.hour
             minu = ot1.minute
             sec = ot1.second
-            microsec = aa3[iev]
+            if ncat == 1:
+                microsec = aa2
+            else:
+                microsec = aa2[iev]
             m = cat[iev].magnitudes[0].mag
             lon = cat[iev].origins[0].longitude
             lat = cat[iev].origins[0].latitude
             dep = cat[iev].origins[0].depth
             # depth in km
             dep = dep / 1000
-            microseci = int(microsec)
-            ot0 = UTCDateTime(yy, mm, dd, hh, minu, sec, microseci)
+            ot0 = UTCDateTime(yy, mm, dd, hh, minu, sec, microsec)
             ot2 = UTCDateTime(yy, mm, dd)
             ot3 = UTCDateTime(dataYY, dataMM, dataDD)
 
