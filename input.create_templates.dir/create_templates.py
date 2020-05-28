@@ -169,7 +169,7 @@ if _is_zmap(ev_catalog):
     elif ncat == 1:
         aa1 = aa[9]
     aa2 = aa1 - np.floor(aa1)
-    aa3 = int(aa2 * 1000000)
+    aa3 = aa2 * 1000000
 
 st = Stream()
 st1 = Stream()
@@ -220,9 +220,9 @@ for ista in stations:
             
             if _is_zmap(ev_catalog):        
                 if ncat == 1:
-                    microsec = aa3
+                    microsec = int(aa3)
                 else:
-                    microsec = aa3[iev]
+                    microsec = int(aa3[iev])
             else:
                 microsec = ot1.microsecond
             m = cat[iev].magnitudes[0].mag
