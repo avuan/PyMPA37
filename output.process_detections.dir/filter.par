@@ -5,10 +5,12 @@
 # - Line 5 - window_length (half time window for searching unique events)
 # - Line 6 - min_threshold (threshold used in parameters24 for detecting events,  threshold * MAD)
 # - Line 7 - min_nch (minimum number of channels to overcome the setup cc value in parameters24 e.g. 0.6)
+# - Line 8 - event catalog has to be a QUAKEML or ZMAP format
 1 
 1 
 ./dcat
 6 
 3.0 
 8.0 
-7 
+7
+templates.zmap

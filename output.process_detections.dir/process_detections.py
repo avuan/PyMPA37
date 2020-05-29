@@ -4,6 +4,8 @@
 import numpy as np
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.core.event import read_events
+from obspy.io.quakeml.core import _is_quakeml
+from obspy.io.zmap.core import _is_zmap
 
 
 def empty(value):
@@ -14,22 +16,20 @@ def empty(value):
     return bool(value)
 
 
-# read event coordinates from catalog
-cat = read_events("templates.zmap", format="ZMAP")
 
 # read 'filter.par' file to setup useful variables
-# ppp
 
 with open("filter.par") as fp:
     data = fp.read().splitlines()
 
-FlagDateTime = int(data[7])
-Flag_cc = int(data[8])
-inp_file = str(data[9])
-utc_prec = int(data[10])
-window_length = float(data[11])
-min_threshold = float(data[12])
-min_nch = int(data[13])
+FlagDateTime = int(data[8])
+Flag_cc = int(data[9])
+inp_file = str(data[10])
+utc_prec = int(data[11])
+window_length = float(data[12])
+min_threshold = float(data[13])
+min_nch = int(data[14])
+ev_catalog = str(data[15])
 
 print("FlagDateTime == ", FlagDateTime)
 print("Flag_cc == ", Flag_cc)
@@ -38,8 +38,27 @@ print("utc_prec == ", utc_prec)
 print("Window_Length == ", window_length)
 print("min_threshold == ", min_threshold)
 print("min_nch == ", min_nch)
+print("ev_catalog == ", ev_catalog)
 
 fp.close()
+
+# read event coordinates from catalog
+
+print("event catalog should be ZMAP or QUAKEML")
+
+if _is_zmap(ev_catalog):
+    print("reading ZMAP catalog")
+
+elif _is_quakeml(ev_catalog):
+    print("reading QUAKEML catalog")
+
+else:
+    print("warning error in reading ZMAP or QUAKEML")
+
+cat = read_events(ev_catalog)
+
+# read 'filter.par' file to setup useful variables
+# ppp
 
 # if FlagDateTime==0 output time is in unix seconds 123845678,23
 # to be used for plotTM.gmt script

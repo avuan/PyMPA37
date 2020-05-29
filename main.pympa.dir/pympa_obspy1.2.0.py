@@ -43,6 +43,8 @@ import pandas as pd
 from obspy import read, Stream, Trace
 from obspy.core import UTCDateTime
 from obspy.core.event import read_events
+from obspy.io.zmap.core import _is_zmap
+from obspy.io.quakeml.core import _is_quakeml
 from obspy.signal.trigger import coincidence_trigger
 from obspy.signal.cross_correlation import correlate_template
 
@@ -421,8 +423,18 @@ start_time = perf_counter()
 UTCDateTime.DEFAULT_PRECISION = utc_prec
 
 # read Catalog of Templates Events
+print("event catalog should be ZMAP or QUAKEML")
 
-cat = read_events(ev_catalog, format="ZMAP")
+if _is_zmap(ev_catalog):
+    print("reading ZMAP catalog")
+
+elif _is_quakeml(ev_catalog):
+    print("reading QUAKEML catalog")
+
+else:
+    print("warning error in reading ZMAP or QUAKEML")
+
+cat = read_events(ev_catalog)
 ncat = len(cat)
 
 # read template from standard input

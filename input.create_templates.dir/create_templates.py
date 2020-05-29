@@ -12,6 +12,7 @@ from obspy.geodetics import gps2dist_azimuth
 from obspy.taup.taup_create import build_taup_model
 from obspy.taup.tau import TauPyModel
 from obspy.io.zmap.core import _is_zmap
+from obspy.io.quakeml.core import _is_quakeml
 
 
 def listdays(year, month, day, period):
@@ -227,12 +228,17 @@ for ista in stations:
             sec = ot1.second
             
             if _is_zmap(ev_catalog):        
+                
                 if ncat == 1:
-                    microsec = int(aa3)
+                    microsec = aa3
+                
                 else:
-                    microsec = int(aa3[iev])
+                    microsec = aa3[iev]
+            
             else:
                 microsec = ot1.microsecond
+            
+            microsec = int(microsec) 
             m = cat[iev].magnitudes[0].mag
             lon = cat[iev].origins[0].longitude
             lat = cat[iev].origins[0].latitude

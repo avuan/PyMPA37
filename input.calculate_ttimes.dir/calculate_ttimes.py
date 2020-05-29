@@ -16,6 +16,8 @@ from obspy.core.event import read_events
 from obspy.core.inventory import read_inventory
 from obspy.geodetics import gps2dist_azimuth
 from obspy.taup.tau import TauPyModel
+from obspy.io.quakeml.core import _is_quakeml
+from obspy.io.zmap.core import _is_zmap
 
 
 def kilometer2degrees(kilometer, radius=6371):
@@ -113,8 +115,19 @@ tr = Trace()
 half_time = tlen_bef
 
 # read event coordinates from catalog
+print("event catalog should be ZMAP or QUAKEML")
 
-cat = read_events(ev_catalog, format="ZMAP")
+if _is_zmap(ev_catalog):
+    print("reading ZMAP catalog")
+
+elif _is_quakeml(ev_catalog):
+    print("reading QUAKEML catalog")
+
+else:
+    print("warning error in reading ZMAP or QUAKEML")
+
+cat = read_events(ev_catalog)
+
 ncat = len(cat)
 print(cat.__str__(print_all=True))
 
