@@ -16,6 +16,8 @@ from obspy.core.utcdatetime import UTCDateTime
 from obspy.geodetics import gps2dist_azimuth
 from obspy.taup import TauPyModel
 from obspy.taup.taup_create import build_taup_model
+from obspy.io.quakeml.core import _is_quakeml
+from obspy.io.zmap.core import _is_zmap
 
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
@@ -262,13 +264,39 @@ build_taup_model(gen_model)
 invfiles = ["inv.ingv.iv", "inv.ingv.mn"]
 
 # read Template Catalog
-cat = read_events(ev_catalog, format="ZMAP")
+
+# read event coordinates from catalog
+print("event catalog should be ZMAP or QUAKEML")
+
+if _is_zmap(ev_catalog):
+    print("reading ZMAP catalog")
+
+elif _is_quakeml(ev_catalog):
+    print("reading QUAKEML catalog")
+
+else:
+    print("warning error in reading ZMAP or QUAKEML")
+
+cat = read_events(ev_catalog)
 ncat = len(cat)
-aa = np.loadtxt(ev_catalog)
-aa1 = aa[:, 9]
-aa2 = aa1 - np.floor(aa1)
-aa3 = aa2 * 1000000
-# print("aa1, aa2, aa3 == ", aa1, aa2, aa3)
+
+if _is_zmap(ev_catalog):
+    print("reading ZMAP catalog")
+    aa = np.loadtxt(ev_catalog)
+
+    if ncat > 1:
+        aa1 = aa[:, 9]
+    elif ncat == 1:
+        aa1 = aa[9]
+    aa2 = aa1 - np.floor(aa1)
+    aa3 = aa2 * 1000000
+
+elif _is_quakeml(ev_catalog):
+    print("reading QUAKEML catalog")
+
+else:
+    print("warning error in reading ZMAP or QUAKEML")
+
 
 # read Catalog as output from Phase Match Filtering
 dc = np.loadtxt("./outcat")
@@ -339,8 +367,15 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
     hht = ot1.hour
     mint = ot1.minute
     sst = ot1.second
-    msect = aa3[template_num]
-    microsect = int(msect)
+
+    if _is_zmap(ev_catalog):
+        if ncat == 1:
+            microsec = aa3
+        else:
+            microsec = aa3[template_num]
+    else:
+        microsec = ot1.microsecond
+    microsect = int(microsec)
     # print("aa3[template_num], microsect", aa3[template_num], microsect)
     magt = cat[template_num].magnitudes[0].mag
     # compute the shift in seconds from midnight of the template
