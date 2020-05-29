@@ -161,7 +161,9 @@ ncat = len(cat)
 # ---- in the corresponding column, but fractions of seconds are in the seconds field
 
 # check of catalog file if is zmap take microseconds from the last column 
+
 if _is_zmap(ev_catalog):
+    print("reading ZMAP catalog")
     aa = np.loadtxt(ev_catalog)
 
     if ncat > 1:
@@ -170,6 +172,12 @@ if _is_zmap(ev_catalog):
         aa1 = aa[9]
     aa2 = aa1 - np.floor(aa1)
     aa3 = aa2 * 1000000
+
+elif _is_quakeml(ev_catalog):
+    print("reading QUAKEML catalog")
+
+else:
+    print("warning error in reading ZMAP or QUAKEML")
 
 st = Stream()
 st1 = Stream()
