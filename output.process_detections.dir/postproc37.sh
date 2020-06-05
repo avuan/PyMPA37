@@ -27,3 +27,6 @@ cp ${day}Acat dcat
 cp dcatf1f2 ${day}Acatf1f2
 rm dcatf1 dcatf1f2
 done
+
+# get <<outcat>> the  cleaned catalogue
+cat *Acatf1f2 > outcat
