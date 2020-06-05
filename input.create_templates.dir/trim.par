@@ -8,7 +8,7 @@
 #Line 8 -- UTC precision
 #Line 9 -- Continuous data dir
 #Line 10 -- Template data dir
-#Line 11 -- Processing days list 
+#Line 11 -- Processing days list (starting date[col. 1-3 year month day] and number of days to process [col. 4])   
 #Line 12 -- Zmap catalog
 #Line 13 -- Starting template
 #Line 14 -- Stopping template

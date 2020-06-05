@@ -40,21 +40,20 @@ def kilometer2degrees(kilometer, radius=6371):
 def read_input_par(filepar):
     with open(filepar) as tf:
         data = tf.read().splitlines()
-    stations = data[15].split(" ")
-    channels = data[16].split(" ")
-    networks = data[17].split(" ")
-    lowpassf = float(data[18])
-    highpassf = float(data[19])
-    tlen_bef = float(data[20])
-    tlen_aft = float(data[21])
-    utc_prec = int(data[22])
-    tempinp_dir = "./" + data[23] + "/"
-    tempout_dir = "./" + data[24] + "/"
-    day_list = str(data[25])
-    ev_catalog = str(data[26])
-    start_itemp = int(data[27])
-    stop_itemp = int(data[28])
-    taup_model = str(data[29])
+    stations = data[14].split(" ")
+    channels = data[15].split(" ")
+    networks = data[16].split(" ")
+    lowpassf = float(data[17])
+    highpassf = float(data[18])
+    tlen_bef = float(data[19])
+    tlen_aft = float(data[20])
+    utc_prec = int(data[21])
+    tempinp_dir = "./" + data[22] + "/"
+    tempout_dir = "./" + data[23] + "/"
+    ev_catalog = str(data[24])
+    start_itemp = int(data[25])
+    stop_itemp = int(data[26])
+    taup_model = str(data[27])
     return (
         stations,
         channels,
@@ -66,7 +65,6 @@ def read_input_par(filepar):
         utc_prec,
         tempinp_dir,
         tempout_dir,
-        day_list,
         ev_catalog,
         start_itemp,
         stop_itemp,
@@ -102,7 +100,6 @@ filepar = "./times.par"
     utc_prec,
     tempinp_dir,
     tempout_dir,
-    day_list,
     ev_catalog,
     start_itemp,
     stop_itemp,

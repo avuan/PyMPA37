@@ -12,7 +12,7 @@
 # line11 = string variable containing the directory name for continuous 24h waveforms,
 # line12 = string variable for templates' directory,
 # line13 = string variable for travel times directory,
-# line14 = filename for day list to process,
+# line14 = processing days (starting date[col. 1-3 year month day] and number of days to process [col. 4]),
 # line15 = filename for zmap catalog,
 # line16 = template start number,
 # line17 = template stop number(if line16==0  and line17==0 all templates are processed,
