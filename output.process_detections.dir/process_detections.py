@@ -16,7 +16,6 @@ def empty(value):
     return bool(value)
 
 
-
 # read 'filter.par' file to setup useful variables
 
 with open("filter.par") as fp:

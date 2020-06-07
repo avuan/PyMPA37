@@ -165,8 +165,10 @@ def process_input(itemp, nn, ss, ich, stream_df):
                 sc = stream_df.select(station=ss, channel=ich)
                 if sc.__nonzero__():
                     tc = sc[0]
-                    #fct = xcorr(tc.data, tt.data)
-                    fct = correlate_template(tc.data, tt.data, normalize='full', method='auto')
+                    # fct = xcorr(tc.data, tt.data)
+                    fct = correlate_template(
+                        tc.data, tt.data, normalize="full", method="auto"
+                    )
                     fct = np.nan_to_num(fct)
                     stats = {
                         "network": tc.stats.network,

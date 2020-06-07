@@ -17,7 +17,9 @@ from obspy.io.quakeml.core import _is_quakeml
 
 def listdays(year, month, day, period):
     # create a list of days for scanning by templates
-    datelist = pd.date_range(datetime.datetime(year, month, day), periods=period).tolist()
+    datelist = pd.date_range(
+        datetime.datetime(year, month, day), periods=period
+    ).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days_from_par = []
     for i in a:
@@ -44,7 +46,12 @@ def create_day_list(catalog, days_from_par):
 
     print(days_from_catalog, days_from_par)
 
-    days = list(sorted(set(days_from_par).intersection(days_from_catalog), key=lambda x:days_from_par.index(x)))
+    days = list(
+        sorted(
+            set(days_from_par).intersection(days_from_catalog),
+            key=lambda x: days_from_par.index(x),
+        )
+    )
 
     print(days)
     return days
@@ -154,14 +161,14 @@ bandpass = [lowpassf, highpassf]
 tmplt_dur = tlen_bef
 
 # ---Read the Catalog of template in zmap_format, filtered by day---#
-#cat = read_events(ev_catalog, format="ZMAP")
+# cat = read_events(ev_catalog, format="ZMAP")
 cat = read_events(ev_catalog)
 ncat = len(cat)
 
 # ---- The following lines are needed because the input zmap has no decimal year
 # ---- in the corresponding column, but fractions of seconds are in the seconds field
 
-# check of catalog file if is zmap take microseconds from the last column 
+# check of catalog file if is zmap take microseconds from the last column
 
 if _is_zmap(ev_catalog):
     print("reading ZMAP catalog")
@@ -226,19 +233,19 @@ for ista in stations:
             hh = ot1.hour
             minu = ot1.minute
             sec = ot1.second
-            
-            if _is_zmap(ev_catalog):        
-                
+
+            if _is_zmap(ev_catalog):
+
                 if ncat == 1:
                     microsec = aa3
-                
+
                 else:
                     microsec = aa3[iev]
-            
+
             else:
                 microsec = ot1.microsecond
-            
-            microsec = int(microsec) 
+
+            microsec = int(microsec)
             m = cat[iev].magnitudes[0].mag
             lon = cat[iev].origins[0].longitude
             lat = cat[iev].origins[0].latitude
