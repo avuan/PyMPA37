@@ -34,6 +34,7 @@
 
 import os
 import os.path
+import datetime
 from math import log10
 from time import perf_counter
 
@@ -54,7 +55,7 @@ from obspy.signal.cross_correlation import correlate_template
 
 def listdays(year, month, day, period):
     # create a list of days for scanning by templates
-    datelist = pd.date_range(pd.datetime(year, month, day), periods=period).tolist()
+    datelist = pd.date_range(datetime.datetime(year, month, day), periods=period).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days = []
     for i in a:
@@ -166,6 +167,12 @@ def process_input(itemp, nn, ss, ich, stream_df):
                 if sc.__nonzero__():
                     tc = sc[0]
                     # fct = xcorr(tc.data, tt.data)
+
+                    print(' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
+                          ' Try "direct" to ensure more robustness',
+                          ' The correlate_template function is set now to "auto" and different environments',
+                          ' as Windows or Mac could not have consistent results')
+
                     fct = correlate_template(
                         tc.data, tt.data, normalize="full", method="auto"
                     )
