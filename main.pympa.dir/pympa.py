@@ -34,6 +34,7 @@
 
 import os
 import os.path
+import datetime
 from math import log10
 from time import perf_counter
 
@@ -54,7 +55,7 @@ from obspy.signal.trigger import coincidence_trigger
 
 def listdays(year, month, day, period):
     # create a list of days for scanning by templates
-    datelist = pd.date_range(pd.datetime(year, month, day), periods=period).tolist()
+    datelist = pd.date_range(datetime.datetime(year, month, day), periods=period).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days = []
     for i in a:
