@@ -79,21 +79,22 @@ def read_input_par(trimfile):
     with open(trimfile) as tf:
         data = tf.read().splitlines()
 
-    stations = data[15].split(" ")
-    channels = data[16].split(" ")
-    networks = data[17].split(" ")
-    lowpassf = float(data[18])
-    highpassf = float(data[19])
-    tlen_bef = float(data[20])
-    tlen_aft = float(data[21])
-    utc_prec = int(data[22])
-    cont_dir = "./" + data[23] + "/"
-    temp_dir = "./" + data[24] + "/"
-    dateperiod = data[25].split(" ")
-    ev_catalog = str(data[26])
-    start_itemp = int(data[27])
-    stop_itemp = int(data[28])
-    taup_model = str(data[29])
+    stations = data[16].split(" ")
+    channels = data[17].split(" ")
+    networks = data[18].split(" ")
+    lowpassf = float(data[19])
+    highpassf = float(data[20])
+    tlen_bef = float(data[21])
+    tlen_aft = float(data[22])
+    utc_prec = int(data[23])
+    cont_dir = "./" + data[24] + "/"
+    temp_dir = "./" + data[25] + "/"
+    dateperiod = data[26].split(" ")
+    ev_catalog = str(data[27])
+    start_itemp = int(data[28])
+    stop_itemp = int(data[29])
+    taup_model = str(data[30])
+    limit_epi_dist = float(data[31])
 
     return (
         stations,
@@ -111,6 +112,7 @@ def read_input_par(trimfile):
         start_itemp,
         stop_itemp,
         taup_model,
+        limit_epi_dist,
     )
 
 
@@ -151,6 +153,7 @@ trimfile = "./trim.par"
     start_itemp,
     stop_itemp,
     taup_model,
+    limit_epi_dist,
 ] = read_input_par(trimfile)
 
 # -------
@@ -282,60 +285,64 @@ for ista in stations:
 
             epi_dist, az, baz = gps2dist_azimuth(eve_lat, eve_lon, slat, slon)
             epi_dist = epi_dist / 1000
-            print("epi_dist==", epi_dist)
-            deg = kilometer2degrees(epi_dist)
-            print("deg==", deg)
-            print("eve_dep==", eve_dep)
-            model = TauPyModel(model=taup_model)
-            arrivals = model.get_travel_times(
-                source_depth_in_km=eve_dep,
-                distance_in_degree=deg,
-                phase_list=["s", "S"],
-            )
-            arrS = arrivals[0]
-            print("arrS.time=...", arrS.time)
 
-            stime = UTCDateTime(ot0) + arrS.time - tlen_bef
-            print("stime", stime)
-            etime = UTCDateTime(ot0) + arrS.time + tlen_aft
-            print("etime", etime)
+            if epi_dist < limit_epi_dist:
+                print("epi_dist==", epi_dist)
 
-            # cut the 3-component template and save file
-            nchannels = len(channels)
+                deg = kilometer2degrees(epi_dist)
+                print("deg==", deg)
+                print("eve_dep==", eve_dep)
+                model = TauPyModel(model=taup_model)
+                arrivals = model.get_travel_times(
+                    source_depth_in_km=eve_dep,
+                    distance_in_degree=deg,
+                    phase_list=["s", "S"],
+                    )
+                arrS = arrivals[0]
+                print("arrS.time=...", arrS.time)
 
-            for ichan in range(0, nchannels):
-                print("ista", ista)
-                st1.clear()
-                # print("FILE", file)
-                st1 = st.copy()
-                tw = Trace()
-                st2.clear()
-                print(st1.select(station=ista, channel=channels[ichan]))
-                st2 = st1.select(station=ista, channel=channels[ichan])
+                stime = UTCDateTime(ot0) + arrS.time - tlen_bef
+                print("stime", stime)
+                etime = UTCDateTime(ot0) + arrS.time + tlen_aft
+                print("etime", etime)
 
-                if st2.__nonzero__():
-                    tw = st2[0]
+                # cut the 3-component template and save file
+                nchannels = len(channels)
 
-                    if tw.trim(stime, etime).__nonzero__():
-                        print(tw)
-                        netwk = tw.stats.network
-                        ch = tw.stats.channel
-                        tw.trim(stime, etime)
-                        newfile = (
-                            temp_dir
-                            + str(iev)
-                            + "."
-                            + netwk
-                            + "."
-                            + ista
-                            + ".."
-                            + ch
-                            + ".mseed"
-                        )
-                        print(newfile)
-                        tw.write(newfile, format="MSEED")
+                for ichan in range(0, nchannels):
+                    print("ista", ista)
+                    st1.clear()
+                    # print("FILE", file)
+                    st1 = st.copy()
+                    tw = Trace()
+                    st2.clear()
+                    print(st1.select(station=ista, channel=channels[ichan]))
+                    st2 = st1.select(station=ista, channel=channels[ichan])
+
+                    if st2.__nonzero__():
+                        tw = st2[0]
+
+                        if tw.trim(stime, etime).__nonzero__():
+                            print(tw)
+                            netwk = tw.stats.network
+                            ch = tw.stats.channel
+                            tw.trim(stime, etime)
+                            newfile = (
+                                temp_dir
+                                + str(iev)
+                                + "."
+                                + netwk
+                                + "."
+                                + ista
+                                + ".."
+                                + ch
+                                + ".mseed"
+                            )
+                            print(newfile)
+                            tw.write(newfile, format="MSEED")
+                        else:
+                            pass
                     else:
                         pass
-
-                else:
-                    pass
+            else:
+                pass
