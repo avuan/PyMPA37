@@ -48,14 +48,16 @@ from obspy.io.zmap.core import _is_zmap
 from obspy.io.quakeml.core import _is_quakeml
 from obspy.signal.trigger import coincidence_trigger
 from obspy.signal.cross_correlation import correlate_template
-
+from numba import jit
 
 # LIST OF USEFUL FUNCTIONS
 
 
 def listdays(year, month, day, period):
     # create a list of days for scanning by templates
-    datelist = pd.date_range(datetime.datetime(year, month, day), periods=period).tolist()
+    datelist = pd.date_range(
+        datetime.datetime(year, month, day), periods=period
+    ).tolist()
     a = list(map(pd.Timestamp.to_pydatetime, datelist))
     days = []
     for i in a:
@@ -127,24 +129,11 @@ def trim_fill(tc, t1, t2):
     return tc
 
 
+@jit(nopython=True)
 def rolling_window(a, window):
     shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
     strides = a.strides + (a.strides[-1],)
     return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
-
-
-def xcorr(x, y):
-    n = len(x)
-    m = len(y)
-    meany = np.nanmean(y)
-    stdy = np.nanstd(np.asarray(y))
-    tmp = rolling_window(x, m)
-    with np.errstate(divide="ignore"):
-        c = bn.nansum(
-            (y - meany) * (tmp - np.reshape(bn.nanmean(tmp, -1), (n - m + 1, 1))), -1
-        ) / (m * bn.nanstd(tmp, -1) * stdy)
-        c[m * bn.nanstd(tmp, -1) * stdy == 0] = 0
-        return c
 
 
 def process_input(itemp, nn, ss, ich, stream_df):
@@ -160,18 +149,20 @@ def process_input(itemp, nn, ss, ich, stream_df):
             if tsize > 0:
                 # print "ok template exist and not empty"
                 st_temp = Stream()
-                st_temp = read(finpt)
+                st_temp = read(finpt, dtype="float32")
                 tt = st_temp[0]
                 # continuous data are stored in stream_df
                 sc = stream_df.select(station=ss, channel=ich)
                 if sc.__nonzero__():
                     tc = sc[0]
-                    # fct = xcorr(tc.data, tt.data)
+                    # fct = xcorr(tc.data, tt.data)//
 
-                    print(' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
-                          ' Try "direct" to ensure more robustness',
-                          ' The correlate_template function is set now to "auto" and different environments',
-                          ' as Windows or Mac could not have consistent results')
+                    print(
+                        ' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
+                        ' Try "direct" to ensure more robustness',
+                        ' The correlate_template function is set now to "auto" and different environments',
+                        " as Windows or Mac could not have consistent results",
+                    )
 
                     fct = correlate_template(
                         tc.data, tt.data, normalize="full", method="auto"
@@ -358,6 +349,7 @@ def csc(
     return nch, cft_ave, crt, cft_ave_trg, crt_trg, nch03, nch05, nch07, nch09
 
 
+@jit(nopython=True)
 def mag_detect(magt, amaxt, amaxd):
     """
     mag_detect(mag_temp,amax_temp,amax_detect)
@@ -534,7 +526,7 @@ for day in days:
                 str(n_chn),
             )
             print(filename)
-            stt += read(filename)
+            stt += read(filename, dtype="float32")
 
         if len(stt) >= nch_min:
 
@@ -568,7 +560,7 @@ for day in days:
                     if os.path.exists(finpc1) and os.path.getsize(finpc1) > 0:
 
                         try:
-                            st = read(finpc1, starttime=t1, endtime=t2)
+                            st = read(finpc1, starttime=t1, endtime=t2, dtype="float32")
 
                             if len(st) != 0:
                                 st.merge(method=1, fill_value=0)
