@@ -48,7 +48,6 @@ from obspy.io.zmap.core import _is_zmap
 from obspy.io.quakeml.core import _is_quakeml
 from obspy.signal.trigger import coincidence_trigger
 from obspy.signal.cross_correlation import correlate_template
-from numba import jit
 
 # LIST OF USEFUL FUNCTIONS
 
@@ -129,7 +128,6 @@ def trim_fill(tc, t1, t2):
     return tc
 
 
-@jit(nopython=True)
 def rolling_window(a, window):
     shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
     strides = a.strides + (a.strides[-1],)
@@ -157,12 +155,12 @@ def process_input(itemp, nn, ss, ich, stream_df):
                     tc = sc[0]
                     # fct = xcorr(tc.data, tt.data)//
 
-                    print(
-                        ' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
-                        ' Try "direct" to ensure more robustness',
-                        ' The correlate_template function is set now to "auto" and different environments',
-                        " as Windows or Mac could not have consistent results",
-                    )
+                    #print(
+                    #    ' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
+                    #    ' Try "direct" to ensure more robustness',
+                    #    ' The correlate_template function is set now to "auto" and different environments',
+                    #    " as Windows or Mac could not have consistent results",
+                    #)
 
                     fct = correlate_template(
                         tc.data, tt.data, normalize="full", method="auto"
@@ -349,7 +347,6 @@ def csc(
     return nch, cft_ave, crt, cft_ave_trg, crt_trg, nch03, nch05, nch07, nch09
 
 
-@jit(nopython=True)
 def mag_detect(magt, amaxt, amaxd):
     """
     mag_detect(mag_temp,amax_temp,amax_detect)
