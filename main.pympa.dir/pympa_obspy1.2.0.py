@@ -179,8 +179,8 @@ def process_input(itemp, nn, ss, ich, stream_df):
                     trnew = Trace(data=fct, header=stats)
                     tc = trnew.copy()
                     st_cft = Stream(traces=[tc])
-                else:
-                    print("warning no stream is found")
+                #else:
+                #    print("warning no stream is found")
             else:
                 print("warning template event is empty")
         except OSError:
@@ -224,7 +224,7 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
             # print(td[jtr])
 
     itr = len(stall)
-    print("itr == ", itr)
+    #print("itr == ", itr)
     if itr >= nch_min:
         tdifmin = min(td)
         tdat = np.nansum([tr.data for tr in stall], axis=0) / itr
@@ -466,10 +466,10 @@ for day in days:
     # previous/next day
     iday = "%s" % (day[4:6])
     imonth = "%s" % (day[2:4])
-    print("imonth ==", imonth)
+    #print("imonth ==", imonth)
     iyear = "20%s" % (day[0:2])
     iiyear = int(iyear)
-    print(iyear, imonth, iday)
+    #print(iyear, imonth, iday)
     iimonth = int(imonth)
     iiday = int(iday)
     iihour = 23
@@ -522,7 +522,7 @@ for day in days:
                 str(n_sta),
                 str(n_chn),
             )
-            print(filename)
+            #print(filename)
             stt += read(filename, dtype="float32")
 
         if len(stt) >= nch_min:
@@ -544,7 +544,7 @@ for day in days:
                 chunk_start += h24 / nchunk
 
             for t1, t2 in chunks:
-                print(t1, t2)
+                #print(t1, t2)
                 stream_df.clear()
                 for tr in stt:
                     finpc1 = "%s%s.%s.%s" % (
@@ -687,7 +687,7 @@ for day in days:
                     ccmad, tdifmin = stack(
                         stall, df, tstart, npts, stdup, stddown, nch_min
                     )
-                    print("tdifmin == ", tdifmin)
+                    #print("tdifmin == ", tdifmin)
 
                     if tdifmin is not None:
                         # compute mean absolute deviation of abs(ccmad)
