@@ -521,7 +521,7 @@ for jf, detection_num in enumerate(range(start_det, stop_det)):
             # compute maximum amplitude in the continuous waveforms
             # for magnitude estimation
             ind_tmin = int((ori) / tc.stats.delta) + 1
-            ind_tmax = int((ori + 5.0) / tc.stats.delta) + 1
+            ind_tmax = int((ori + tlen_bef + tlen_aft) / tc.stats.delta) + 1
 
             if ind_tmin < 0:
                 ind_tmin = 0
