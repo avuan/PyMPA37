@@ -6,8 +6,8 @@
 #Line 6 -- Trimmed Time before S-wave
 #Line 7 -- Trimmed Time after S-wave
 #Line 8 -- UTC precision
-#Line 9 -- Continuous data dir
-#Line 10 -- Template data dir
+#Line 9 -- Template data dir
+#Line 10 -- Traveltimes data dir
 #Line 11 -- Zmap catalog
 #Line 12 -- Starting template
 #Line 13 -- Stopping template
