@@ -9,16 +9,16 @@ stop="2009-03-30"
 
 # generate a list of days to process
 until [[ $start > $stop ]]; do
-    echo $start 
+    echo $start
     list+=`echo "${start:2:2}${start:5:2}${start:8:2} "`
-    start=$(gdate -I -d "$start+ 1 day")
+    start=$(date -I -d "$start+ 1 day")
 done
 
 #collect catalogs obtained using different templates to provide a daily catalog
 for day in $list
 do
 find ./ -maxdepth 1 -name "*.${day}.cat" -print0 | xargs -0 cat > ${day}Acat
-	
+
 # filter and cut daily catalog to select maximum threshold events
 #./filterCATtimestamp.py<<END
 rm dcat
