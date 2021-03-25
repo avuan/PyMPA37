@@ -14,6 +14,7 @@ from obspy.taup.tau import TauPyModel
 from obspy.io.zmap.core import _is_zmap
 from obspy.io.quakeml.core import _is_quakeml
 
+
 def kilometer2degrees(kilometer, radius=6371):
     """
     Convenience function to convert kilometers to degrees assuming a perfectly
@@ -87,10 +88,8 @@ def read_sta_inv(invfile, sta):
         elev = 999
     return lat, lon, elev
 
-
 start_time = perf_counter()
 trimfile = "./trim.par"
-
 
 
 [
@@ -164,7 +163,6 @@ for iev in range(start_itemp, stop_itemp):
     minu = ot1.minute
     sec = ot1.second
 
-
     if _is_zmap(ev_catalog):
 
         if ncat == 1:
@@ -187,13 +185,12 @@ for iev in range(start_itemp, stop_itemp):
     ot0 = UTCDateTime(yy, mm, dd, hh, minu, sec, microsec)
 
     # set startime and stoptime values to reduce memory charge
-    ot_start =  UTCDateTime(yy, mm, dd, hh, minu, sec, microsec) - time_length_window
+    ot_start = UTCDateTime(yy, mm, dd, hh, minu, sec, microsec) - time_length_window
     ot_stop = UTCDateTime(yy, mm, dd, hh, minu, sec, microsec) + time_length_window
 
     day = str(yy)[2:4] + str(mm).zfill(2) + str(dd).zfill(2)
     print("day == ", day)
     inpfiles = cont_dir + day + "." + "*.???"
-
 
     st.clear()
 
@@ -202,12 +199,7 @@ for iev in range(start_itemp, stop_itemp):
 
     st.merge(method=1, fill_value=0)
     st.detrend("constant")
-    st.filter(
-              "bandpass",
-              freqmin=bandpass[0],
-              freqmax=bandpass[1],
-              zerophase=True
-              )
+    st.filter("bandpass", freqmin=bandpass[0], freqmax=bandpass[1], zerophase=True)
     print(st)
 
     for tr in st:
@@ -215,17 +207,18 @@ for iev in range(start_itemp, stop_itemp):
         ista = tr.stats.station
         network = tr.stats.network
         channel = tr.stats.channel
-
+        id = tr.id
         # to avoid errors in the input trim.par at stop_itemp
         print("ista, network == ", ista, network)
 
         invfile = "./inv." + network
+        print(id)
         slat, slon, selev = read_sta_inv(invfile, ista)
         print(ista, slat, slon, selev)
 
         if slat != 999:
             print("Station ", ista, " found in inventory ", invfile)
-            #break
+            # break
         else:
             print("Warning no data found in ", invfile, " for station", ista)
             continue
@@ -251,7 +244,7 @@ for iev in range(start_itemp, stop_itemp):
                 source_depth_in_km=eve_dep,
                 distance_in_degree=deg,
                 phase_list=["s", "S"],
-                )
+            )
             arrS = arrivals[0]
             print("arrS.time=...", arrS.time)
 
@@ -275,7 +268,7 @@ for iev in range(start_itemp, stop_itemp):
                     + ".."
                     + ch
                     + ".mseed"
-                    )
+                )
                 print(newfile)
                 print(tr.stats.mseed.encoding)
                 tr.write(newfile, format="MSEED")
