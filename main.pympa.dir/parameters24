@@ -8,7 +8,7 @@
 # line7 = cross-correlation threshold to be overcome by cft,
 # line8 = min number of channels overcoming the cross-correlation threshold,
 # line9 = template duration(s),
-# line10 = UTCDateTime.DEFAULT_PRECISION (number of digits considered in fractions of seconds),
+# line10 = UTCDateTime.DEFAULT_PRECISION (number of digits in fractions of seconds),
 # line11 = string variable containing the directory name for continuous 24h waveforms,
 # line12 = string variable for templates' directory,
 # line13 = string variable for travel times directory,
