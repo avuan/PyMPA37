@@ -145,7 +145,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
         try:
             tsize = os.path.getsize(finpt)
             if tsize > 0:
-                # print "ok template exist and not empty"
+
                 st_temp = Stream()
                 st_temp = read(finpt, dtype="float32")
                 tt = st_temp[0]
@@ -153,14 +153,6 @@ def process_input(itemp, nn, ss, ich, stream_df):
                 sc = stream_df.select(station=ss, channel=ich)
                 if sc.__nonzero__():
                     tc = sc[0]
-                    # fct = xcorr(tc.data, tt.data)//
-
-                    # print(
-                    #    ' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
-                    #    ' Try "direct" to ensure more robustness',
-                    #    ' The correlate_template function is set now to "auto" and different environments',
-                    #    " as Windows or Mac could not have consistent results",
-                    # )
 
                     fct = correlate_template(
                         tc.data, tt.data, normalize="full", method="auto"
@@ -214,17 +206,17 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
             stall.remove(tr)
             print("removed Trace n Stream = ...", tr, std_trac[jtr], avestd)
             td[jtr] = 99.99
-            # print(td[jtr])
+
         else:
             sta = tr.stats.station
             chan = tr.stats.channel
             net = tr.stats.network
             s = "%s.%s.%s" % (net, sta, chan)
             td[jtr] = float(d[s])
-            # print(td[jtr])
+
 
     itr = len(stall)
-    # print("itr == ", itr)
+
     if itr >= nch_min:
         tdifmin = min(td)
         tdat = np.nansum([tr.data for tr in stall], axis=0) / itr
@@ -308,7 +300,7 @@ def csc(
         nch07 = (max_sct > 0.7).sum()
         nch05 = (max_sct > 0.5).sum()
         nch03 = (max_sct > 0.3).sum()
-        # print("nch ==", nch03, nch05, nch07, nch09)
+
         cft_ave = np.nanmean(max_sct[:])
         crt = cft_ave / tstda
         cft_ave_trg = np.nanmean(max_trg[:])
@@ -316,13 +308,7 @@ def csc(
         max_sct = max_sct.T
         max_trg = max_trg.T
         chan_sct = chan_sct.T
-        # str11 = "%s %s %s %s %s %s %s %s %s %s %s %s %s \n" %
-        # (day[0:6], str(itemp), str(itrig),
-        # trigger_time, tstda, cft_ave, crt, cft_ave_trg,
-        # crt_trg, nch03, nch05, nch07, nch09)
-        # str11 = "%s %s %s %s %s %s %s %s \n" % ( nch03, nch04, nch05,
-        # nch06, nch07, nch08, cft_ave, crt )
-        # f1.write(str11)
+
 
         for idchan in range(0, len(max_sct)):
             str22 = "%s %s %s %s \n" % (
@@ -362,22 +348,22 @@ def mag_detect(magt, amaxt, amaxd):
 def reject_moutliers(data, m=1.0):
     nonzeroind = np.nonzero(data)[0]
     nzlen = len(nonzeroind)
-    # print("nonzeroind ==", nonzeroind)
+
     data = data[nonzeroind]
-    # print("data ==", data)
+
     datamed = np.nanmedian(data)
-    # print("datamed ==", datamed)
+
     d = np.abs(data - datamed)
     mdev = 2 * np.median(d)
-    # print("d, mdev ==", d, mdev)
+
     if mdev == 0:
         inds = np.arange(nzlen)
-        # print("inds ==", inds)
+
         data[inds] = datamed
     else:
         s = d / mdev
         inds = np.where(s <= m)
-        # print("inds ==", inds)
+
     return data[inds]
 
 
@@ -438,7 +424,7 @@ ncat = len(cat)
 # read template from standard input
 # startTemplate = input("INPUT: Enter Starting template ")
 # stopTemplate = input("INPUT: Enter Ending template ")
-# print("OUTPUT: Running from template", startTemplate,  " to ", stopTemplate)
+
 t_start = start_itemp
 t_stop = stop_itemp
 
@@ -466,10 +452,10 @@ for day in days:
     # previous/next day
     iday = "%s" % (day[4:6])
     imonth = "%s" % (day[2:4])
-    # print("imonth ==", imonth)
+
     iyear = "20%s" % (day[0:2])
     iiyear = int(iyear)
-    # print(iyear, imonth, iday)
+
     iimonth = int(imonth)
     iiday = int(iday)
     iihour = 23
@@ -522,7 +508,7 @@ for day in days:
                 str(n_sta),
                 str(n_chn),
             )
-            # print(filename)
+
             stt += read(filename, dtype="float32")
 
         if len(stt) >= nch_min:
@@ -544,7 +530,7 @@ for day in days:
                 chunk_start += h24 / nchunk
 
             for t1, t2 in chunks:
-                # print(t1, t2)
+
                 stream_df.clear()
                 for tr in stt:
                     finpc1 = "%s%s.%s.%s" % (
@@ -600,7 +586,7 @@ for day in days:
                     # for synchronizing CFTs are obtained
                     # running calcTT01.py
                     travel_file = "%s%s.ttimes" % (travel_dir, str(itemp))
-                    # print("travel_file = ", travel_file)
+
                     # store ttimes info in a dictionary
 
                     with open(travel_file, "r") as ttim:
@@ -815,7 +801,7 @@ for day in days:
                                     ).__nonzero__():
                                         ttt = stt.select(station=ss, channel=ich)[0]
                                         s = "%s.%s.%s" % (netwk, ss, ich)
-                                        # print " s ==", s
+
                                         uts = UTCDateTime(ttt.stats.starttime).timestamp
                                         utr = UTCDateTime(reft).timestamp
                                         if tdifmin <= 0:
