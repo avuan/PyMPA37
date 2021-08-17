@@ -155,12 +155,12 @@ def process_input(itemp, nn, ss, ich, stream_df):
                     tc = sc[0]
                     # fct = xcorr(tc.data, tt.data)//
 
-                    #print(
+                    # print(
                     #    ' Warning issue: using dirty data with spikes and gaps "fft" method could not work properly,'
                     #    ' Try "direct" to ensure more robustness',
                     #    ' The correlate_template function is set now to "auto" and different environments',
                     #    " as Windows or Mac could not have consistent results",
-                    #)
+                    # )
 
                     fct = correlate_template(
                         tc.data, tt.data, normalize="full", method="auto"
@@ -179,7 +179,7 @@ def process_input(itemp, nn, ss, ich, stream_df):
                     trnew = Trace(data=fct, header=stats)
                     tc = trnew.copy()
                     st_cft = Stream(traces=[tc])
-                #else:
+                # else:
                 #    print("warning no stream is found")
             else:
                 print("warning template event is empty")
@@ -224,7 +224,7 @@ def stack(stall, df, tstart, npts, stdup, stddown, nch_min):
             # print(td[jtr])
 
     itr = len(stall)
-    #print("itr == ", itr)
+    # print("itr == ", itr)
     if itr >= nch_min:
         tdifmin = min(td)
         tdat = np.nansum([tr.data for tr in stall], axis=0) / itr
@@ -466,10 +466,10 @@ for day in days:
     # previous/next day
     iday = "%s" % (day[4:6])
     imonth = "%s" % (day[2:4])
-    #print("imonth ==", imonth)
+    # print("imonth ==", imonth)
     iyear = "20%s" % (day[0:2])
     iiyear = int(iyear)
-    #print(iyear, imonth, iday)
+    # print(iyear, imonth, iday)
     iimonth = int(imonth)
     iiday = int(iday)
     iihour = 23
@@ -522,7 +522,7 @@ for day in days:
                 str(n_sta),
                 str(n_chn),
             )
-            #print(filename)
+            # print(filename)
             stt += read(filename, dtype="float32")
 
         if len(stt) >= nch_min:
@@ -544,7 +544,7 @@ for day in days:
                 chunk_start += h24 / nchunk
 
             for t1, t2 in chunks:
-                #print(t1, t2)
+                # print(t1, t2)
                 stream_df.clear()
                 for tr in stt:
                     finpc1 = "%s%s.%s.%s" % (
@@ -588,9 +588,6 @@ for day in days:
                     # md=np.empty(ntl)
                     md = np.zeros(ntl)
                     damaxat = {}
-                    # reference time to be used for
-                    # retrieving time synchronization
-                    reft = min([tr.stats.starttime for tr in stt])
 
                     for il, tr in enumerate(stt):
                         amaxat[il] = max(abs(tr.data))
@@ -609,14 +606,6 @@ for day in days:
                     with open(travel_file, "r") as ttim:
                         d = dict(x.rstrip().split(None, 1) for x in ttim)
                         ttim.close()
-
-                    # print(d)
-                    # find minimum time to recover origin time
-                    time_values = [float(v) for v in d.values()]
-                    min_time_value = min(time_values)
-                    # print("min_time_value == ", min_time_value)
-                    min_time_key = [k for k, v in d.items() if v == str(min_time_value)]
-                    # print("key, mintime == ", min_time_key, min_time_value)
 
                     # clear global_variable
                     stream_cft.clear()
@@ -677,6 +666,29 @@ for day in days:
                             pad=True,
                             fill_value=0,
                         )
+                    # reft and min_time_value are calculated from the pool of stations
+                    # that have a CFT in the stack
+
+                    new_stt = Stream()
+                    st_list = []
+
+                    for tr_ls in stall:
+                        idt = (
+                            tr_ls.stats.network
+                            + "."
+                            + tr_ls.stats.station
+                            + "."
+                            + tr_ls.stats.channel
+                        )
+                        st_list.append(idt)
+                        new_stt += stt.select(
+                            station=tr_ls.stats.station, channel=tr_ls.stats.channel
+                        )
+                        reft = min([tr.stats.starttime for tr in new_stt])
+
+                    new_d = {st: d[st] for st in st_list}
+                    time_values = [float(v) for v in new_d.values()]
+                    min_time_value = min(time_values)
                     tstart = min([tr.stats.starttime for tr in stall])
                     df = stall[0].stats.sampling_rate
                     npts = stall[0].stats.npts
@@ -687,7 +699,6 @@ for day in days:
                     ccmad, tdifmin = stack(
                         stall, df, tstart, npts, stdup, stddown, nch_min
                     )
-                    #print("tdifmin == ", tdifmin)
 
                     if tdifmin is not None:
                         # compute mean absolute deviation of abs(ccmad)
@@ -741,7 +752,6 @@ for day in days:
                         for itrig, trg in enumerate(triglist):
                             # tdifmin is computed for contributing channels
                             # within the stack function
-                            #
 
                             if tdifmin == min_time_value:
                                 tt[itrig] = trg["time"] + min_time_value
